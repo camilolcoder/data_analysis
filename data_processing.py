@@ -1,6 +1,6 @@
 from praw import reddit
 #import config #KEYS
-#import tweet_key as tk #KEYS
+import tweet_key as tk #Twitter KEYS
 import praw
 import time
 import requests
@@ -9,7 +9,7 @@ import requests
 import json
 import datetime as dt
 import tweepy
-#import textblob
+import textblob
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -79,20 +79,20 @@ def get_binance_bars(symbol, interval, startTime, endTime):
 
 #df = collect_trend_score('bitcoin', 1000)
 
+# fig = go.Figure()
+# df1 = collect_trend_score('crypto', 1000)
+# columns = df1.columns
+# df2 = get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
 
-fig = go.Figure()
-df1 = collect_trend_score('crypto', 1000)
-columns = df1.columns
-df2 = get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+# fig.add_trace(go.Scatter(x=df1.indices, y=columns[0],
+#                 mode='lines',
+#                 name='lines'))
 
-fig.add_trace(go.Scatter(x=df1.indices, y=columns[0],
-                mode='lines',
-                name='lines'))
+# fig.add_trace(go.Scatter(x=df2.indices, y=df2.close,
+#                 mode='lines',
+#                 name='lines'))
+# fig.show()
 
-fig.add_trace(go.Scatter(x=df2.indices, y=df2.close,
-                mode='lines',
-                name='lines'))
-fig.show()
 # print(df)
 
 def plot_trendin_sentiment(df1, df2):
@@ -199,10 +199,12 @@ def search_sentiment(coin:str):
 
     negative = tweets_df[tweets_df.Result == '-'].count()['Tweets']
 
-    plt.title(coin)
-    plt.bar(['positive', 'negative'], [positive, negative],
-    color=['limegreen', 'red'], edgecolor='black', linewidth=1)
-    plt.xlabel('Sentiment')
-    plt.ylabel('Points')
-    plt.legend()
-    plt.show()
+    return positive, negative
+    
+    # plt.title(coin)
+    # plt.bar(['positive', 'negative'], [positive, negative],
+    # color=['limegreen', 'red'], edgecolor='black', linewidth=1)
+    # plt.xlabel('Sentiment')
+    # plt.ylabel('Points')
+    # plt.legend()
+    # plt.show()
