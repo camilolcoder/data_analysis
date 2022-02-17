@@ -5,6 +5,9 @@ import dash_html_components as html
 import dash_core_components as dcc
 import plotly.express as px
 from dash.dependencies import Input, Output
+import plotly.graph_objects as go
+import data_processing as dp
+import datetime as dt
 import pandas as pd
 
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
@@ -37,12 +40,12 @@ sidebar = html.Div(
         html.H2("Sidebar", className="display-4"),
         html.Hr(),
         html.P(
-            "Number of students per education level", className="lead"
+            "Metrics for analysis", className="lead"
         ),
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Page 1", href="/page-1", active="exact"),
+                dbc.NavLink("Bitcoin vs crypto sentiment", href="/page-1", active="exact"),
                 dbc.NavLink("Page 2", href="/page-2", active="exact"),
             ],
             vertical=True,
@@ -66,13 +69,26 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
+    fig = go.Figure()
+    df1 = dp.collect_trend_score('crypto', 1000)
+    columns = df1.columns
+    df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+    
+    fig.add_trace(go.Scatter(x=df1.indices, y=columns[0],
+                    mode='lines',
+                    name='lines'))
+
+    fig.add_trace(go.Scatter(x=df2.indices, y=df2.close,
+                    mode='lines',
+                    name='lines'))
+
+
     if pathname == "/":
         return [
                 html.H1('Kindergarten in Iran',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Kindergarten', 'Boys Kindergarten']))
+                         figure=fig)
                 ]
     elif pathname == "/page-1":
         return [

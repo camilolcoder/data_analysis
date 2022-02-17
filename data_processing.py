@@ -17,6 +17,14 @@ from bs4 import BeautifulSoup
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
 
+import dash
+import dash_bootstrap_components as dbc
+import dash_html_components as html
+import dash_core_components as dcc
+import plotly.express as px
+from dash.dependencies import Input, Output
+import plotly.graph_objects as go
+
 def get_trending_topics():
     pytrend = TrendReq()
     
@@ -71,6 +79,20 @@ def get_binance_bars(symbol, interval, startTime, endTime):
 
 #df = collect_trend_score('bitcoin', 1000)
 
+
+fig = go.Figure()
+df1 = collect_trend_score('crypto', 1000)
+columns = df1.columns
+df2 = get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+
+fig.add_trace(go.Scatter(x=df1.indices, y=columns[0],
+                mode='lines',
+                name='lines'))
+
+fig.add_trace(go.Scatter(x=df2.indices, y=df2.close,
+                mode='lines',
+                name='lines'))
+fig.show()
 # print(df)
 
 def plot_trendin_sentiment(df1, df2):
