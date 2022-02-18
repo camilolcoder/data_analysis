@@ -69,29 +69,29 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    # fig = go.Figure()
-    # df1 = dp.collect_trend_score('crypto', 1000)
-    # columns = df1.columns
-    # df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+    fig = go.Figure()
+    df1 = dp.collect_trend_score('crypto', 1000)
+    columns = df1.columns
+    df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
 
-    # fig.add_trace(go.Scatter(x=df1.indices, y=columns[0],
-    #                 mode='lines',
-    #                 name='lines'))
+    fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
+                    mode='lines',
+                    name='lines'))
 
-    # fig.add_trace(go.Scatter(x=df2.indices, y=df2.close,
-    #                 mode='lines',
-    #                 name='lines'))
+    fig.add_trace(go.Scatter(x=df2.index, y=df2.close,
+                    mode='lines',
+                    name='lines'))
     
     positive, negative = dp.search_sentiment('Bitcoin')
 
-    figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
+    #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
 
     if pathname == "/":
         return [
                 html.H1('Kindergarten in Iran',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=figo)
+                         figure=fig)
                 ]
     elif pathname == "/page-1":
         return [
