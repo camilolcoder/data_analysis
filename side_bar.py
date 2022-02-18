@@ -37,7 +37,7 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Sidebar", className="display-4"),
+        html.H2("Main metrics", className="display-4"),
         html.Hr(),
         html.P(
             "Metrics for analysis", className="lead"
@@ -69,31 +69,44 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    fig = go.Figure()
-    df1 = dp.collect_trend_score('crypto', 1000)
-    columns = df1.columns
-    df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+    # fig = go.Figure()
+    # df1 = dp.collect_trend_score('crypto', 1000)
+    # columns = df1.columns
+    # df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
 
-    fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
-                    mode='lines',
-                    name='sentiment'))
+    # fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
+    #                 mode='lines',
+    #                 name='sentiment'))
 
-    fig.add_trace(go.Scatter(x=df2.index, y=df2.close,
-                    mode='lines',
-                    name='BTC price'))
+    # fig.add_trace(go.Scatter(x=df2.index, y=df2.close,
+    #                 mode='lines',
+    #                 name='BTC price'))
     
-    positive, negative = dp.search_sentiment('Bitcoin')
+    #positive, negative = dp.search_sentiment('Bitcoin')
 
-    figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[positive , negative]))
+    figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
 
+    figo.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'], marker_line_color='rgb(0,0,0)',
+                  marker_line_width=2, opacity=0.6)
     #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
+    #title="Plot Title",
+
+    figo.update_layout(
+    xaxis_title="<b>Bitcoin sentiment</b>",
+    yaxis_title="<b>Sentiment points</b>",
+    legend_title="Legend Title",
+    font=dict(
+        family="Courier New, monospace",
+        size=18,
+        color="Black" 
+    ))
 
     if pathname == "/":
         return [
-                html.H1('Kindergarten in Iran',
+                html.H1('Bitcoin sentiment',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=fig)
+                         figure=figo)
                 ]
     elif pathname == "/page-1":
         return [
