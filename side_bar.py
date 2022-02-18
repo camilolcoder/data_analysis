@@ -76,13 +76,15 @@ def render_page_content(pathname):
 
     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
                     mode='lines',
-                    name='lines'))
+                    name='sentiment'))
 
     fig.add_trace(go.Scatter(x=df2.index, y=df2.close,
                     mode='lines',
-                    name='lines'))
+                    name='BTC price'))
     
     positive, negative = dp.search_sentiment('Bitcoin')
+
+    figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[positive , negative]))
 
     #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
 
@@ -98,8 +100,7 @@ def render_page_content(pathname):
                 html.H1('Grad School in Iran',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls Grade School', 'Boys Grade School']))
+                         figure=figo)
                 ]
     elif pathname == "/page-2":
         return [
