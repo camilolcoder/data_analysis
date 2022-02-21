@@ -72,7 +72,7 @@ app.layout = html.Div([
 )
 def render_page_content(pathname):
     fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
-    df1 = dp.collect_trend_score('crypto', 1000)
+    df1 = dp.collect_trend_score('crypto', 1)
     columns = df1.columns
     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
     df2 = dp.crypto_data()
@@ -80,18 +80,22 @@ def render_page_content(pathname):
     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
                     mode='lines',
                     name='sentiment',
-                    ),secondary_y=False)
+                    line=dict(color='rgb(153,204,255)',
+                                width=2)
+                    ),secondary_y=True)
 
     fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
                     mode='lines',
                     name='BTC price',
-                    ),secondary_y=True)
+                    line=dict(color='rgb(128,255,0)',
+                                width=2)
+                    ),secondary_y=False)
     
-    fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
-                  marker_line_width=2)
+    # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+    #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>BTC price</b> yaxis title", secondary_y=False)
-    fig.update_yaxes(title_text="<b>Trending values</b> yaxis title", secondary_y=True)
+    fig.update_yaxes(title_text="<b>BTC price</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False)
     #positive, negative = dp.search_sentiment('Bitcoin')
 
     figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
