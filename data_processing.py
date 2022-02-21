@@ -27,13 +27,17 @@ import plotly.express as px
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
-ohlc_df = san.get(
-"ohlc/ethereum",
-from_date="2015-01-01",
-to_date="2020-01-01",
-interval="1w"
-)
-print(ohlc_df.tail())
+def crypto_data():
+    ohlc_df = san.get(
+    "ohlc/bitcoin",
+    from_date="2015-01-01",
+    to_date="2020-01-01",
+    interval="1w"
+    )
+    
+    return ohlc_df
+
+#print(ohlc_df.tail())
 
 def get_trending_topics():
     pytrend = TrendReq()
