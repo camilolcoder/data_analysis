@@ -10,6 +10,8 @@ import data_processing as dp
 import datetime as dt
 import pandas as pd
 
+from plotly.subplots import make_subplots
+
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
 df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
@@ -69,7 +71,7 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    fig = go.Figure()
+    fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
     df1 = dp.collect_trend_score('crypto', 1000)
     columns = df1.columns
     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
@@ -77,12 +79,19 @@ def render_page_content(pathname):
 
     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
                     mode='lines',
-                    name='sentiment'))
+                    name='sentiment',
+                    ),secondary_y=False)
 
     fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
                     mode='lines',
-                    name='BTC price'))
+                    name='BTC price',
+                    ),secondary_y=True)
     
+    fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+                  marker_line_width=2)
+
+    fig.update_yaxes(title_text="<b>BTC price</b> yaxis title", secondary_y=False)
+    fig.update_yaxes(title_text="<b>Trending values</b> yaxis title", secondary_y=True)
     #positive, negative = dp.search_sentiment('Bitcoin')
 
     figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
@@ -107,7 +116,7 @@ def render_page_content(pathname):
                 html.H1('Bitcoin sentiment',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=figo)
+                         figure=fig)
                 ]
     elif pathname == "/page-1":
         return [

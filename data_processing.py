@@ -30,8 +30,8 @@ import plotly.graph_objects as go
 def crypto_data():
     ohlc_df = san.get(
     "ohlc/bitcoin",
-    from_date="2015-01-01",
-    to_date="2020-01-01",
+    from_date="2017-01-01",
+    to_date="2022-02-19",
     interval="1w"
     )
     
