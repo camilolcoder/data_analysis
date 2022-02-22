@@ -37,6 +37,17 @@ def crypto_data():
     
     return ohlc_df
 
+def crypto_growth():
+    net_growth_df = san.get(
+    "network_growth/ethereum",
+    from_date="2019-02-02",
+    to_date="2022-02-02",
+    interval="1d"
+    )
+    return net_growth_df
+
+print(crypto_growth())
+
 #print(ohlc_df.tail())
 
 def get_trending_topics():

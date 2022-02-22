@@ -82,7 +82,7 @@ def render_page_content(pathname):
 
     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
                     mode='lines',
-                    name='sentiment',
+                    name='trending',
                     line=dict(color='rgb(153,204,255)',
                                 width=2)
                     ),secondary_y=True)
@@ -118,27 +118,37 @@ def render_page_content(pathname):
         color="Black" 
     ))
 
+    growth_df = dp.crypto_growth()
+
+    fig_growth = go.Figure()
+
+    fig_growth.add_trace(go.Scatter(x = growth_df.index, y = growth_df.value,
+                                    mode = 'lines',
+                                    name = 'new adresses',
+                                    line=dict(color='rgb(128,255,0)',
+                                    width=2)))
+
+
     if pathname == "/":
         return [
-                html.H1('Bitcoin sentiment',
+                html.H1('Crypto trending',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
                          figure=fig)
                 ]
     elif pathname == "/page-1":
         return [
-                html.H1('Grad School in Iran',
+                html.H1('Crypto sentiment',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
                          figure=figo)
                 ]
     elif pathname == "/page-2":
         return [
-                html.H1('High School in Iran',
+                html.H1('Crypto growth',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls High School', 'Boys High School']))
+                         figure=fig_growth)
                 ]
     elif pathname == "/page-3":
         return [
