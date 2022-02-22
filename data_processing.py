@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
+from datetime import date
 
 import san
 
@@ -56,7 +57,7 @@ def crypto_holders():
     return net_growth_df
 
 
-print(crypto_holders())
+#print(crypto_holders())
 
 #print(ohlc_df.tail())
 

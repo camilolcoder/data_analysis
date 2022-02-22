@@ -39,8 +39,9 @@ CONTENT_STYLE = {
 
 NAVBAR_STYLE = {
     "color": "#fff",
-    "background-color": "#bedbf7",
-    "padding": "2rem 1rem",
+    "font-size": "16px",
+    #"font-weight": 700,
+    #"background-color": "#bedbf7",
 }
 
 sidebar = html.Div(
@@ -57,7 +58,7 @@ sidebar = html.Div(
                 dbc.NavLink("Crypto on-chain data", href="/page-2", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("Crypto project activity", href="/page-3", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("working...", href="/page-4", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("working...", href="/page-5", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink('Bold', href="/page-5", active="exact", style=NAVBAR_STYLE),
             ],
             vertical=True,
             pills=True,
