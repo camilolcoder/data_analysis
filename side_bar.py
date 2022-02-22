@@ -46,9 +46,12 @@ sidebar = html.Div(
         ),
         dbc.Nav(
             [
-                dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Bitcoin vs crypto sentiment", href="/page-1", active="exact"),
-                dbc.NavLink("Page 2", href="/page-2", active="exact"),
+                dbc.NavLink("Crypto vs trending", href="/", active="exact"),
+                dbc.NavLink("Crypto sentiment", href="/page-1", active="exact"),
+                dbc.NavLink("Crypto on-chain data", href="/page-2", active="exact"),
+                dbc.NavLink("Crypto project activity", href="/page-3", active="exact"),
+                dbc.NavLink("working...", href="/page-4", active="exact"),
+                dbc.NavLink("working...", href="/page-5", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -137,6 +140,38 @@ def render_page_content(pathname):
                          figure=px.bar(df, barmode='group', x='Years',
                          y=['Girls High School', 'Boys High School']))
                 ]
+    elif pathname == "/page-3":
+        return [
+                html.H1('High School in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls High School', 'Boys High School']))
+                ]
+    elif pathname == "/page-4":
+        return [
+                html.H1('High School in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls High School', 'Boys High School']))
+                ]
+    elif pathname == "/page-5":
+        return [
+                html.H1('High School in Iran',
+                        style={'textAlign':'center'}),
+                dcc.Graph(id='bargraph',
+                         figure=px.bar(df, barmode='group', x='Years',
+                         y=['Girls High School', 'Boys High School']))
+                ]
+    # elif pathname == "/page-2":
+    #     return [
+    #             html.H1('High School in Iran',
+    #                     style={'textAlign':'center'}),
+    #             dcc.Graph(id='bargraph',
+    #                      figure=px.bar(df, barmode='group', x='Years',
+    #                      y=['Girls High School', 'Boys High School']))
+    #             ]
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
