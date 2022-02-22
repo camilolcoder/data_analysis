@@ -27,13 +27,19 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    "background-color": "#47627d",
 }
 
 # padding for the page content
 CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
+
+NAVBAR_STYLE = {
+    "color": "#fff",
+    "background-color": "#bedbf7",
     "padding": "2rem 1rem",
 }
 
@@ -46,12 +52,12 @@ sidebar = html.Div(
         ),
         dbc.Nav(
             [
-                dbc.NavLink("Crypto vs trending", href="/", active="exact"),
-                dbc.NavLink("Crypto sentiment", href="/page-1", active="exact"),
-                dbc.NavLink("Crypto on-chain data", href="/page-2", active="exact"),
-                dbc.NavLink("Crypto project activity", href="/page-3", active="exact"),
-                dbc.NavLink("working...", href="/page-4", active="exact"),
-                dbc.NavLink("working...", href="/page-5", active="exact"),
+                dbc.NavLink("Crypto vs trending", href="/", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto sentiment", href="/page-1", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto on-chain data", href="/page-2", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto project activity", href="/page-3", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("working...", href="/page-4", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("working...", href="/page-5", active="exact", style=NAVBAR_STYLE),
             ],
             vertical=True,
             pills=True,
