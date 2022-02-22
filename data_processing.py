@@ -46,7 +46,17 @@ def crypto_growth():
     )
     return net_growth_df
 
-print(crypto_growth())
+def crypto_holders():
+    net_growth_df = san.get(
+    "twitter_followers/vechain",
+    from_date="2019-02-02",
+    to_date="2022-02-20",
+    interval="1d"
+    )
+    return net_growth_df
+
+
+print(crypto_holders())
 
 #print(ohlc_df.tail())
 
