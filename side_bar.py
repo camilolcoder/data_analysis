@@ -227,12 +227,15 @@ def render_page_content(pathname):
 )
 
 def update_data(year):
+
     if year == 2021:
         figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
     elif year == 2022:
         figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[67 , 43]))
+
     return figo
 
+#TODO implement bootstrap for all of the pages and implement new metrics
 
 if __name__=='__main__':
     app.run_server(debug=True, port=3000)
