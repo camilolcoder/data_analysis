@@ -20,14 +20,6 @@ from datetime import date
 
 import san
 
-import dash
-import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
-import plotly.express as px
-from dash.dependencies import Input, Output
-import plotly.graph_objects as go
-
 def crypto_data():
     ohlc_df = san.get(
     "ohlc/bitcoin",
@@ -37,6 +29,10 @@ def crypto_data():
     )
     
     return ohlc_df
+
+# test = 'etherum'
+# car = 'ohlc/'+test
+# print(car)
 
 def crypto_growth():
     net_growth_df = san.get(

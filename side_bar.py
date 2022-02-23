@@ -169,19 +169,25 @@ def render_page_content(pathname):
                 ]
     elif pathname == "/page-4":
         return [
-                html.H1('High School in Iran',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure=px.bar(df, barmode='group', x='Years',
-                         y=['Girls High School', 'Boys High School']))
-                ]
-    elif pathname == "/page-5":
-        return [
                 # html.H1('High School in Iran',
                 #         style={'textAlign':'center'}),
                 # dcc.Graph(id='bargraph',
                 #          figure=px.bar(df, barmode='group', x='Years',
                 #          y=['Girls High School', 'Boys High School']))
+                
+                dbc.Row([
+                    dbc.Col([
+                        dcc.Input(
+                            id = 'sheet_id',
+                            placeholder='Enter a value...',
+                            type='text',
+                            value='Sheet Id',
+                            style={'width':'100%'},
+                        )
+                    ], width=6),])
+                ]
+    elif pathname == "/page-5":
+        return [
                 dbc.Row([
                     dbc.Col([
                         html.H2("Financial Analysis", style={'text_align':'center'}),
