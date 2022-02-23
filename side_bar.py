@@ -198,39 +198,20 @@ def render_page_content(pathname):
                                 ),        
                     html.Div(id='output_container_years', children=[]),
                     html.Br()
-                    ],width=2)])
+                    ],width=2)]),
+                
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='pie-chart', figure={}),
+                            ])
+                        ]),
+                    ], width=6),])
 
         ]      
-        #         app.layout = dbc.Container([
-    
-        #             dbc.Row([
-        #                 dbc.Col([
-        #                     html.H2("Financial Analysis", style={'text_align':'center'}),
-        #                 ],width=2),
-        #                 dbc.Col([
-        #                     dcc.Dropdown(id='slct_year',
-        #                             options=[
-        #                                 {'label':'2021','value': 2021},
-        #                                 {'label':'2022','value': 2022}
-        #                                 ],
-        #                             multi = False,
-        #                             value = 2022,
-        #                             style={'width':'100%'},
-        #                             ),        
-        #                 html.Div(id='output_container_years', children=[]),
-        #                 html.Br()
-        #                 ],width=2)
-        #                         ]
-        #         ])
-        # ])
-    # elif pathname == "/page-2":
-    #     return [
-    #             html.H1('High School in Iran',
-    #                     style={'textAlign':'center'}),
-    #             dcc.Graph(id='bargraph',
-    #                      figure=px.bar(df, barmode='group', x='Years',
-    #                      y=['Girls High School', 'Boys High School']))
-    #             ]
+        
+
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -239,6 +220,18 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
+
+@app.callback(
+        Output('pie-chart', 'figure'),
+        Input('slct_year', 'value')
+)
+
+def update_data(year):
+    if year == 2021:
+        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
+    elif year == 2022:
+        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[67 , 43]))
+    return figo
 
 
 if __name__=='__main__':
