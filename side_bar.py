@@ -247,18 +247,18 @@ def render_page_content(pathname):
 
 @app.callback(
         Output('crypto-trending', 'figure'),
-        Output('pie-chart', 'figure'),
-        Input('slct_crypto', 'value'),
-        Input('slct_year', 'value')
+        #Output('pie-chart', 'figure'),
+        Input('crypto_name', 'value'),
+        #Input('slct_year', 'value')
 )
 
-def update_data(year):
+def update_data(crypto) #, year):
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
     df1 = dp.collect_trend_score('crypto', 1)
     columns = df1.columns
     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
-    df2 = dp.crypto_data()
+    df2 = dp.crypto_data(crypto)
 
     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
                     mode='lines',
@@ -280,12 +280,12 @@ def update_data(year):
     fig.update_yaxes(title_text="<b>BTC price</b>", secondary_y=True)
     fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False)
 
-    if year == 2021:
-        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
-    elif year == 2022:
-        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[67 , 43]))
+    # if year == 2021:
+    #     figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
+    # elif year == 2022:
+    #     figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[67 , 43]))
 
-    return figo
+    return fig #, figo
 
 #TODO implement bootstrap for all of the pages and implement new metrics
 
