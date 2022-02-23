@@ -20,9 +20,9 @@ from datetime import date
 
 import san
 
-def crypto_data():
+def crypto_data(crypto:str):
     ohlc_df = san.get(
-    "ohlc/bitcoin",
+    "ohlc/"+crypto,
     from_date="2017-01-01",
     to_date="2022-02-19",
     interval="1w"
