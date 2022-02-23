@@ -3,9 +3,11 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
+
 import data_processing as dp
 import datetime as dt
 import pandas as pd
@@ -28,6 +30,7 @@ SIDEBAR_STYLE = {
     "width": "16rem",
     "padding": "2rem 1rem",
     "background-color": "#47627d",
+    "overflow":"scroll",
 }
 
 # padding for the page content
@@ -179,29 +182,47 @@ def render_page_content(pathname):
                 # dcc.Graph(id='bargraph',
                 #          figure=px.bar(df, barmode='group', x='Years',
                 #          y=['Girls High School', 'Boys High School']))
-                app.layout = dbc.Container([
+                dbc.Row([
+                    dbc.Col([
+                        html.H2("Financial Analysis", style={'text_align':'center'}),
+                    ],width=2),
+                    dbc.Col([
+                        dcc.Dropdown(id='slct_year',
+                                options=[
+                                    {'label':'2021','value': 2021},
+                                    {'label':'2022','value': 2022}
+                                    ],
+                                multi = False,
+                                value = 2022,
+                                style={'width':'100%'},
+                                ),        
+                    html.Div(id='output_container_years', children=[]),
+                    html.Br()
+                    ],width=2)])
+
+        ]      
+        #         app.layout = dbc.Container([
     
-                    dbc.Row([
-                        dbc.Col([
-                            html.H2("Financial Analysis", style={'text_align':'center'}),
-                        ],width=2),
-                        dbc.Col([
-                            dcc.Dropdown(id='slct_year',
-                                    options=[
-                                        {'label':'2021','value': 2021},
-                                        {'label':'2022','value': 2022}
-                                        ],
-                                    multi = False,
-                                    value = 2022,
-                                    style={'width':'100%'},
-                                    ),        
-                        html.Div(id='output_container_years', children=[]),
-                        html.Br()
-                        ],width=2)
-                                ]
-                ])
-        ])
-    ]
+        #             dbc.Row([
+        #                 dbc.Col([
+        #                     html.H2("Financial Analysis", style={'text_align':'center'}),
+        #                 ],width=2),
+        #                 dbc.Col([
+        #                     dcc.Dropdown(id='slct_year',
+        #                             options=[
+        #                                 {'label':'2021','value': 2021},
+        #                                 {'label':'2022','value': 2022}
+        #                                 ],
+        #                             multi = False,
+        #                             value = 2022,
+        #                             style={'width':'100%'},
+        #                             ),        
+        #                 html.Div(id='output_container_years', children=[]),
+        #                 html.Br()
+        #                 ],width=2)
+        #                         ]
+        #         ])
+        # ])
     # elif pathname == "/page-2":
     #     return [
     #             html.H1('High School in Iran',
