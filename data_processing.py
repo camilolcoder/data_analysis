@@ -41,7 +41,7 @@ def crypto_growth(crypto:str, from_date:str, to_date:str):
 
 #TODO check why is it only working with ethereum
 
-def crypto_holders(crypto:str, from_date:str, to_date:str):
+def crypto_social_presence(crypto:str, from_date:str, to_date:str):
     net_growth_df = san.get(
     "twitter_followers/"+crypto,
     from_date=from_date,
