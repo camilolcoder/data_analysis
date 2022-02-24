@@ -435,7 +435,7 @@ def update_data(crypto, from_date, to_date): #, year):
 
     fig.add_trace(go.Scatter(x=df1.index, y=df1.value,
                     mode='lines',
-                    name='#wallets',
+                    name='#of followers',
                     line=dict(color='rgb(153,204,255)',
                                 width=3)
                     ),secondary_y=True)
@@ -450,8 +450,8 @@ def update_data(crypto, from_date, to_date): #, year):
     # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
     #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=True)
-    fig.update_yaxes(title_text="<b>Social presence</b>", secondary_y=False)
+    fig.update_yaxes(title_text="<b>Social presence</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False)
 
     return fig #, figo
 
