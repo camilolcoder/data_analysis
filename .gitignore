@@ -7,7 +7,12 @@ media/
 settings.py
 # C extensions
 *.so
+
+#App clones
+
 financialdashtest/
+analysismetrics/
+
 # Distribution / packaging
 .Python
 venv/
