@@ -39,6 +39,8 @@ def crypto_growth(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
+#TODO check why is it only working with ethereum
+
 def crypto_holders(crypto:str, from_date:str, to_date:str):
     net_growth_df = san.get(
     "twitter_followers/"+crypto,
@@ -49,7 +51,7 @@ def crypto_holders(crypto:str, from_date:str, to_date:str):
     return net_growth_df
 
 # print(crypto_data('ethereum', '2017-01-01', '2020-02-20'))
-# print(crypto_growth('ethereum', '2017-01-01', '2022-02-10'))
+#print(crypto_growth('ethereum', '2022-01-01', '2022-02-10'))
 
 #print(crypto_holders())
 

@@ -128,15 +128,15 @@ def render_page_content(pathname):
         color="Black" 
     ))
 
-    growth_df = dp.crypto_growth()
+    # growth_df = dp.crypto_growth()
 
-    fig_growth = go.Figure()
+    # fig_growth = go.Figure()
 
-    fig_growth.add_trace(go.Scatter(x = growth_df.index, y = growth_df.value,
-                                    mode = 'lines',
-                                    name = 'new adresses',
-                                    line=dict(color='rgb(128,255,0)',
-                                    width=2)))
+    # fig_growth.add_trace(go.Scatter(x = growth_df.index, y = growth_df.value,
+    #                                 mode = 'lines',
+    #                                 name = 'new adresses',
+    #                                 line=dict(color='rgb(128,255,0)',
+    #                                 width=2)))
 
     if pathname == "/":
         return [
@@ -341,17 +341,17 @@ def update_data(year):
     return figo
 
 @app.callback(
-        Output('crypto-trending', 'figure'),
-        Input('crypto_name', 'value'),
-        Input('from_date', 'value'),
-        Input('to_date', 'value'),
+        Output('crypto-growth', 'figure'),
+        Input('crypto_name_growth', 'value'),
+        Input('from_date_growth', 'value'),
+        Input('to_date_growth', 'value'),
 )
 
 def update_data(crypto, from_date, to_date): #, year):
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
     df1 = dp.crypto_growth(crypto, from_date, to_date) #dp.collect_trend_score('crypto', 1)
-    columns = df1.columns
+    #columns = df1.columns
     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
     df2 = dp.crypto_data(crypto, from_date, to_date)
 
