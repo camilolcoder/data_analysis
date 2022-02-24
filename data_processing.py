@@ -30,10 +30,6 @@ def crypto_data(crypto:str, from_date:str, to_date:str):
     
     return ohlc_df
 
-# test = 'etherum'
-# car = 'ohlc/'+test
-# print(car)
-
 def crypto_growth(crypto:str, from_date:str, to_date:str):
     net_growth_df = san.get(
     "network_growth/"+crypto,
@@ -51,6 +47,9 @@ def crypto_holders(crypto:str, from_date:str, to_date:str):
     interval="1d"
     )
     return net_growth_df
+
+# print(crypto_data('ethereum', '2017-01-01', '2020-02-20'))
+# print(crypto_growth('ethereum', '2017-01-01', '2022-02-10'))
 
 #print(crypto_holders())
 
