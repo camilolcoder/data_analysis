@@ -20,11 +20,11 @@ from datetime import date
 
 import san
 
-def crypto_data(crypto:str):
+def crypto_data(crypto:str, from_date:str, to_date:str):
     ohlc_df = san.get(
     "ohlc/"+crypto,
-    from_date="2017-01-01",
-    to_date="2022-02-19",
+    from_date=from_date,#"2017-01-01",
+    to_date=to_date,#"2022-02-19",
     interval="1w"
     )
     
@@ -34,24 +34,23 @@ def crypto_data(crypto:str):
 # car = 'ohlc/'+test
 # print(car)
 
-def crypto_growth():
+def crypto_growth(crypto:str, from_date:str, to_date:str):
     net_growth_df = san.get(
-    "network_growth/ethereum",
-    from_date="2019-02-02",
-    to_date="2022-02-02",
+    "network_growth/"+crypto,
+    from_date=from_date,
+    to_date=to_date,
     interval="1d"
     )
     return net_growth_df
 
-def crypto_holders():
+def crypto_holders(crypto:str, from_date:str, to_date:str):
     net_growth_df = san.get(
-    "twitter_followers/vechain",
-    from_date="2019-02-02",
-    to_date="2022-02-20",
+    "twitter_followers/"+crypto,
+    from_date=from_date,
+    to_date=to_date,
     interval="1d"
     )
     return net_growth_df
-
 
 #print(crypto_holders())
 

@@ -49,7 +49,7 @@ NAVBAR_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Main metrics", className="display-4"),
+        html.H2("Beta 1.0 metrics", className="display-4"),
         html.Hr(),
         html.P(
             "Metrics for analysis", className="lead"
@@ -150,7 +150,7 @@ def render_page_content(pathname):
                             id = 'crypto_name',
                             placeholder='Enter a crypto...',
                             type='text',
-                            #value='Sheet Id',
+                            value='bitcoin',
                             style={'width':'100%'},
                         )
                     ], width=6),
@@ -162,7 +162,7 @@ def render_page_content(pathname):
                             value='2017-01-01',
                             style={'width':'100%'},
                         )
-                    ], width=2),
+                    ], width=3),
                     dbc.Col([
                         dcc.Input(
                             id = 'to_date',
@@ -171,7 +171,7 @@ def render_page_content(pathname):
                             value='2022-02-02',
                             style={'width':'100%'},
                         )
-                    ], width=2),
+                    ], width=3),
                     ], className = 'mb-2 mt-2'),
                 dbc.Row([
                     dbc.Col([
@@ -284,20 +284,20 @@ def update_data(crypto, from_date, to_date): #, year):
                     mode='lines',
                     name='trending',
                     line=dict(color='rgb(153,204,255)',
-                                width=2)
+                                width=3)
                     ),secondary_y=True)
 
     fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
                     mode='lines',
-                    name='BTC price',
+                    name=crypto+' price',
                     line=dict(color='rgb(128,255,0)',
-                                width=2)
+                                width=3)
                     ),secondary_y=False)
     
     # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
     #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>BTC price</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=True)
     fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False)
 
     return fig #, figo
