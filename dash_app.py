@@ -512,7 +512,7 @@ def update_data(crypto, from_date, to_date): #, year):
     # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
     #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>Social presence</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Social sentiment</b>", secondary_y=True)
     fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False)
     
     fig.update_layout(
