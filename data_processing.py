@@ -59,10 +59,15 @@ def crypto_positive_sentiment(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
-
+# san.get(
+#     "daily_active_addresses/santiment",
+#     from_date="2018-06-01",
+#     to_date="2018-06-05",
+#     interval="1d"
+# )
 
 #print(crypto_positive_sentiment('ethereum', '2017-01-01', '2020-02-20'))
-print(crypto_growth('ethereum', '2022-01-01', '2022-02-10'))
+#print(crypto_data('ethereum', '2017-01-01', '2022-02-10'))
 
 #print(crypto_holders())
 
