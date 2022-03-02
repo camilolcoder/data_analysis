@@ -59,6 +59,16 @@ def crypto_positive_sentiment(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
+def crypto_negative_sentiment(crypto:str, from_date:str, to_date:str):
+    net_growth_df = san.get(
+    "sentiment_negative_total/"+crypto,
+    from_date=from_date,
+    to_date=to_date,
+    interval="1d"
+    )
+    return net_growth_df
+
+
 # san.get(
 #     "daily_active_addresses/santiment",
 #     from_date="2018-06-01",
@@ -66,7 +76,7 @@ def crypto_positive_sentiment(crypto:str, from_date:str, to_date:str):
 #     interval="1d"
 # )
 
-#print(crypto_positive_sentiment('ethereum', '2017-01-01', '2020-02-20'))
+#print(crypto_positive_sentiment('bitcoin', '2020-01-01', '2022-02-20'))
 #print(crypto_data('ethereum', '2017-01-01', '2022-02-10'))
 
 #print(crypto_holders())
