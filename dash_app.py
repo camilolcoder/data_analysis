@@ -195,12 +195,6 @@ def render_page_content(pathname):
 
     elif pathname == "/page-3":
         return [
-                # html.H1('High School in Iran',
-                #         style={'textAlign':'center'}),
-                # dcc.Graph(id='bargraph',
-                #          figure=px.bar(df, barmode='group', x='Years',
-                #          y=['Girls High School', 'Boys High School']))
-
                 dbc.Row([
                     dbc.Col([
                         dcc.Input(
@@ -330,6 +324,9 @@ def render_page_content(pathname):
         ]
     )
 
+#######################################
+#CRYPTO TRENDING
+#######################################
 @app.callback(
         Output('crypto-trending', 'figure'),
         Input('crypto_name', 'value'),
@@ -363,7 +360,7 @@ def update_data(crypto, from_date, to_date): #, year):
     #               marker_line_width=2)
 
     fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=True)
-    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False)
+    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False, type='log')
 
     fig.update_layout(
     font_color="black",
@@ -371,22 +368,9 @@ def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
-@app.callback(
-        #Output('crypto-trending', 'figure'),
-        Output('pie-chart', 'figure'),
-        #Input('crypto_name', 'value'),
-        Input('slct_year', 'value')
-)
-
-def update_data(year):
-
-    if year == 2021:
-        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
-    elif year == 2022:
-        figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[67 , 43]))
-
-    return figo
-
+#######################################
+#GROWTH WITH ADRESSES
+#######################################
 @app.callback(
         Output('crypto-growth', 'figure'),
         Input('crypto_name_growth', 'value'),
@@ -428,6 +412,9 @@ def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
+#######################################
+#SOCIAl PRESENCE 
+#######################################
 @app.callback(
         Output('crypto-social', 'figure'),
         Input('crypto_name_social', 'value'),
@@ -469,6 +456,9 @@ def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
+#######################################
+#TOTAL SENTIMENT
+#######################################
 @app.callback(
         Output('crypto-total-sentiment', 'figure'),
         Input('crypto_total_sentiment', 'value'),
