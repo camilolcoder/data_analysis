@@ -193,7 +193,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='crypto-trending', figure={}),
+                                dcc.Graph(id='crypto-mc', figure={}),
                             ])
                         ]),
                     ], width=12),
@@ -418,7 +418,8 @@ def update_data(crypto, from_date, to_date): #, year):
 #CRYPTO PRICE VS MARKETCAP
 #######################################
 @app.callback(
-        Output('crypto_name_mc', 'figure'),
+        Output('crypto-mc', 'figure'),
+        Input('crypto_name_mc', 'value'),
         Input('slc_scale', 'value'),
         Input('from_date_mc', 'value'),
         Input('to_date_mc', 'value'),
