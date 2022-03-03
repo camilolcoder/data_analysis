@@ -158,7 +158,18 @@ def render_page_content(pathname):
                             value='bitcoin',
                             style={'width':'100%'},
                         )
-                    ], width=6),
+                    ], width=3),
+                     dbc.Col([
+                        dcc.Dropdown(id='slc_scale',
+                                options = [
+                                    {'label':'linear scale', 'value': 'linear'},
+                                    {'label':'logarithmic scale', 'value':'log'}
+                                ],
+                                multi = False,
+                                value = 'linear',
+                                style={'width':'100%'},
+                        )
+                    ], width=3),        
                     dbc.Col([
                         dcc.Input(
                             id = 'from_date_mc',
@@ -395,6 +406,51 @@ def update_data(crypto, from_date, to_date): #, year):
 
     fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
     fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
+
+    fig.update_layout(
+    font_color="black",
+    )
+
+    return fig #, figo
+
+
+#######################################
+#CRYPTO PRICE VS MARKETCAP
+#######################################
+@app.callback(
+        Output('crypto_name_mc', 'figure'),
+        Input('slc_scale', 'value'),
+        Input('from_date_mc', 'value'),
+        Input('to_date_mc', 'value'),
+)
+
+def update_data(crypto, scale, from_date, to_date): #, year):
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
+    df1 = dp.market_cap(crypto, from_date, to_date)
+    columns = df1.columns
+    #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+    df2 = dp.crypto_data(crypto, from_date, to_date)
+
+    fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
+                    mode='lines',
+                    name='trending',
+                    line=dict(color='rgb(49,50,58)',
+                                width=3)
+                    ),secondary_y=True)
+
+    fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
+                    mode='lines',
+                    name=crypto+' price',
+                    line=dict(color='rgb(51,63,169)',
+                                width=3)
+                    ),secondary_y=False)
+    
+    # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+    #               marker_line_width=2)
+
+    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type=scale)
 
     fig.update_layout(
     font_color="black",
