@@ -84,22 +84,22 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
+    # figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
 
-    figo.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'], marker_line_color='rgb(0,0,0)',
-                  marker_line_width=2, opacity=0.6)
-    #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
-    #title="Plot Title",
+    # figo.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'], marker_line_color='rgb(0,0,0)',
+    #               marker_line_width=2, opacity=0.6)
+    # #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
+    # #title="Plot Title",
 
-    figo.update_layout(
-    xaxis_title="<b>Bitcoin sentiment</b>",
-    yaxis_title="<b>Sentiment points</b>",
-    legend_title="Legend Title",
-    font=dict(
-        family="Courier New, monospace",
-        size=18,
-        color="Black" 
-    ))
+    # figo.update_layout(
+    # xaxis_title="<b>Bitcoin sentiment</b>",
+    # yaxis_title="<b>Sentiment points</b>",
+    # legend_title="Legend Title",
+    # font=dict(
+    #     family="Courier New, monospace",
+    #     size=18,
+    #     color="Black" 
+    # ))
 
     if pathname == "/":
         return [
@@ -147,7 +147,7 @@ def render_page_content(pathname):
                 html.H1('Crypto sentiment',
                         style={'textAlign':'center'}),
                 dcc.Graph(id='bargraph',
-                         figure=figo)
+                         figure={})
                 ]
     elif pathname == "/page-2":
         return [
@@ -237,12 +237,6 @@ def render_page_content(pathname):
                 ]
     elif pathname == "/page-4":
         return [
-                # html.H1('Graph testing',
-                #         style={'textAlign':'center'}),
-                # dcc.Graph(id='bargraph',
-                #          figure=px.bar(df, barmode='group', x='Years',
-                #          y=['Girls High School', 'Boys High School']))
-
                 dbc.Row([
                     dbc.Col([
                         dcc.Input(
@@ -359,8 +353,8 @@ def update_data(crypto, from_date, to_date): #, year):
     # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
     #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=True)
-    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=False, type='log')
+    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
 
     fig.update_layout(
     font_color="black",
