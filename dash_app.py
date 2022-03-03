@@ -521,7 +521,8 @@ def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
-#TODO implement bootstrap for all of the pages and implement new metrics
+#DONE implement bootstrap for all of the pages and implement new metrics
+#TODO implement logarithmic scale options
 
 if __name__=='__main__':
     app.run_server(debug=True, port=3000)
