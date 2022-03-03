@@ -56,10 +56,10 @@ sidebar = html.Div(
         ),
         dbc.Nav(
             [
-                dbc.NavLink("Crypto vs trending", href="/", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto sentiment", href="/page-1", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto on-chain data", href="/page-2", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto social presence", href="/page-3", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto price vs trending", href="/", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto price vs mc", href="/page-1", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto adresses growth", href="/page-2", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto twitter growth", href="/page-3", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('Bold', href="/page-5", active="exact", style=NAVBAR_STYLE),
             ],
@@ -144,10 +144,50 @@ def render_page_content(pathname):
                 ]
     elif pathname == "/page-1":
         return [
-                html.H1('Crypto sentiment',
-                        style={'textAlign':'center'}),
-                dcc.Graph(id='bargraph',
-                         figure={})
+                # html.H1('Crypto sentiment',
+                #         style={'textAlign':'center'}),
+                # dcc.Graph(id='bargraph',
+                #          figure={})
+
+                dbc.Row([
+                    dbc.Col([
+                        dcc.Input(
+                            id = 'crypto_name_mc',
+                            placeholder='Enter a crypto...',
+                            type='text',
+                            value='bitcoin',
+                            style={'width':'100%'},
+                        )
+                    ], width=6),
+                    dbc.Col([
+                        dcc.Input(
+                            id = 'from_date_mc',
+                            placeholder='Enter a crypto...',
+                            type='text',
+                            value='2017-01-01',
+                            style={'width':'100%'},
+                        )
+                    ], width=3),
+                    dbc.Col([
+                        dcc.Input(
+                            id = 'to_date_mc',
+                            placeholder='Enter a crypto...',
+                            type='text',
+                            value='2022-02-02',
+                            style={'width':'100%'},
+                        )
+                    ], width=3),
+                    ], className = 'mb-2 mt-2'),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='crypto-trending', figure={}),
+                            ])
+                        ]),
+                    ], width=12),
+                    ], className = 'mb-2 mt-2')
+
                 ]
     elif pathname == "/page-2":
         return [
