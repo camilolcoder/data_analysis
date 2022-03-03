@@ -77,8 +77,17 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
     
+# def crypto_amount_in_top_holders(crypto:str, from_date:str, to_date:str):
+#     net_growth_df = san.get(
+#     "amount_in_top_holders/"+crypto,
+#     from_date=from_date,
+#     to_date=to_date,
+#     interval="1d"
+#     )
+#     return net_growth_df
 
-#print(crypto_negative_sentiment('bitcoin', '2020-01-01', '2022-02-20'))
+#print(crypto_amount_in_top_holders('bitcoin', '2020-01-01', '2022-02-20'))
+
 #print(crypto_data('ethereum', '2017-01-01', '2022-02-10'))
 
 #print(crypto_holders())
