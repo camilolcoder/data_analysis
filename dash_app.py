@@ -603,7 +603,8 @@ def update_data(crypto, from_date, to_date): #, year):
     return fig #, figo
 
 #DONE implement bootstrap for all of the pages and implement new metrics
-#TODO implement logarithmic scale options
+#DONE implement logarithmic scale options
+#TODO implement new metrics section for total crypto asset class
 
 if __name__=='__main__':
     app.run_server(debug=True, port=3000)
