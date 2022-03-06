@@ -371,6 +371,22 @@ def render_page_content(pathname):
         fig.update_layout(
         font_color="black",
         )
+        
+        fig1 = go.Figure()
+        
+        fig1.add_trace(go.Scatter(x=df1.index, y=df1.closePriceUsd,
+                        mode='lines',
+                        name='BTC price',
+                        line=dict(color='rgb(0,102,204)',
+                                    width=3)
+                        ))
+        
+        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='log')
+        
+        fig1.update_layout(
+        font_color="black",
+        )
+
         return [
                 dbc.Row([
                     dbc.Col([
@@ -381,7 +397,19 @@ def render_page_content(pathname):
                         ]),
                     ], width=12),]
                     , className = 'mb-2 mt-2'),
+
+                #TODO try to get more height for the graph
                 
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='pie-chart', figure=fig1),
+                            ])
+                        ]),
+                    ], width=12),]
+                    , className = 'mb-2 mt-2'),
+
                 dbc.Row([
                     dbc.Col([
                         dbc.Card([
