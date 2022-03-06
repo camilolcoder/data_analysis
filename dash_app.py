@@ -335,20 +335,17 @@ def render_page_content(pathname):
         df1 = dp.crypto_data('bitcoin', '2013-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
         #columns = df1.columns
 
-        df1['sma'] = df1.closePriceUsd.rolling(window=21).mean()
-        df1['ema'] = df1.closePriceUsd.ewm(span=20,adjust=False).mean()
+        df1['sma'] = df1.closePriceUsd.rolling(window=20).mean()
+        df1['ema'] = df1.closePriceUsd.ewm(span=21,adjust=False).mean()
 
-        #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
-    
-        #df2 = dp.crypto_negative_sentiment(crypto, from_date, to_date)
-
-        #df3 = dp.crypto_data(crypto, from_date, to_date)
-
-        fig.add_trace(go.Scatter(x=df1.index, y=df1.closePriceUsd,
-                        mode='lines',
+        fig.add_trace(go.Candlestick(x=df1.index, open=df1.openPriceUsd,
+                        high=df1.highPriceUsd,
+                        low=df1.lowPriceUsd,
+                        close=df1.closePriceUsd,
+                        #mode='lines',
                         name='BTC price',
-                        line=dict(color='rgb(64,64,64)',
-                                    width=3)
+                        # line=dict(color='rgb(64,64,64)',
+                        #             width=3)
                         ))  
 
         fig.add_trace(go.Scatter(x=df1.index, y=df1.sma,

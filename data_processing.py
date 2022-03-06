@@ -24,7 +24,7 @@ import san
 
 def crypto_data(crypto:str, from_date:str, to_date:str):
     ohlc_df = san.get(
-    "ohlc/"+crypto,
+    "ohlcv/"+crypto,
     from_date=from_date,#"2017-01-01",
     to_date=to_date,#"2022-02-19",
     interval="1w"
