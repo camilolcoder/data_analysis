@@ -592,6 +592,62 @@ def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
+#######################################
+#BITCOIN METRICS
+#######################################
+@app.callback(
+        Output('bitcoin-main', 'figure'),
+        # Input('crypto_total_sentiment', 'value'),
+        # Input('from_date_sentiment', 'value'),
+        # Input('to_date_sentiment', 'value'),
+)
+
+def update_data(): #, year):
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
+    #fig = go.Figure()
+
+    df1 = dp.crypto_data('bitcoin', '2013-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
+    #columns = df1.columns
+    #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+   
+    #df2 = dp.crypto_negative_sentiment(crypto, from_date, to_date)
+
+    #df3 = dp.crypto_data(crypto, from_date, to_date)
+
+    fig.add_trace(go.Scatter(x=df1.index, y=df1.value,
+                    mode='lines',
+                    name='positive sentiment',
+                    line=dict(color='rgb(0,255,128)',
+                                width=3)
+                    ),secondary_y=True)
+
+    # fig.add_trace(go.Scatter(x=df3.index, y=df3.closePriceUsd,
+    #                 mode='lines',
+    #                 name=crypto+' price',
+    #                 line=dict(color='rgb(0,102,204)',
+    #                             width=3)
+    #                 ),secondary_y=False)
+
+    # fig.add_trace(go.Scatter(x=df2.index, y=df2.value,
+    #                 mode='lines',
+    #                 name=crypto+' negative sentimient',
+    #                 line=dict(color='rgb(255,51,51)',
+    #                             width=3)
+    #                 ),secondary_y=True)
+    
+    # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+    #               marker_line_width=2)
+
+    fig.update_yaxes(title_text="<b>Social sentiment</b>", secondary_y=True)
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False)
+    
+    fig.update_layout(
+    font_color="black",
+    )
+
+    return fig #, figo
+
 #DONE implement bootstrap for all of the pages and implement new metrics
 #DONE implement logarithmic scale options
 #TODO implement new metrics section for total crypto asset class
