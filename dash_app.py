@@ -61,7 +61,7 @@ sidebar = html.Div(
                 dbc.NavLink("Crypto adresses growth", href="/page-2", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("Crypto twitter growth", href="/page-3", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink('Bold', href="/page-5", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink('Bitcoin analysis metrics', href="/page-5", active="exact", style=NAVBAR_STYLE),
             ],
             vertical=True,
             pills=True,
@@ -332,21 +332,12 @@ def render_page_content(pathname):
         return [
                 dbc.Row([
                     dbc.Col([
-                        html.H2("Financial Analysis", style={'text_align':'center'}),
-                    ],width=2),
-                    dbc.Col([
-                        dcc.Dropdown(id='slct_year',
-                                options=[
-                                    {'label':'2021','value': 2021},
-                                    {'label':'2022','value': 2022}
-                                    ],
-                                multi = False,
-                                value = 2022,
-                                style={'width':'100%'},
-                                ),        
-                    html.Div(id='output_container_years', children=[]),
-                    html.Br()
-                    ],width=2)]),
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='bitcoin-main', figure={}),
+                            ])
+                        ]),
+                    ], width=6),]),
                 
                 dbc.Row([
                     dbc.Col([
@@ -359,7 +350,6 @@ def render_page_content(pathname):
 
         ]      
         
-
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
