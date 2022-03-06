@@ -1,3 +1,4 @@
+#from curses import window
 from praw import reddit
 #import config #KEYS
 #import tweet_key as tk #Twitter KEYS
@@ -12,6 +13,7 @@ import tweepy
 import textblob
 import re
 import pandas as pd
+import numpy as np
 #import matplotlib.pyplot as plt
 #from bs4 import BeautifulSoup
 from pytrends.request import TrendReq
@@ -86,7 +88,14 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 #     )
 #     return net_growth_df
 
-#print(crypto_amount_in_top_holders('bitcoin', '2020-01-01', '2022-02-20'))
+#print(crypto_data('bitcoin', '2013-01-01', '2022-02-20'))
+
+# df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
+
+# df_btc['sma'] = df_btc.closePriceUsd.rolling(window=21).mean()
+# df_btc['ema'] = df_btc.closePriceUsd.ewm(span=20,adjust=False).mean()
+
+# print(df_btc.head(25))
 
 #print(crypto_data('ethereum', '2017-01-01', '2022-02-10'))
 
