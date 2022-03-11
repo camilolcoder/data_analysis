@@ -18,7 +18,10 @@ import matplotlib.pyplot as plt
 #from bs4 import BeautifulSoup
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
+#from datetime import date
+import datetime
 from datetime import date
+import pandas_datareader as web
 
 import san
 
@@ -91,9 +94,24 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 #################
 #TESTING
 ################
+
 #print(crypto_data('bitcoin', '2013-01-01', '2022-02-20'))
 
 # df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
+# df_btc.index = df_btc.index.date
+# df_btc = df_btc.drop(['openPriceUsd', 'highPriceUsd', 'lowPriceUsd', 'volume', 'marketcap'], axis=1)
+# start = datetime.datetime(2013, 1, 1)
+# end = datetime.datetime(2022, 2, 20)
+# SP500 = web.DataReader(['sp500'], 'fred', start, end)
+# #print(SP500)
+
+# SP500BTC = df_btc.merge(SP500, how='inner',
+# right_index = True, left_index=True)
+# #print(df_btc)
+# print(SP500BTC)
+
+# correlation = SP500BTC.corr()
+# print(correlation)
 
 # df_btc['sma'] = df_btc.closePriceUsd.rolling(window=21).mean()
 # df_btc['ema'] = df_btc.closePriceUsd.ewm(span=20,adjust=False).mean()

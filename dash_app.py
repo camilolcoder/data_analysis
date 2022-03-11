@@ -12,6 +12,8 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
+import datetime
+import pandas_datareader as web
 from plotly.subplots import make_subplots
 
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
@@ -404,6 +406,25 @@ def render_page_content(pathname):
         font_color="black",
         )
 
+        #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
+        dff1 = df1.copy
+        dff1.index = dff1.index.date
+        dff1 = dff1.drop(['openPriceUsd', 'highPriceUsd', 'lowPriceUsd', 'volume', 'marketcap'], axis=1)
+        start = datetime.datetime(2013, 1, 1)
+        end = datetime.datetime(2022, 2, 20)
+        SP500 = web.DataReader(['sp500'], 'fred', start, end)
+        #print(SP500)
+
+        SP500BTC = dff1.merge(SP500, how='inner',
+        right_index = True, left_index=True)
+        #print(df_btc)
+        #print(SP500BTC)
+
+        correlation = SP500BTC.corr()
+        #print(correlation)
+
+        fig2 = px._imshow(correlation)
+
         return [
                 dbc.Row([
                     dbc.Col([
@@ -431,10 +452,10 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='bitcoin-log', figure={}),
+                                dcc.Graph(id='bitcoin-log', figure=fig2),
                             ])
                         ]),
-                    ], width=12),]
+                    ], width=6),]
                     , className = 'mb-2 mt-2')
 
         ]      
