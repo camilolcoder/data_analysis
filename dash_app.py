@@ -375,6 +375,19 @@ def render_page_content(pathname):
         
         # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
         #               marker_line_width=2)
+        fig.update_layout(
+            title="<b>Bitcoin price (usd) over time</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
 
         fig.update_yaxes(title_text="<b>Bitcoin price</b>")
         #fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False)
@@ -400,12 +413,26 @@ def render_page_content(pathname):
         #                 ))
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        fig1.update_xaxes(title_text="<b>Date</b>")
-        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='linear') #, type='linear'
-        
         fig1.update_layout(
-        font_color="black",
+            title="<b>Bitcoin price (usd) over time</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
         )
+
+        fig1.update_xaxes(title_text="<b>Date</b>")
+        fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log') #, type='linear'
+        
+        # fig1.update_layout(
+        # font_color="black",
+        # )
 
         #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
         dff1.index = dff1.index.date
@@ -427,7 +454,11 @@ def render_page_content(pathname):
 
         #print(correlation)
 
-        fig2 = px.imshow(correlation)
+        fig2 = px.imshow(correlation, 
+                labels = dict(x="<b>Correlation between BTC & S&P500</b>",  color='Correlation'), 
+                x=['<b>BTC</b>','<b>S&P500</b>'],
+                y=['<b>BTC</b>','<b>S&P500</b>'],  
+                color_continuous_scale='RdBu')
 
         return [
                 dbc.Row([
