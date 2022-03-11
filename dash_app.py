@@ -332,7 +332,7 @@ def render_page_content(pathname):
         #fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
         fig = go.Figure()
 
-        df1 = dp.crypto_data('bitcoin', '2013-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
+        df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
         #columns = df1.columns
 
         df1['sma'] = df1.closePriceUsd.rolling(window=20).mean()
@@ -382,6 +382,7 @@ def render_page_content(pathname):
                         ))
         
         fig1.update_yaxes(title_text="<b>Crypto price</b>", type='log')
+        fig1.update_xaxes(title_text="<b>Date</b>", type='log')
         
         fig1.update_layout(
         font_color="black",
@@ -404,7 +405,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='pie-chart', figure=fig1),
+                                dcc.Graph(id='bitcoin-log-log', figure=fig1),
                             ])
                         ]),
                     ], width=12),]
@@ -414,7 +415,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='pie-chart', figure={}),
+                                dcc.Graph(id='bitcoin-log', figure={}),
                             ])
                         ]),
                     ], width=12),]
