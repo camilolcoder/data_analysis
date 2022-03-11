@@ -381,8 +381,9 @@ def render_page_content(pathname):
                                     width=3)
                         ))
         
-        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='log')
-        fig1.update_xaxes(title_text="<b>Date</b>", type='log')
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig1.update_xaxes(title_text="<b>Date</b>")
+        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='log') #, type='linear'
         
         fig1.update_layout(
         font_color="black",

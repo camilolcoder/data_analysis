@@ -14,7 +14,7 @@ import textblob
 import re
 import pandas as pd
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 #from bs4 import BeautifulSoup
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
@@ -88,6 +88,9 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 #     )
 #     return net_growth_df
 
+#################
+#TESTING
+################
 #print(crypto_data('bitcoin', '2013-01-01', '2022-02-20'))
 
 # df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
@@ -101,7 +104,26 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 
 #print(crypto_holders())
 
-#print(ohlc_df.tail())
+#print(np.shape(df_btc.closePriceUsd))
+
+# dates = len(df_btc.closePriceUsd)
+# days = np.linspace(1, len(df_btc), num=len(df_btc))
+# # print(days)
+# # print(len(days), dates)
+
+# coef = np.polyfit(days, df_btc.closePriceUsd, 1)
+# equ = np.poly1d(coef)
+
+# print(equ)
+
+# plt.plot(days, equ(df_btc.closePriceUsd), color='r')
+
+# plt.show()
+
+
+
+def logg(x, p1, p2):
+    return p1*np.log(x) + p2
 
 def get_trending_topics():
     pytrend = TrendReq()
