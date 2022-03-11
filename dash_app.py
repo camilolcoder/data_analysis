@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import data_processing as dp
 import datetime as dt
 import pandas as pd
+import numpy as np
 
 from plotly.subplots import make_subplots
 
@@ -337,6 +338,13 @@ def render_page_content(pathname):
 
         df1['sma'] = df1.closePriceUsd.rolling(window=20).mean()
         df1['ema'] = df1.closePriceUsd.ewm(span=21,adjust=False).mean()
+        #dates = len(df1.closePriceUsd)
+        days = np.linspace(1, len(df1), num=len(df1))
+        # print(days)
+        # print(len(days), dates)
+
+        coef = np.polyfit(days, df1.closePriceUsd, 1)
+        equ = np.poly1d(coef)
 
         fig.add_trace(go.Candlestick(x=df1.index, open=df1.openPriceUsd,
                         high=df1.highPriceUsd,
@@ -380,10 +388,17 @@ def render_page_content(pathname):
                         line=dict(color='rgb(0,102,204)',
                                     width=3)
                         ))
+
+        # fig1.add_trace(go.Scatter(x=df1.index, y=equ(df1.closePriceUsd),
+        #                 mode='lines',
+        #                 name='trendline',
+        #                 line=dict(color='rgb(49,50,58)',
+        #                             width=3)
+        #                 ))
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig1.update_xaxes(title_text="<b>Date</b>")
-        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='log') #, type='linear'
+        fig1.update_yaxes(title_text="<b>Crypto price</b>", type='linear') #, type='linear'
         
         fig1.update_layout(
         font_color="black",
