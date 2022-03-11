@@ -337,6 +337,7 @@ def render_page_content(pathname):
 
         df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
         #columns = df1.columns
+        dff1 = df1.copy()
 
         df1['sma'] = df1.closePriceUsd.rolling(window=20).mean()
         df1['ema'] = df1.closePriceUsd.ewm(span=21,adjust=False).mean()
@@ -407,7 +408,6 @@ def render_page_content(pathname):
         )
 
         #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
-        dff1 = df1.copy
         dff1.index = dff1.index.date
         dff1 = dff1.drop(['openPriceUsd', 'highPriceUsd', 'lowPriceUsd', 'volume', 'marketcap'], axis=1)
         start = datetime.datetime(2013, 1, 1)
@@ -422,8 +422,12 @@ def render_page_content(pathname):
 
         correlation = SP500BTC.corr()
         #print(correlation)
+        a = correlation.closePriceUsd.to_numpy()
+        b = correlation.sp500.to_numpy()
 
-        fig2 = px._imshow(correlation)
+        #print(correlation)
+
+        fig2 = px.imshow(correlation)
 
         return [
                 dbc.Row([
