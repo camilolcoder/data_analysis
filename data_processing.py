@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
 #from datetime import date
+from scipy.optimize import curve_fit
 import datetime
 from datetime import date
 import pandas_datareader as web
@@ -140,7 +141,7 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 
 
 
-def logg(x, p1, p2):
+def fitter(x, p1, p2):
     return p1*np.log(x) + p2
 
 def get_trending_topics():
