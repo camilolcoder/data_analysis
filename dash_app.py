@@ -340,8 +340,11 @@ def render_page_content(pathname):
         #columns = df1.columns
         dff1 = df1.copy()
 
-        df1['sma'] = df1.closePriceUsd.rolling(window=20).mean()
-        df1['ema'] = df1.closePriceUsd.ewm(span=21,adjust=False).mean()
+        SMA_PERIOD = 20
+        EMA_PERIOD = 21
+
+        df1['sma'] = df1.closePriceUsd.rolling(window=SMA_PERIOD).mean()
+        df1['ema'] = df1.closePriceUsd.ewm(span=EMA_PERIOD,adjust=False).mean()
         #dates = len(df1.closePriceUsd)
         days = np.linspace(1, len(df1), num=len(df1))
         btc_price = np.log(df1.closePriceUsd)
@@ -369,15 +372,15 @@ def render_page_content(pathname):
 
         fig.add_trace(go.Scatter(x=df1.index, y=df1.sma,
                         mode='lines',
-                        name='SMA 21',
-                        line=dict(color='rgb(0,102,204)',
+                        name='SMA '+str(SMA_PERIOD),
+                        line=dict(color='rgb(255,51,51)',
                                     width=3)
                         ))
 
         fig.add_trace(go.Scatter(x=df1.index, y=df1.ema,
                         mode='lines',
-                        name='EMA 20',
-                        line=dict(color='rgb(255,51,51)',
+                        name='EMA '+str(EMA_PERIOD),
+                        line=dict(color='rgb(102,255,102)',
                                     width=3)
                         ))
         
@@ -401,7 +404,9 @@ def render_page_content(pathname):
         #fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False)
         
         fig.update_layout(
-        font_color="black",
+        xaxis_rangeslider_visible=False,
+        template='plotly_dark',
+        font_color="white",
         )
         
         fig1 = go.Figure()
@@ -467,6 +472,11 @@ def render_page_content(pathname):
                 x=['<b>BTC</b>','<b>S&P500</b>'],
                 y=['<b>BTC</b>','<b>S&P500</b>'],  
                 color_continuous_scale='RdBu')
+
+        fig2.update_layout(
+        template='plotly_dark',
+        font_color="white",
+        )
 
         return [
                 dbc.Row([
