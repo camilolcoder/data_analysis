@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
 #from datetime import date
-from scipy.optimize import curve_fit
+#from scipy.optimize import curve_fit
 import datetime
 from datetime import date
 import pandas_datareader as web
