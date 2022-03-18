@@ -19,7 +19,7 @@ from plotly.subplots import make_subplots
 
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
-df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
+#df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
