@@ -816,4 +816,4 @@ def update_data(crypto, from_date, to_date): #, year):
 #TODO implement new metrics section for total crypto asset class
 
 if __name__=='__main__':
-    app.run_server(debug=True, port=3000)
+    app.run_server(debug=True)#, port=3000)
