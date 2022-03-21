@@ -18,6 +18,8 @@ import datetime
 import pandas_datareader as web
 from plotly.subplots import make_subplots
 
+import networkx as nx
+
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
 #df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
@@ -67,6 +69,7 @@ sidebar = html.Div(
                 dbc.NavLink("Crypto twitter growth", href="/page-3", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('Bitcoin analysis metrics', href="/page-5", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink('S&P 500 metrics', href="/page-6", active="exact", style=NAVBAR_STYLE),
             ],
             vertical=True,
             pills=True,
@@ -512,7 +515,33 @@ def render_page_content(pathname):
                     ], width=6),]
                     , className = 'mb-2 mt-2')
 
-        ]      
+        ]
+
+    elif pathname == "/page-6":
+        return [
+                dbc.Row([
+                dbc.Col([
+                    dcc.Input(
+                        id = 'crypto_name_mc',
+                        placeholder='Enter a crypto...',
+                        type='text',
+                        value='bitcoin',
+                        style={'width':'100%'},
+                    )
+                ], width=3),
+                    dbc.Col([
+                    dcc.Dropdown(id='slc_scale',
+                            options = [
+                                {'label':'linear scale', 'value': 'linear'},
+                                {'label':'logarithmic scale', 'value':'log'}
+                            ],
+                            multi = False,
+                            value = 'linear',
+                            style={'width':'100%'},
+                    )
+                ], width=3), ]
+                , className = 'mb-2 mt-2')
+        ]
         
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
