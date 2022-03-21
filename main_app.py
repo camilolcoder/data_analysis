@@ -520,27 +520,25 @@ def render_page_content(pathname):
     elif pathname == "/page-6":
         return [
                 dbc.Row([
-                dbc.Col([
-                    dcc.Input(
-                        id = 'crypto_name_mc',
-                        placeholder='Enter a crypto...',
-                        type='text',
-                        value='bitcoin',
-                        style={'width':'100%'},
-                    )
-                ], width=3),
                     dbc.Col([
-                    dcc.Dropdown(id='slc_scale',
-                            options = [
-                                {'label':'linear scale', 'value': 'linear'},
-                                {'label':'logarithmic scale', 'value':'log'}
-                            ],
-                            multi = False,
-                            value = 'linear',
-                            style={'width':'100%'},
-                    )
-                ], width=3), ]
-                , className = 'mb-2 mt-2')
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Slider(0, 20, 5,
+                                value=10,
+                                id='my-slider',
+                                ),
+                            ])
+                        ]),
+                    ], width=12),]
+                    , className = 'mb-2 mt-2'),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='s&p500-corr', figure={}),
+                            ])
+                        ]),
+                    ], width=6),], className = 'mb-2 mt-2')
         ]
         
     # If the user tries to reach a different page, return a 404 message
@@ -782,6 +780,21 @@ def update_data(crypto, from_date, to_date): #, year):
     fig.update_layout(
     font_color="black",
     )
+
+    return fig #, figo
+
+
+#######################################
+#S&P500 TRENDING
+#######################################
+@app.callback(
+        Output('crypto-trending', 'figure'),
+        Input('crypto_name', 'value'),
+        Input('from_date', 'value'),
+        Input('to_date', 'value'),
+)
+
+def update_data(crypto, from_date, to_date): #, year):
 
     return fig #, figo
 
