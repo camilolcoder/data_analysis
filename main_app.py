@@ -19,6 +19,7 @@ import pandas_datareader as web
 from plotly.subplots import make_subplots
 
 import networkx as nx
+import math
 
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
@@ -523,9 +524,9 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Slider(0, 20, 5,
-                                value=10,
-                                id='my-slider',
+                                dcc.Slider(0, 1, 0.05,
+                                value=0.50,
+                                id='slider-s&p500',
                                 ),
                             ])
                         ]),
@@ -535,10 +536,10 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-corr', figure={}),
+                                dcc.Graph(id='s&p500-graph', figure={}),
                             ])
                         ]),
-                    ], width=6),], className = 'mb-2 mt-2')
+                    ], width=12),], className = 'mb-2 mt-2')
         ]
         
     # If the user tries to reach a different page, return a 404 message
@@ -788,15 +789,100 @@ def update_data(crypto, from_date, to_date): #, year):
 #S&P500 TRENDING
 #######################################
 @app.callback(
-        Output('crypto-trending', 'figure'),
-        Input('crypto_name', 'value'),
-        Input('from_date', 'value'),
-        Input('to_date', 'value'),
+        Output('s&p500-graph', 'figure'),
+        Input('slider_s&p500', 'value'),
+        # Input('from_date', 'value'),
+        # Input('to_date', 'value'),
 )
 
-def update_data(crypto, from_date, to_date): #, year):
+def update_data(correlation): #, year):
 
-    return fig #, figo
+    network = go.Figure(data=[go.Scatter(x=[], y=[], mode='lines', text=[],  line=dict(color='MediumPurple',width=10),
+                                           marker=dict(size=20, line_width=10,line=dict(color='MediumPurple',width=2))),
+                                go.Scatter(x=[], y=[],mode='markers+text', textposition="top center", 
+                                          text=[],hoverinfo='text',textfont_size=12, marker=dict(size=50, color=[],line_width=1))],
+                          layout=go.Layout( showlegend=False, annotations=[], margin=dict(t=40, b=0, l=0, r=0), width=1600, height=800))
+
+    dff = pd.read_csv('data/sp500_corr_data.csv')
+    threshold, corr_mode = None, None
+    threshold = correlation
+
+    corr_matrix = dff.to_numpy()
+    
+    G = nx.from_numpy_matrix(corr_matrix)
+    G = nx.relabel_nodes(G, lambda x: dff.columns.tolist()[x])
+
+    remove = []
+
+    for col1, col2, weight in G.edges(data=True):
+
+        if math.isnan(weight["weight"]):
+            remove.append((col1,col2))
+    
+        if abs(weight["weight"]) < threshold:
+            remove.append((col1,col2))
+    
+    G.remove_edges_from(remove)
+    
+    remove = []
+    edges = list(sum(G.edges, ()))
+
+    for node in G.nodes:
+        if node not in edges:
+            remove.append(node)
+
+    G.remove_nodes_from(remove)
+    mst = nx.maximum_spanning_tree(G)
+
+    labels = {n:n for n in mst.nodes()}
+    node_x = []
+    node_y = []
+
+    tree = nx.fruchterman_reingold_layout(mst, k=0.25).items()
+
+    for node, (x_,y_) in tree:
+        node_x.append(x_)
+        node_y.append(y_)
+        
+    def get_dim_of_node(name):
+        for node, (x,y) in tree:
+            if node == name:
+                return x,y
+        
+    edge_x = []
+    edge_y = []
+    
+    weights= []
+    for node1, node2, w in mst.edges(data=True):
+        x0, y0 = get_dim_of_node(node1)
+        x1, y1 =  get_dim_of_node(node2)
+        edge_x.append(x0)
+        edge_x.append(x1)
+        edge_x.append(None)
+        edge_y.append(y0)
+        edge_y.append(y1)
+        edge_y.append(None)
+        weights.append((round(w["weight"],1), (x0+x1)/2, (y0+y1)/2))
+    # annotations_list =[dict(x=weight[1], y=weight[2], xref='x', yref='y', text=weight[0], ax=weight[1], ay=weight[2]) for weight in weights]
+                              
+    with network.batch_update():
+        network.data[1].x = node_x
+        network.data[1].y = node_y
+        network.data[1].text = list(labels)
+        #network.data[1].marker.color = node_colors
+        # network.update_layout(annotations=annotations_list)
+                          
+        network.data[0].x = edge_x
+        network.data[0].y = edge_y
+        network.data[0].text = list(weights)
+        network.update_layout(xaxis_zeroline=False, yaxis_zeroline=False, xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
+
+
+    #fig = go.figure()
+    
+
+
+    return network #, figo
 
 #######################################
 #BITCOIN METRICS
