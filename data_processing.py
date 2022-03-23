@@ -118,7 +118,10 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # #print(df)
 # df.index = df.index.date
 # #print(df)
-# # dff = pd.read_csv('data/WALCL.csv')
+# # 
+#df = pd.read_csv('data/WALCL.csv')
+#print(df)
+
 
 
 # SP500= s_p500.merge(df, how='inner',

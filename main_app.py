@@ -553,14 +553,14 @@ def render_page_content(pathname):
         fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
                         mode='lines',
                         name='S&P500 price',
-                        line=dict(color='rgb(0,102,204)',
+                        line=dict(color='rgb(64,64,64)',
                                     width=3)
                         ),secondary_y=True)
         
         fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
                         mode='lines',
                         name='Interest rates',
-                        line=dict(color='rgb(0,102,204)',
+                        line=dict(color='rgb(255,51,51)',
                                     width=3)
                         ),secondary_y=False)
         # for i in range(-2,4):
@@ -588,8 +588,8 @@ def render_page_content(pathname):
 
         fig1.update_xaxes(title_text="<b>Date</b>")
         #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True)
-        fig.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
+        fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
 
         return [
                 dbc.Row([
@@ -609,6 +609,14 @@ def render_page_content(pathname):
                         dbc.Card([
                             dbc.CardBody([
                                 dcc.Graph(id='s&p500-graph', figure={}),
+                            ])
+                        ]),
+                    ], width=12),], className = 'mb-2 mt-2'),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='s&p500-i-rates', figure=fig1),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2'),
