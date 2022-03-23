@@ -25,6 +25,8 @@ from datetime import date
 import pandas_datareader as web
 
 import san
+import yfinance as yf
+
 
 def crypto_data(crypto:str, from_date:str, to_date:str):
     ohlc_df = san.get(
@@ -99,8 +101,32 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 #TESTING
 ################
 
-# df = pd.read_csv('data/FEDFUNDS.csv')
+s_p500 = yf.Ticker("SPY")
+s_p500 = s_p500.history(period='max')
+s_p500 = s_p500.drop(['Open', 'High', 'Low', 
+'Volume', 'Dividends', 'Stock Splits'], axis=1)
+#print(s_p500)
+s_p500.index = s_p500.index.date
+#df.index = df.index.date
+#print(s_p500)
+
+df = pd.read_csv('data/FEDFUNDS.csv')
+#df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
+df = df.rename(columns={'DATE':'Date'})
+df.Date = pd.to_datetime(df.Date)
+df = df.set_index('Date')
+#print(df)
+df.index = df.index.date
+#print(df)
 # dff = pd.read_csv('data/WALCL.csv')
+
+
+SP500= s_p500.merge(df, how='inner',
+        right_index = True, left_index=True)
+#SP500 = pd.concat([df, s_p500])
+#SP500.to_csv(r'test1-sp')
+#SP500 = SP500.dropna()
+print(SP500)
 
 # print(dff)
 #print(crypto_data('bitcoin', '2013-01-01', '2022-02-20'))
