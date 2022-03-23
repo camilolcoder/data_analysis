@@ -21,6 +21,7 @@ from plotly.subplots import make_subplots
 import networkx as nx
 import math
 
+import yfinance as yf
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
 #df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
@@ -519,6 +520,77 @@ def render_page_content(pathname):
         ]
 
     elif pathname == "/page-6":
+        s_p500 = yf.Ticker("SPY")
+        s_p500 = s_p500.history(period='max')
+        s_p500 = s_p500.drop(['Open', 'High', 'Low', 
+        'Volume', 'Dividends', 'Stock Splits'], axis=1)
+        #print(s_p500)
+        s_p500.index = s_p500.index.date
+        #df.index = df.index.date
+        #print(s_p500)
+
+        df = pd.read_csv('data/FEDFUNDS.csv')
+        #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
+        df = df.rename(columns={'DATE':'Date'})
+        df.Date = pd.to_datetime(df.Date)
+        df = df.set_index('Date')
+        #print(df)
+        df.index = df.index.date
+        #print(df)
+        # dff = pd.read_csv('data/WALCL.csv')
+
+
+        SP500= s_p500.merge(df, how='inner',
+                right_index = True, left_index=True)
+        #SP500 = pd.concat([df, s_p500])
+        #SP500.to_csv(r'test1-sp')
+        #SP500 = SP500.dropna()
+        #print(SP500)
+
+        #fig1 = go.Figure()
+        fig1 = make_subplots(specs=[[{"secondary_y": True}]])
+        
+        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(0,102,204)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
+                        mode='lines',
+                        name='Interest rates',
+                        line=dict(color='rgb(0,102,204)',
+                                    width=3)
+                        ),secondary_y=False)
+        # for i in range(-2,4):
+        #     fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data + i),
+        #                     mode='lines',
+        #                     name='trendline'+str(i),
+        #                     line=dict(color='rgb(49,50,58)',
+        #                                 width=3)
+        #                     ))
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig1.update_layout(
+            title="<b>S&P500 vs Interest rates</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig1.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True)
+        fig.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
+
         return [
                 dbc.Row([
                     dbc.Col([
@@ -537,6 +609,14 @@ def render_page_content(pathname):
                         dbc.Card([
                             dbc.CardBody([
                                 dcc.Graph(id='s&p500-graph', figure={}),
+                            ])
+                        ]),
+                    ], width=12),], className = 'mb-2 mt-2'),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='s&p500-i-rates', figure=fig1),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2')
