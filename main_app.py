@@ -542,10 +542,16 @@ def render_page_content(pathname):
 
         SP500= s_p500.merge(df, how='inner',
                 right_index = True, left_index=True)
-        #SP500 = pd.concat([df, s_p500])
-        #SP500.to_csv(r'test1-sp')
-        #SP500 = SP500.dropna()
-        #print(SP500)
+        
+        dff = pd.read_csv('data/WALCL.csv')
+        dff = dff.rename(columns={'DATE':'Date'})
+        dff.Date = pd.to_datetime(dff.Date)
+        dff = dff.set_index('Date')
+        #print(df)
+        dff.index = dff.index.date
+
+        SP500_P= s_p500.merge(dff, how='inner',
+                right_index = True, left_index=True)
 
         #fig1 = go.Figure()
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
@@ -563,13 +569,6 @@ def render_page_content(pathname):
                         line=dict(color='rgb(255,51,51)',
                                     width=3)
                         ),secondary_y=False)
-        # for i in range(-2,4):
-        #     fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data + i),
-        #                     mode='lines',
-        #                     name='trendline'+str(i),
-        #                     line=dict(color='rgb(49,50,58)',
-        #                                 width=3)
-        #                     ))
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig1.update_layout(
@@ -590,6 +589,43 @@ def render_page_content(pathname):
         #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
         fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
+
+        fig2 = make_subplots(specs=[[{"secondary_y": True}]])
+
+        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+                        mode='lines',
+                        name='Total assets',
+                        line=dict(color='rgb(51,255,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig2.update_layout(
+            title="<b>S&P500 vs Total assets</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig2.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
+
 
         return [
                 dbc.Row([
@@ -624,7 +660,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-i-rates', figure=fig1),
+                                dcc.Graph(id='s&p500-print', figure=fig2),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2')
