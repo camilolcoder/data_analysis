@@ -790,7 +790,7 @@ def update_data(crypto, from_date, to_date): #, year):
 #######################################
 @app.callback(
         Output('s&p500-graph', 'figure'),
-        Input('slider_s&p500', 'value'),
+        Input('slider-s&p500', 'value'),
         # Input('from_date', 'value'),
         # Input('to_date', 'value'),
 )
@@ -801,7 +801,22 @@ def update_data(correlation): #, year):
                                            marker=dict(size=20, line_width=10,line=dict(color='MediumPurple',width=2))),
                                 go.Scatter(x=[], y=[],mode='markers+text', textposition="top center", 
                                           text=[],hoverinfo='text',textfont_size=12, marker=dict(size=50, color=[],line_width=1))],
-                          layout=go.Layout( showlegend=False, annotations=[], margin=dict(t=40, b=0, l=0, r=0), width=1600, height=800))
+                          layout=go.Layout( showlegend=False, annotations=[], margin=dict(t=40, b=0, l=0, r=0)))#, width=1600, height=800))
+
+    payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    sp500_table = payload[0]
+    sp500_table
+
+    sp500_names = sp500_table.Security.values
+    sp500_tickers = sp500_table.Symbol.str.upper().values
+    sp500_sectors = sp500_table["GICS Sector"].values
+    sp500_sub_sectors = sp500_table["GICS Sub-Industry"].values
+
+    # sp500_names_mapping = dict(zip(sp500_tickers, sp500_names))
+    # sp500_sector_mapping = dict(zip(sp500_names, sp500_sectors))
+    # sp500_sub_sector_mapping = dict(zip(sp500_names, sp500_sub_sectors))
+    # sector_color_mapping = dict(zip(sp500_sectors, sns.color_palette("pastel", len(sp500_sectors)).as_hex()))
+    # subsector_color_mapping = dict(zip(sp500_sub_sectors, sns.color_palette("pastel", len(sp500_sub_sectors)).as_hex()))        
 
     dff = pd.read_csv('data/sp500_corr_data.csv')
     threshold, corr_mode = None, None
@@ -879,8 +894,6 @@ def update_data(correlation): #, year):
 
 
     #fig = go.figure()
-    
-
 
     return network #, figo
 

@@ -99,6 +99,10 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 #TESTING
 ################
 
+# df = pd.read_csv('data/FEDFUNDS.csv')
+# dff = pd.read_csv('data/WALCL.csv')
+
+# print(dff)
 #print(crypto_data('bitcoin', '2013-01-01', '2022-02-20'))
 
 # df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
