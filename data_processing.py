@@ -110,6 +110,9 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # #df.index = df.index.date
 # #print(s_p500)
 
+# df = pd.read_csv('data/USREC.csv')
+# print(df)
+
 # df = pd.read_csv('data/FEDFUNDS.csv')
 # #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
 # df = df.rename(columns={'DATE':'Date'})
