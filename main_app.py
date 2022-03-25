@@ -12,7 +12,7 @@ import data_processing as dp
 import datetime as dt
 import pandas as pd
 import numpy as np
-#from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit
 
 import datetime
 import pandas_datareader as web
@@ -355,16 +355,16 @@ def render_page_content(pathname):
         days = np.linspace(1, len(df1), num=len(df1))
         btc_price = np.log(df1.closePriceUsd)
 
-        #popt, pcov = curve_fit(dp.fitter, days, btc_price, p0=(5.0, -15))
+        popt, pcov = curve_fit(dp.fitter, days, btc_price, p0=(5.0, -15))
 
-        #fitted_data = dp.fitter(days, popt[0], popt[1])
+        fitted_data = dp.fitter(days, popt[0], popt[1])
 
 
         # print(days)
         # print(len(days), dates)
 
-        # coef = np.polyfit(days, df1.closePriceUsd, 1)
-        # equ = np.poly1d(coef)
+        coef = np.polyfit(days, df1.closePriceUsd, 1)
+        equ = np.poly1d(coef)
 
         fig.add_trace(go.Candlestick(x=df1.index, open=df1.openPriceUsd,
                         high=df1.highPriceUsd,
@@ -423,13 +423,13 @@ def render_page_content(pathname):
                         line=dict(color='rgb(0,102,204)',
                                     width=3)
                         ))
-        # for i in range(-2,4):
-        #     fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data + i),
-        #                     mode='lines',
-        #                     name='trendline'+str(i),
-        #                     line=dict(color='rgb(49,50,58)',
-        #                                 width=3)
-        #                     ))
+        for i in range(-2,4):
+            fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data + i),
+                            mode='lines',
+                            name='trendline'+str(i),
+                            line=dict(color='rgb(49,50,58)',
+                                        width=3)
+                            ))
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig1.update_layout(
