@@ -635,12 +635,12 @@ def render_page_content(pathname):
 
         fig3 = make_subplots(specs=[[{"secondary_y": True}]])
 
-        # fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
-        #                 mode='lines',
-        #                 name='S&P500 price',
-        #                 line=dict(color='rgb(64,64,64)',
-        #                             width=3)
-        #                 ),secondary_y=True)
+        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
         
         recessions = []
         runner = []
@@ -651,16 +651,22 @@ def render_page_content(pathname):
                 runner.append(data[0])
             if data[1] == 0 and df2.USREC[i-1] == 1:
                 runner.append(data[0])
-                print(runner)
+                #print(runner)
                 recessions.append(runner)
                 runner = []
         
         for i in range(len(recessions)):
-            fig.add_vrect(
+            fig3.add_vrect(
                 x0=recessions[i][0], x1=recessions[i][1],
                 fillcolor="LightSalmon", opacity=0.5,
                 layer="below", line_width=0,
-            ),
+            )
+
+        fig3.add_vrect(
+                x0=datetime.datetime.strptime("1920-02-01", '%Y-%m-%d'), x1=datetime.datetime.strptime("1991-04-01", '%Y-%m-%d'),
+                fillcolor="LightSalmon", opacity=0.5,
+                layer="below", line_width=0,
+            )
 
         # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
         #                 mode='lines',
