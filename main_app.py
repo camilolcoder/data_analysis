@@ -553,6 +553,13 @@ def render_page_content(pathname):
         SP500_P= s_p500.merge(dff, how='inner',
                 right_index = True, left_index=True)
 
+        df2 = pd.read_csv('data/USREC.csv')
+        df2 = df2.rename(columns={'DATE':'Date'})
+        df2.Date = pd.to_datetime(df2.Date)
+        df2 = df2.set_index('Date')
+        #print(df)
+        df2.index = df2.index.date
+
         #fig1 = go.Figure()
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
@@ -628,19 +635,19 @@ def render_page_content(pathname):
 
         fig3 = make_subplots(specs=[[{"secondary_y": True}]])
 
-        fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
+        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
                         mode='lines',
                         name='S&P500 price',
                         line=dict(color='rgb(64,64,64)',
                                     width=3)
                         ),secondary_y=True)
         
-        fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
-                        mode='lines',
-                        name='Recessions',
-                        line=dict(color='rgb(51,255,51)',
-                                    width=3)
-                        ),secondary_y=False)
+        # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        #                 mode='lines',
+        #                 name='Recessions',
+        #                 line=dict(color='rgb(51,255,51)',
+        #                             width=3)
+        #                 ),secondary_y=False)
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig3.update_layout(
@@ -659,7 +666,7 @@ def render_page_content(pathname):
 
         fig3.update_xaxes(title_text="<b>Date</b>")
         #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig3.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig3.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True)#, type='log')
         fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
 
 

@@ -113,6 +113,34 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # df = pd.read_csv('data/USREC.csv')
 # print(df)
 
+df2 = pd.read_csv('data/USREC.csv')
+df2 = df2.rename(columns={'DATE':'Date'})
+df2.Date = pd.to_datetime(df2.Date)
+df2 = df2.set_index('Date')
+#print(df)
+df2.index = df2.index.date
+
+recessions = []
+
+# for i, data in enumerate(df2):
+#     if data.USREC[i] == 1 or df2:
+#         dates = []
+#         dates.append(data.index)
+#         if df2.USREC == 0:
+#             dates
+
+for i, data in enumerate(zip(df2.index, df2.USREC)):
+    #print(i, data[0], data[1])
+    runner = []
+    if data[1] == 1 and df2.USREC[i-1] == 0:
+        runner.append(data[0])
+    if data[1] == 0 and df2.USREC[i-1] == 1:
+        runner.append(data[0])
+        recessions.append(runner)
+
+print(recessions)
+#print(df2)
+
 # df = pd.read_csv('data/FEDFUNDS.csv')
 # #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
 # df = df.rename(columns={'DATE':'Date'})
