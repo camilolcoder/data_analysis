@@ -626,6 +626,42 @@ def render_page_content(pathname):
         fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
 
+        fig3 = make_subplots(specs=[[{"secondary_y": True}]])
+
+        fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+                        mode='lines',
+                        name='Recessions',
+                        line=dict(color='rgb(51,255,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig3.update_layout(
+            title="<b>S&P500 vs Total assets</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig3.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig3.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
+
 
         return [
                 dbc.Row([
@@ -661,6 +697,15 @@ def render_page_content(pathname):
                         dbc.Card([
                             dbc.CardBody([
                                 dcc.Graph(id='s&p500-print', figure=fig2),
+                            ])
+                        ]),
+                    ], width=12),], className = 'mb-2 mt-2'),
+                
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='s&p500-res', figure=fig3),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2')
