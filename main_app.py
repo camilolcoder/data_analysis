@@ -520,182 +520,182 @@ def render_page_content(pathname):
         ]
 
     elif pathname == "/page-6":
-        s_p500 = yf.Ticker("SPY")
-        s_p500 = s_p500.history(period='max')
-        s_p500 = s_p500.drop(['Open', 'High', 'Low', 
-        'Volume', 'Dividends', 'Stock Splits'], axis=1)
-        #print(s_p500)
-        s_p500.index = s_p500.index.date
-        #df.index = df.index.date
-        #print(s_p500)
+        # s_p500 = yf.Ticker("SPY")
+        # s_p500 = s_p500.history(period='max')
+        # s_p500 = s_p500.drop(['Open', 'High', 'Low', 
+        # 'Volume', 'Dividends', 'Stock Splits'], axis=1)
+        # #print(s_p500)
+        # s_p500.index = s_p500.index.date
+        # #df.index = df.index.date
+        # #print(s_p500)
 
-        df = pd.read_csv('data/FEDFUNDS.csv')
-        #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
-        df = df.rename(columns={'DATE':'Date'})
-        df.Date = pd.to_datetime(df.Date)
-        df = df.set_index('Date')
-        #print(df)
-        df.index = df.index.date
-        #print(df)
+        # df = pd.read_csv('data/FEDFUNDS.csv')
+        # #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
+        # df = df.rename(columns={'DATE':'Date'})
+        # df.Date = pd.to_datetime(df.Date)
+        # df = df.set_index('Date')
+        # #print(df)
+        # df.index = df.index.date
+        # #print(df)
+        # # dff = pd.read_csv('data/WALCL.csv')
+
+
+        # SP500= s_p500.merge(df, how='inner',
+        #         right_index = True, left_index=True)
+        
         # dff = pd.read_csv('data/WALCL.csv')
+        # dff = dff.rename(columns={'DATE':'Date'})
+        # dff.Date = pd.to_datetime(dff.Date)
+        # dff = dff.set_index('Date')
+        # #print(df)
+        # dff.index = dff.index.date
 
+        # SP500_P= s_p500.merge(dff, how='inner',
+        #         right_index = True, left_index=True)
 
-        SP500= s_p500.merge(df, how='inner',
-                right_index = True, left_index=True)
+        # df2 = pd.read_csv('data/USREC.csv')
+        # df2 = df2.rename(columns={'DATE':'Date'})
+        # df2.Date = pd.to_datetime(df2.Date)
+        # df2 = df2.set_index('Date')
+        # #print(df)
+        # df2.index = df2.index.date
+
+        # #fig1 = go.Figure()
+        # fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
-        dff = pd.read_csv('data/WALCL.csv')
-        dff = dff.rename(columns={'DATE':'Date'})
-        dff.Date = pd.to_datetime(dff.Date)
-        dff = dff.set_index('Date')
-        #print(df)
-        dff.index = dff.index.date
-
-        SP500_P= s_p500.merge(dff, how='inner',
-                right_index = True, left_index=True)
-
-        df2 = pd.read_csv('data/USREC.csv')
-        df2 = df2.rename(columns={'DATE':'Date'})
-        df2.Date = pd.to_datetime(df2.Date)
-        df2 = df2.set_index('Date')
-        #print(df)
-        df2.index = df2.index.date
-
-        #fig1 = go.Figure()
-        fig1 = make_subplots(specs=[[{"secondary_y": True}]])
-        
-        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
-                        mode='lines',
-                        name='S&P500 price',
-                        line=dict(color='rgb(64,64,64)',
-                                    width=3)
-                        ),secondary_y=True)
-        
-        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
-                        mode='lines',
-                        name='Interest rates',
-                        line=dict(color='rgb(255,51,51)',
-                                    width=3)
-                        ),secondary_y=False)
-        
-        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        fig1.update_layout(
-            title="<b>S&P500 vs Interest rates</b>",
-            # xaxis_title="Date",
-            # yaxis_title="Price BTC",
-            #legend_title="Legend Title",
-            font=dict(
-                #family="Courier New, monospace",
-                size=13,
-                #font_color="black"
-                color="black"
-            )
-            #font_color="black"
-        )
-
-        fig1.update_xaxes(title_text="<b>Date</b>")
-        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
-        fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
-
-        fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-
-        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
-                        mode='lines',
-                        name='S&P500 price',
-                        line=dict(color='rgb(64,64,64)',
-                                    width=3)
-                        ),secondary_y=True)
-        
-        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
-                        mode='lines',
-                        name='Total assets',
-                        line=dict(color='rgb(51,255,51)',
-                                    width=3)
-                        ),secondary_y=False)
-        
-        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        fig2.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
-            # xaxis_title="Date",
-            # yaxis_title="Price BTC",
-            #legend_title="Legend Title",
-            font=dict(
-                #family="Courier New, monospace",
-                size=13,
-                #font_color="black"
-                color="black"
-            )
-            #font_color="black"
-        )
-
-        fig2.update_xaxes(title_text="<b>Date</b>")
-        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
-        fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
-
-        fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
-
-        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
-                        mode='lines',
-                        name='S&P500 price',
-                        line=dict(color='rgb(64,64,64)',
-                                    width=3)
-                        ))
-        
-        recessions = []
-        runner = []
-        for i, data in enumerate(zip(df2.index, df2.USREC)):
-            #print(i, data[0], data[1])
-            #print(df2.index)
-            if data[1] == 1 and df2.USREC[i-1] == 0:
-                runner.append(data[0])
-            if data[1] == 0 and df2.USREC[i-1] == 1:
-                runner.append(data[0])
-                #print(runner)
-                recessions.append(runner)
-                runner = []
-        
-        for i in range(len(recessions)):
-            fig3.add_vrect(
-                x0=recessions[i][0], x1=recessions[i][1],
-                fillcolor="LightSalmon", opacity=0.5,
-                layer="below", line_width=0,
-            )
-
-        # fig3.add_vrect(
-        #         x0=recessions[2][0], x1=recessions[2][1],
-        #         fillcolor="LightSalmon", opacity=0.5,
-        #         layer="below", line_width=0,
-        #     )
-
-        # print(recessions[2][0], recessions[2][1])
-        # print(type(recessions[2][0]), type(recessions[2][1]))
-        # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        # fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
         #                 mode='lines',
-        #                 name='Recessions',
+        #                 name='S&P500 price',
+        #                 line=dict(color='rgb(64,64,64)',
+        #                             width=3)
+        #                 ),secondary_y=True)
+        
+        # fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
+        #                 mode='lines',
+        #                 name='Interest rates',
+        #                 line=dict(color='rgb(255,51,51)',
+        #                             width=3)
+        #                 ),secondary_y=False)
+        
+        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        # fig1.update_layout(
+        #     title="<b>S&P500 vs Interest rates</b>",
+        #     # xaxis_title="Date",
+        #     # yaxis_title="Price BTC",
+        #     #legend_title="Legend Title",
+        #     font=dict(
+        #         #family="Courier New, monospace",
+        #         size=13,
+        #         #font_color="black"
+        #         color="black"
+        #     )
+        #     #font_color="black"
+        # )
+
+        # fig1.update_xaxes(title_text="<b>Date</b>")
+        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        # fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        # fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
+
+        # fig2 = make_subplots(specs=[[{"secondary_y": True}]])
+
+        # fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
+        #                 mode='lines',
+        #                 name='S&P500 price',
+        #                 line=dict(color='rgb(64,64,64)',
+        #                             width=3)
+        #                 ),secondary_y=True)
+        
+        # fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        #                 mode='lines',
+        #                 name='Total assets',
         #                 line=dict(color='rgb(51,255,51)',
         #                             width=3)
         #                 ),secondary_y=False)
         
-        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        fig3.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
-            # xaxis_title="Date",
-            # yaxis_title="Price BTC",
-            #legend_title="Legend Title",
-            font=dict(
-                #family="Courier New, monospace",
-                size=13,
-                #font_color="black"
-                color="black"
-            )
-            #font_color="black"
-        )
+        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        # fig2.update_layout(
+        #     title="<b>S&P500 vs Total assets</b>",
+        #     # xaxis_title="Date",
+        #     # yaxis_title="Price BTC",
+        #     #legend_title="Legend Title",
+        #     font=dict(
+        #         #family="Courier New, monospace",
+        #         size=13,
+        #         #font_color="black"
+        #         color="black"
+        #     )
+        #     #font_color="black"
+        # )
 
-        fig3.update_xaxes(title_text="<b>Date</b>")
-        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
-        #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
+        # fig2.update_xaxes(title_text="<b>Date</b>")
+        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        # fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        # fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
+
+        # fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
+
+        # fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
+        #                 mode='lines',
+        #                 name='S&P500 price',
+        #                 line=dict(color='rgb(64,64,64)',
+        #                             width=3)
+        #                 ))
+        
+        # recessions = []
+        # runner = []
+        # for i, data in enumerate(zip(df2.index, df2.USREC)):
+        #     #print(i, data[0], data[1])
+        #     #print(df2.index)
+        #     if data[1] == 1 and df2.USREC[i-1] == 0:
+        #         runner.append(data[0])
+        #     if data[1] == 0 and df2.USREC[i-1] == 1:
+        #         runner.append(data[0])
+        #         #print(runner)
+        #         recessions.append(runner)
+        #         runner = []
+        
+        # for i in range(len(recessions)):
+        #     fig3.add_vrect(
+        #         x0=recessions[i][0], x1=recessions[i][1],
+        #         fillcolor="LightSalmon", opacity=0.5,
+        #         layer="below", line_width=0,
+        #     )
+
+        # # fig3.add_vrect(
+        # #         x0=recessions[2][0], x1=recessions[2][1],
+        # #         fillcolor="LightSalmon", opacity=0.5,
+        # #         layer="below", line_width=0,
+        # #     )
+
+        # # print(recessions[2][0], recessions[2][1])
+        # # print(type(recessions[2][0]), type(recessions[2][1]))
+        # # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        # #                 mode='lines',
+        # #                 name='Recessions',
+        # #                 line=dict(color='rgb(51,255,51)',
+        # #                             width=3)
+        # #                 ),secondary_y=False)
+        
+        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        # fig3.update_layout(
+        #     title="<b>S&P500 vs Total assets</b>",
+        #     # xaxis_title="Date",
+        #     # yaxis_title="Price BTC",
+        #     #legend_title="Legend Title",
+        #     font=dict(
+        #         #family="Courier New, monospace",
+        #         size=13,
+        #         #font_color="black"
+        #         color="black"
+        #     )
+        #     #font_color="black"
+        # )
+
+        # fig3.update_xaxes(title_text="<b>Date</b>")
+        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        # fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
+        # #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
         
 #         fig4 = go.Figure()
 
@@ -751,7 +751,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-i-rates', figure=fig1),
+                                dcc.Graph(id='s&p500-i-rates', figure={}),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2'),
@@ -759,16 +759,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-print', figure=fig2),
-                            ])
-                        ]),
-                    ], width=12),], className = 'mb-2 mt-2'),
-                
-                dbc.Row([
-                    dbc.Col([
-                        dbc.Card([
-                            dbc.CardBody([
-                                dcc.Graph(id='s&p500-res', figure=fig3),
+                                dcc.Graph(id='s&p500-print', figure={}),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2'),
@@ -777,10 +768,19 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-test', figure={}),
+                                dcc.Graph(id='s&p500-res', figure={}),
                             ])
                         ]),
-                    ], width=12),], className = 'mb-2 mt-2')
+                    ], width=12),], className = 'mb-2 mt-2') #,
+                
+                # dbc.Row([
+                #     dbc.Col([
+                #         dbc.Card([
+                #             dbc.CardBody([
+                #                 dcc.Graph(id='s&p500-test', figure={}),
+                #             ])
+                #         ]),
+                #     ], width=12),], className = 'mb-2 mt-2')
         ]
         
     # If the user tries to reach a different page, return a 404 message
@@ -1031,6 +1031,9 @@ def update_data(crypto, from_date, to_date): #, year):
 #######################################
 @app.callback(
         Output('s&p500-graph', 'figure'),
+        Output('s&p500-i-rates', 'figure'),
+        Output('s&p500-print', 'figure'),
+        Output('s&p500-res', 'figure'),
         Input('slider-s&p500', 'value'),
         # Input('from_date', 'value'),
         # Input('to_date', 'value'),
@@ -1059,14 +1062,14 @@ def update_data(correlation): #, year):
     # sector_color_mapping = dict(zip(sp500_sectors, sns.color_palette("pastel", len(sp500_sectors)).as_hex()))
     # subsector_color_mapping = dict(zip(sp500_sub_sectors, sns.color_palette("pastel", len(sp500_sub_sectors)).as_hex()))        
 
-    dff = pd.read_csv('data/sp500_corr_data.csv')
+    dff2 = pd.read_csv('data/sp500_corr_data.csv')
     threshold, corr_mode = None, None
     threshold = correlation
 
-    corr_matrix = dff.to_numpy()
+    corr_matrix = dff2.to_numpy()
     
     G = nx.from_numpy_matrix(corr_matrix)
-    G = nx.relabel_nodes(G, lambda x: dff.columns.tolist()[x])
+    G = nx.relabel_nodes(G, lambda x: dff2.columns.tolist()[x])
 
     remove = []
 
@@ -1133,10 +1136,186 @@ def update_data(correlation): #, year):
         network.data[0].text = list(weights)
         network.update_layout(xaxis_zeroline=False, yaxis_zeroline=False, xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
 
+        s_p500 = yf.Ticker("SPY")
+        s_p500 = s_p500.history(period='max')
+        s_p500 = s_p500.drop(['Open', 'High', 'Low', 
+        'Volume', 'Dividends', 'Stock Splits'], axis=1)
+        #print(s_p500)
+        s_p500.index = s_p500.index.date
+        #df.index = df.index.date
+        #print(s_p500)
+
+        df = pd.read_csv('data/FEDFUNDS.csv')
+        #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
+        df = df.rename(columns={'DATE':'Date'})
+        df.Date = pd.to_datetime(df.Date)
+        df = df.set_index('Date')
+        #print(df)
+        df.index = df.index.date
+        #print(df)
+        # dff = pd.read_csv('data/WALCL.csv')
+
+
+        SP500= s_p500.merge(df, how='inner',
+                right_index = True, left_index=True)
+        
+        dff = pd.read_csv('data/WALCL.csv')
+        dff = dff.rename(columns={'DATE':'Date'})
+        dff.Date = pd.to_datetime(dff.Date)
+        dff = dff.set_index('Date')
+        #print(df)
+        dff.index = dff.index.date
+
+        SP500_P= s_p500.merge(dff, how='inner',
+                right_index = True, left_index=True)
+
+        df2 = pd.read_csv('data/USREC.csv')
+        df2 = df2.rename(columns={'DATE':'Date'})
+        df2.Date = pd.to_datetime(df2.Date)
+        df2 = df2.set_index('Date')
+        #print(df)
+        df2.index = df2.index.date
+
+        #fig1 = go.Figure()
+        fig1 = make_subplots(specs=[[{"secondary_y": True}]])
+        
+        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
+                        mode='lines',
+                        name='Interest rates',
+                        line=dict(color='rgb(255,51,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig1.update_layout(
+            title="<b>S&P500 vs Interest rates</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig1.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
+
+        fig2 = make_subplots(specs=[[{"secondary_y": True}]])
+
+        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+                        mode='lines',
+                        name='Total assets',
+                        line=dict(color='rgb(51,255,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig2.update_layout(
+            title="<b>S&P500 vs Total assets</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig2.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
+
+        fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
+
+        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ))
+        
+        recessions = []
+        runner = []
+        for i, data in enumerate(zip(df2.index, df2.USREC)):
+            #print(i, data[0], data[1])
+            #print(df2.index)
+            if data[1] == 1 and df2.USREC[i-1] == 0:
+                runner.append(data[0])
+            if data[1] == 0 and df2.USREC[i-1] == 1:
+                runner.append(data[0])
+                #print(runner)
+                recessions.append(runner)
+                runner = []
+        
+        for i in range(len(recessions)):
+            fig3.add_vrect(
+                x0=recessions[i][0], x1=recessions[i][1],
+                fillcolor="LightSalmon", opacity=0.5,
+                layer="below", line_width=0,
+            )
+
+        # fig3.add_vrect(
+        #         x0=recessions[2][0], x1=recessions[2][1],
+        #         fillcolor="LightSalmon", opacity=0.5,
+        #         layer="below", line_width=0,
+        #     )
+
+        # print(recessions[2][0], recessions[2][1])
+        # print(type(recessions[2][0]), type(recessions[2][1]))
+        # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        #                 mode='lines',
+        #                 name='Recessions',
+        #                 line=dict(color='rgb(51,255,51)',
+        #                             width=3)
+        #                 ),secondary_y=False)
+        
+        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        fig3.update_layout(
+            title="<b>S&P500 vs Total assets</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig3.update_xaxes(title_text="<b>Date</b>")
+        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
+        #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
 
     #fig = go.figure()
 
-    return network #, figo
+    return network, fig1, fig2, fig3 #, figo
 
 #######################################
 #BITCOIN METRICS
