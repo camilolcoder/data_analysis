@@ -1030,10 +1030,10 @@ def update_data(crypto, from_date, to_date): #, year):
 #S&P500 TRENDING
 #######################################
 @app.callback(
-        Output('s&p500-graph', 'figure'),
+        #Output('s&p500-graph', 'figure'),
         Output('s&p500-i-rates', 'figure'),
         Output('s&p500-print', 'figure'),
-        Output('s&p500-res', 'figure'),
+       # Output('s&p500-res', 'figure'),
         Input('slider-s&p500', 'value'),
         # Input('from_date', 'value'),
         # Input('to_date', 'value'),
@@ -1041,100 +1041,100 @@ def update_data(crypto, from_date, to_date): #, year):
 
 def update_data(correlation): #, year):
 
-    network = go.Figure(data=[go.Scatter(x=[], y=[], mode='lines', text=[],  line=dict(color='MediumPurple',width=10),
-                                           marker=dict(size=20, line_width=10,line=dict(color='MediumPurple',width=2))),
-                                go.Scatter(x=[], y=[],mode='markers+text', textposition="top center", 
-                                          text=[],hoverinfo='text',textfont_size=12, marker=dict(size=50, color=[],line_width=1))],
-                          layout=go.Layout( showlegend=False, annotations=[], margin=dict(t=40, b=0, l=0, r=0)))#, width=1600, height=800))
+    # network = go.Figure(data=[go.Scatter(x=[], y=[], mode='lines', text=[],  line=dict(color='MediumPurple',width=10),
+    #                                        marker=dict(size=20, line_width=10,line=dict(color='MediumPurple',width=2))),
+    #                             go.Scatter(x=[], y=[],mode='markers+text', textposition="top center", 
+    #                                       text=[],hoverinfo='text',textfont_size=12, marker=dict(size=50, color=[],line_width=1))],
+    #                       layout=go.Layout( showlegend=False, annotations=[], margin=dict(t=40, b=0, l=0, r=0)))#, width=1600, height=800))
 
-    payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
-    sp500_table = payload[0]
-    sp500_table
+    # payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    # sp500_table = payload[0]
+    # sp500_table
 
-    sp500_names = sp500_table.Security.values
-    sp500_tickers = sp500_table.Symbol.str.upper().values
-    sp500_sectors = sp500_table["GICS Sector"].values
-    sp500_sub_sectors = sp500_table["GICS Sub-Industry"].values
+    # sp500_names = sp500_table.Security.values
+    # sp500_tickers = sp500_table.Symbol.str.upper().values
+    # sp500_sectors = sp500_table["GICS Sector"].values
+    # sp500_sub_sectors = sp500_table["GICS Sub-Industry"].values
 
-    # sp500_names_mapping = dict(zip(sp500_tickers, sp500_names))
-    # sp500_sector_mapping = dict(zip(sp500_names, sp500_sectors))
-    # sp500_sub_sector_mapping = dict(zip(sp500_names, sp500_sub_sectors))
-    # sector_color_mapping = dict(zip(sp500_sectors, sns.color_palette("pastel", len(sp500_sectors)).as_hex()))
-    # subsector_color_mapping = dict(zip(sp500_sub_sectors, sns.color_palette("pastel", len(sp500_sub_sectors)).as_hex()))        
+    # # sp500_names_mapping = dict(zip(sp500_tickers, sp500_names))
+    # # sp500_sector_mapping = dict(zip(sp500_names, sp500_sectors))
+    # # sp500_sub_sector_mapping = dict(zip(sp500_names, sp500_sub_sectors))
+    # # sector_color_mapping = dict(zip(sp500_sectors, sns.color_palette("pastel", len(sp500_sectors)).as_hex()))
+    # # subsector_color_mapping = dict(zip(sp500_sub_sectors, sns.color_palette("pastel", len(sp500_sub_sectors)).as_hex()))        
 
-    dff2 = pd.read_csv('data/sp500_corr_data.csv')
-    threshold, corr_mode = None, None
-    threshold = correlation
+    # dff2 = pd.read_csv('data/sp500_corr_data.csv')
+    # threshold, corr_mode = None, None
+    # threshold = correlation
 
-    corr_matrix = dff2.to_numpy()
+    # corr_matrix = dff2.to_numpy()
     
-    G = nx.from_numpy_matrix(corr_matrix)
-    G = nx.relabel_nodes(G, lambda x: dff2.columns.tolist()[x])
+    # G = nx.from_numpy_matrix(corr_matrix)
+    # G = nx.relabel_nodes(G, lambda x: dff2.columns.tolist()[x])
 
-    remove = []
+    # remove = []
 
-    for col1, col2, weight in G.edges(data=True):
+    # for col1, col2, weight in G.edges(data=True):
 
-        if math.isnan(weight["weight"]):
-            remove.append((col1,col2))
+    #     if math.isnan(weight["weight"]):
+    #         remove.append((col1,col2))
     
-        if abs(weight["weight"]) < threshold:
-            remove.append((col1,col2))
+    #     if abs(weight["weight"]) < threshold:
+    #         remove.append((col1,col2))
     
-    G.remove_edges_from(remove)
+    # G.remove_edges_from(remove)
     
-    remove = []
-    edges = list(sum(G.edges, ()))
+    # remove = []
+    # edges = list(sum(G.edges, ()))
 
-    for node in G.nodes:
-        if node not in edges:
-            remove.append(node)
+    # for node in G.nodes:
+    #     if node not in edges:
+    #         remove.append(node)
 
-    G.remove_nodes_from(remove)
-    mst = nx.maximum_spanning_tree(G)
+    # G.remove_nodes_from(remove)
+    # mst = nx.maximum_spanning_tree(G)
 
-    labels = {n:n for n in mst.nodes()}
-    node_x = []
-    node_y = []
+    # labels = {n:n for n in mst.nodes()}
+    # node_x = []
+    # node_y = []
 
-    tree = nx.fruchterman_reingold_layout(mst, k=0.25).items()
+    # tree = nx.fruchterman_reingold_layout(mst, k=0.25).items()
 
-    for node, (x_,y_) in tree:
-        node_x.append(x_)
-        node_y.append(y_)
+    # for node, (x_,y_) in tree:
+    #     node_x.append(x_)
+    #     node_y.append(y_)
         
-    def get_dim_of_node(name):
-        for node, (x,y) in tree:
-            if node == name:
-                return x,y
+    # def get_dim_of_node(name):
+    #     for node, (x,y) in tree:
+    #         if node == name:
+    #             return x,y
         
-    edge_x = []
-    edge_y = []
+    # edge_x = []
+    # edge_y = []
     
-    weights= []
-    for node1, node2, w in mst.edges(data=True):
-        x0, y0 = get_dim_of_node(node1)
-        x1, y1 =  get_dim_of_node(node2)
-        edge_x.append(x0)
-        edge_x.append(x1)
-        edge_x.append(None)
-        edge_y.append(y0)
-        edge_y.append(y1)
-        edge_y.append(None)
-        weights.append((round(w["weight"],1), (x0+x1)/2, (y0+y1)/2))
-    # annotations_list =[dict(x=weight[1], y=weight[2], xref='x', yref='y', text=weight[0], ax=weight[1], ay=weight[2]) for weight in weights]
+    # weights= []
+    # for node1, node2, w in mst.edges(data=True):
+    #     x0, y0 = get_dim_of_node(node1)
+    #     x1, y1 =  get_dim_of_node(node2)
+    #     edge_x.append(x0)
+    #     edge_x.append(x1)
+    #     edge_x.append(None)
+    #     edge_y.append(y0)
+    #     edge_y.append(y1)
+    #     edge_y.append(None)
+    #     weights.append((round(w["weight"],1), (x0+x1)/2, (y0+y1)/2))
+    # # annotations_list =[dict(x=weight[1], y=weight[2], xref='x', yref='y', text=weight[0], ax=weight[1], ay=weight[2]) for weight in weights]
                               
-    with network.batch_update():
-        network.data[1].x = node_x
-        network.data[1].y = node_y
-        network.data[1].text = list(labels)
-        #network.data[1].marker.color = node_colors
-        # network.update_layout(annotations=annotations_list)
+    # with network.batch_update():
+    #     network.data[1].x = node_x
+    #     network.data[1].y = node_y
+    #     network.data[1].text = list(labels)
+    #     #network.data[1].marker.color = node_colors
+    #     # network.update_layout(annotations=annotations_list)
                           
-        network.data[0].x = edge_x
-        network.data[0].y = edge_y
-        network.data[0].text = list(weights)
-        network.update_layout(xaxis_zeroline=False, yaxis_zeroline=False, xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
+    #     network.data[0].x = edge_x
+    #     network.data[0].y = edge_y
+    #     network.data[0].text = list(weights)
+    #     network.update_layout(xaxis_zeroline=False, yaxis_zeroline=False, xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
 
         s_p500 = yf.Ticker("SPY")
         s_p500 = s_p500.history(period='max')
@@ -1169,12 +1169,12 @@ def update_data(correlation): #, year):
         SP500_P= s_p500.merge(dff, how='inner',
                 right_index = True, left_index=True)
 
-        df2 = pd.read_csv('data/USREC.csv')
-        df2 = df2.rename(columns={'DATE':'Date'})
-        df2.Date = pd.to_datetime(df2.Date)
-        df2 = df2.set_index('Date')
-        #print(df)
-        df2.index = df2.index.date
+        # df2 = pd.read_csv('data/USREC.csv')
+        # df2 = df2.rename(columns={'DATE':'Date'})
+        # df2.Date = pd.to_datetime(df2.Date)
+        # df2 = df2.set_index('Date')
+        # #print(df)
+        # df2.index = df2.index.date
 
         #fig1 = go.Figure()
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
@@ -1251,71 +1251,70 @@ def update_data(correlation): #, year):
 
         fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
 
-        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
-                        mode='lines',
-                        name='S&P500 price',
-                        line=dict(color='rgb(64,64,64)',
-                                    width=3)
-                        ))
+        # fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
+        #                 mode='lines',
+        #                 name='S&P500 price',
+        #                 line=dict(color='rgb(64,64,64)',
+        #                             width=3)
+        #                 ))
         
-        recessions = []
-        runner = []
-        for i, data in enumerate(zip(df2.index, df2.USREC)):
-            #print(i, data[0], data[1])
-            #print(df2.index)
-            if data[1] == 1 and df2.USREC[i-1] == 0:
-                runner.append(data[0])
-            if data[1] == 0 and df2.USREC[i-1] == 1:
-                runner.append(data[0])
-                #print(runner)
-                recessions.append(runner)
-                runner = []
+        # recessions = []
+        # runner = []
+        # for i, data in enumerate(zip(df2.index, df2.USREC)):
+        #     #print(i, data[0], data[1])
+        #     #print(df2.index)
+        #     if data[1] == 1 and df2.USREC[i-1] == 0:
+        #         runner.append(data[0])
+        #     if data[1] == 0 and df2.USREC[i-1] == 1:
+        #         runner.append(data[0])
+        #         #print(runner)
+        #         recessions.append(runner)
+        #         runner = []
         
-        for i in range(len(recessions)):
-            fig3.add_vrect(
-                x0=recessions[i][0], x1=recessions[i][1],
-                fillcolor="LightSalmon", opacity=0.5,
-                layer="below", line_width=0,
-            )
-
-        # fig3.add_vrect(
-        #         x0=recessions[2][0], x1=recessions[2][1],
+        # for i in range(len(recessions)):
+        #     fig3.add_vrect(
+        #         x0=recessions[i][0], x1=recessions[i][1],
         #         fillcolor="LightSalmon", opacity=0.5,
         #         layer="below", line_width=0,
         #     )
 
-        # print(recessions[2][0], recessions[2][1])
-        # print(type(recessions[2][0]), type(recessions[2][1]))
-        # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
-        #                 mode='lines',
-        #                 name='Recessions',
-        #                 line=dict(color='rgb(51,255,51)',
-        #                             width=3)
-        #                 ),secondary_y=False)
+        # # fig3.add_vrect(
+        # #         x0=recessions[2][0], x1=recessions[2][1],
+        # #         fillcolor="LightSalmon", opacity=0.5,
+        # #         layer="below", line_width=0,
+        # #     )
+
+        # # print(recessions[2][0], recessions[2][1])
+        # # print(type(recessions[2][0]), type(recessions[2][1]))
+        # # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
+        # #                 mode='lines',
+        # #                 name='Recessions',
+        # #                 line=dict(color='rgb(51,255,51)',
+        # #                             width=3)
+        # #                 ),secondary_y=False)
         
-        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        fig3.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
-            # xaxis_title="Date",
-            # yaxis_title="Price BTC",
-            #legend_title="Legend Title",
-            font=dict(
-                #family="Courier New, monospace",
-                size=13,
-                #font_color="black"
-                color="black"
-            )
-            #font_color="black"
-        )
+        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
+        # fig3.update_layout(
+        #     title="<b>S&P500 vs Total assets</b>",
+        #     # xaxis_title="Date",
+        #     # yaxis_title="Price BTC",
+        #     #legend_title="Legend Title",
+        #     font=dict(
+        #         #family="Courier New, monospace",
+        #         size=13,
+        #         #font_color="black"
+        #         color="black"
+        #     )
+        #     #font_color="black"
+        # )
 
-        fig3.update_xaxes(title_text="<b>Date</b>")
-        #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
-        #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
+        # fig3.update_xaxes(title_text="<b>Date</b>")
+        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        # fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
+        # #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
 
-    #fig = go.figure()
 
-    return network, fig1, fig2, fig3 #, figo
+        return fig1, fig2#, network#, fig3 #, figo
 
 #######################################
 #BITCOIN METRICS
@@ -1376,6 +1375,7 @@ def update_data(correlation): #, year):
 #DONE implement bootstrap for all of the pages and implement new metrics
 #DONE implement logarithmic scale options
 #TODO implement new metrics section for total crypto asset class
+#TODO solve loading time problems
 
 if __name__=='__main__':
     app.run_server(debug=True)#, port=3000)
