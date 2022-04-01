@@ -633,14 +633,14 @@ def render_page_content(pathname):
         fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
 
-        fig3 = make_subplots(specs=[[{"secondary_y": True}]])
+        fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
 
         fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
                         mode='lines',
                         name='S&P500 price',
                         line=dict(color='rgb(64,64,64)',
                                     width=3)
-                        ),secondary_y=True)
+                        ))
         
         recessions = []
         runner = []
@@ -662,12 +662,14 @@ def render_page_content(pathname):
                 layer="below", line_width=0,
             )
 
-        fig3.add_vrect(
-                x0=datetime.datetime.strptime("1920-02-01", '%Y-%m-%d'), x1=datetime.datetime.strptime("1991-04-01", '%Y-%m-%d'),
-                fillcolor="LightSalmon", opacity=0.5,
-                layer="below", line_width=0,
-            )
+        # fig3.add_vrect(
+        #         x0=recessions[2][0], x1=recessions[2][1],
+        #         fillcolor="LightSalmon", opacity=0.5,
+        #         layer="below", line_width=0,
+        #     )
 
+        # print(recessions[2][0], recessions[2][1])
+        # print(type(recessions[2][0]), type(recessions[2][1]))
         # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
         #                 mode='lines',
         #                 name='Recessions',
@@ -692,37 +694,37 @@ def render_page_content(pathname):
 
         fig3.update_xaxes(title_text="<b>Date</b>")
         #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig3.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True)#, type='log')
-        fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
+        fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
+        #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
         
-        fig4 = go.Figure()
+#         fig4 = go.Figure()
 
-# Add scatter trace for line
-        fig4.add_trace(go.Scatter(
-            x=["2015-02-01", "2015-02-02", "2015-02-03", "2015-02-04", "2015-02-05",
-            "2015-02-06", "2015-02-07", "2015-02-08", "2015-02-09", "2015-02-10",
-            "2015-02-11", "2015-02-12", "2015-02-13", "2015-02-14", "2015-02-15",
-            "2015-02-16", "2015-02-17", "2015-02-18", "2015-02-19", "2015-02-20",
-            "2015-02-21", "2015-02-22", "2015-02-23", "2015-02-24", "2015-02-25",
-            "2015-02-26", "2015-02-27", "2015-02-28"],
-            y=[-14, -17, -8, -4, -7, -10, -12, -14, -12, -7, -11, -7, -18, -14, -14,
-            -16, -13, -7, -8, -14, -8, -3, -9, -9, -4, -13, -9, -6],
-            mode="lines",
-            name="temperature"
-        ))
+# # Add scatter trace for line
+#         fig4.add_trace(go.Scatter(
+#             x=["2015-02-01", "2015-02-02", "2015-02-03", "2015-02-04", "2015-02-05",
+#             "2015-02-06", "2015-02-07", "2015-02-08", "2015-02-09", "2015-02-10",
+#             "2015-02-11", "2015-02-12", "2015-02-13", "2015-02-14", "2015-02-15",
+#             "2015-02-16", "2015-02-17", "2015-02-18", "2015-02-19", "2015-02-20",
+#             "2015-02-21", "2015-02-22", "2015-02-23", "2015-02-24", "2015-02-25",
+#             "2015-02-26", "2015-02-27", "2015-02-28"],
+#             y=[-14, -17, -8, -4, -7, -10, -12, -14, -12, -7, -11, -7, -18, -14, -14,
+#             -16, -13, -7, -8, -14, -8, -3, -9, -9, -4, -13, -9, -6],
+#             mode="lines",
+#             name="temperature"
+#         ))
 
-        # Add shape regions
-        fig4.add_vrect(
-            x0="2015-02-04", x1="2015-02-06",
-            fillcolor="LightSalmon", opacity=0.5,
-            layer="below", line_width=0,
-        ),
+#         # Add shape regions
+#         fig4.add_vrect(
+#             x0="2015-02-04", x1="2015-02-06",
+#             fillcolor="LightSalmon", opacity=0.5,
+#             layer="below", line_width=0,
+#         ),
 
-        fig4.add_vrect(
-            x0="2015-02-20", x1="2015-02-22",
-            fillcolor="LightSalmon", opacity=0.5,
-            layer="below", line_width=0,
-        )
+#         fig4.add_vrect(
+#             x0="2015-02-20", x1="2015-02-22",
+#             fillcolor="LightSalmon", opacity=0.5,
+#             layer="below", line_width=0,
+#         )
 
         return [
                 dbc.Row([
@@ -775,7 +777,7 @@ def render_page_content(pathname):
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
-                                dcc.Graph(id='s&p500-test', figure=fig4),
+                                dcc.Graph(id='s&p500-test', figure={}),
                             ])
                         ]),
                     ], width=12),], className = 'mb-2 mt-2')
