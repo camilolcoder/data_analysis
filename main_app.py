@@ -1136,14 +1136,16 @@ def update_data(correlation): #, year):
     #     network.data[0].text = list(weights)
     #     network.update_layout(xaxis_zeroline=False, yaxis_zeroline=False, xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
 
-        s_p500 = yf.Ticker("SPY")
-        s_p500 = s_p500.history(period='max')
-        s_p500 = s_p500.drop(['Open', 'High', 'Low', 
-        'Volume', 'Dividends', 'Stock Splits'], axis=1)
-        #print(s_p500)
-        s_p500.index = s_p500.index.date
+        # s_p500 = yf.Ticker("SPY")
+        # s_p500 = s_p500.history(period='max')
+        # s_p500 = s_p500.drop(['Open', 'High', 'Low', 
+        # 'Volume', 'Dividends', 'Stock Splits'], axis=1)
+        # #print(s_p500)
+        # s_p500.index = s_p500.index.date
         #df.index = df.index.date
         #print(s_p500)
+        s_p500 = pd.read_csv('sp500_daily-1950-to-2022.csv')
+        s_p500.index = df.index.date
 
         df = pd.read_csv('data/FEDFUNDS.csv')
         #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})

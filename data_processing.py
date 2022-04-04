@@ -108,7 +108,7 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # #print(s_p500)
 # s_p500.index = s_p500.index.date
 # #df.index = df.index.date
-# #print(s_p500)
+# print(s_p500)
 
 # df = pd.read_csv('data/USREC.csv')
 # print(df)
