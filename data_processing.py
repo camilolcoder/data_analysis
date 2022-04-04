@@ -110,6 +110,14 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # #df.index = df.index.date
 # print(s_p500)
 
+# s_p500 = pd.read_csv('data/sp500_daily-1950-to-2022.csv')
+# #s_p500.index = s_p500.index.date
+# s_p500.Date = pd.to_datetime(s_p500.Date)
+# s_p500 = s_p500.set_index('Date')
+# #print(df)
+# s_p500.index = s_p500.index.date
+# print(s_p500)
+
 # df = pd.read_csv('data/USREC.csv')
 # print(df)
 
