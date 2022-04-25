@@ -116,10 +116,10 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # s_p500 = s_p500.set_index('Date')
 # #print(df)
 # s_p500.index = s_p500.index.date
-# print(s_p500)
+# # print(s_p500)
 
-# df = pd.read_csv('data/USREC.csv')
-# print(df)
+# # df = pd.read_csv('data/USREC.csv')
+# # print(df)
 
 # df2 = pd.read_csv('data/USREC.csv')
 # df2 = df2.rename(columns={'DATE':'Date'})
@@ -128,30 +128,35 @@ def market_cap(crypto:str, from_date:str, to_date:str):
 # #print(df)
 # df2.index = df2.index.date
 
-# #print(df2.index[0], type(df2.index[0]))
+# # #print(df2.index[0], type(df2.index[0]))
 
-# x_test = ["2015-02-01", "2015-02-02", "2015-02-03", "2015-02-04", "2015-02-05",
-#             "2015-02-06", "2015-02-07", "2015-02-08", "2015-02-09", "2015-02-10",
-#             "2015-02-11", "2015-02-12", "2015-02-13", "2015-02-14", "2015-02-15",
-#             "2015-02-16", "2015-02-17", "2015-02-18", "2015-02-19", "2015-02-20",
-#             "2015-02-21", "2015-02-22", "2015-02-23", "2015-02-24", "2015-02-25",
-#             "2015-02-26", "2015-02-27", "2015-02-28"]
+# # x_test = ["2015-02-01", "2015-02-02", "2015-02-03", "2015-02-04", "2015-02-05",
+# #             "2015-02-06", "2015-02-07", "2015-02-08", "2015-02-09", "2015-02-10",
+# #             "2015-02-11", "2015-02-12", "2015-02-13", "2015-02-14", "2015-02-15",
+# #             "2015-02-16", "2015-02-17", "2015-02-18", "2015-02-19", "2015-02-20",
+# #             "2015-02-21", "2015-02-22", "2015-02-23", "2015-02-24", "2015-02-25",
+# #             "2015-02-26", "2015-02-27", "2015-02-28"]
 
-#print(x_test[0], type(x_test[0]))
+# #print(x_test[0], type(x_test[0]))
+
+# SP500_RES= s_p500.merge(df2, how='inner',
+#                 right_index = True, left_index=True)
+
 # recessions = []
 # runner = []
-# for i, data in enumerate(zip(df2.index, df2.USREC)):
+# for i, data in enumerate(zip(SP500_RES.index, SP500_RES.USREC)):
 #     #print(i, data[0], data[1])
 #     #print(df2.index)
-#     if data[1] == 1 and df2.USREC[i-1] == 0:
+#     if data[1] == 1 and SP500_RES.USREC[i-1] == 0:
 #         runner.append(data[0])
-#     if data[1] == 0 and df2.USREC[i-1] == 1:
+#     if data[1] == 0 and SP500_RES.USREC[i-1] == 1:
 #         runner.append(data[0])
-#         print(runner)
+#         #print(runner)
 #         recessions.append(runner)
 #         runner = []
 
-# print(recessions)
+# #print(recessions)
+# #print(SP500_RES)
 # for i in range(len(recessions)):
 #     print(recessions[i][0], recessions[i][1])
 #print(df2)

@@ -1182,6 +1182,10 @@ def update_data(correlation): #, year):
         #print(df)
         df2.index = df2.index.date
 
+        SP500_RES= s_p500.merge(df2, how='inner',
+                right_index = True, left_index=True)
+
+
         #fig1 = go.Figure()
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
@@ -1257,7 +1261,7 @@ def update_data(correlation): #, year):
 
         fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
 
-        fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
+        fig3.add_trace(go.Scatter(x=SP500_RES.index, y=SP500_RES.Close,
                         mode='lines',
                         name='S&P500 price',
                         line=dict(color='rgb(64,64,64)',
@@ -1266,18 +1270,25 @@ def update_data(correlation): #, year):
         
         recessions = []
         runner = []
-        for i, data in enumerate(zip(df2.index, df2.USREC)):
+        for i, data in enumerate(zip(SP500_RES.index, SP500_RES.USREC)):
             #print(i, data[0], data[1])
             #print(df2.index)
-            if data[1] == 1 and df2.USREC[i-1] == 0:
+            if data[1] == 1 and SP500_RES.USREC[i-1] == 0:
                 runner.append(data[0])
-            if data[1] == 0 and df2.USREC[i-1] == 1:
+            if data[1] == 0 and SP500_RES.USREC[i-1] == 1:
                 runner.append(data[0])
                 #print(runner)|
                 recessions.append(runner)
                 runner = []
         
         for i in range(len(recessions)):
+
+            fig1.add_vrect(
+                x0=recessions[i][0], x1=recessions[i][1],
+                fillcolor="LightSalmon", opacity=0.5,
+                layer="below", line_width=0,
+            )
+
             fig3.add_vrect(
                 x0=recessions[i][0], x1=recessions[i][1],
                 fillcolor="LightSalmon", opacity=0.5,
@@ -1301,7 +1312,7 @@ def update_data(correlation): #, year):
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig3.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
+            title="<b>S&P500 vs US recessions</b>",
             # xaxis_title="Date",
             # yaxis_title="Price BTC",
             #legend_title="Legend Title",
@@ -1316,7 +1327,7 @@ def update_data(correlation): #, year):
 
         fig3.update_xaxes(title_text="<b>Date</b>")
         #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
+        fig3.update_yaxes(title_text="<b>S&P500 price</b>", type='log')
         #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
 
 
