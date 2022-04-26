@@ -86,6 +86,7 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     return net_growth_df
 
 # df = pd.read_csv('data/BTC_historical_data_clean.csv')
+# df = df.replace(',','', regex=True)
 # df.Date = pd.to_datetime(df.Date)
 # df = df.set_index('Date')
 # #print(df)

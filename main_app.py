@@ -318,7 +318,7 @@ def render_page_content(pathname):
                                 dcc.Graph(id='crypto-total-sentiment', figure={}),
                             ])
                         ]),
-                    ], width=12),
+                     ], width=12),
                     ], className = 'mb-2 mt-2')
 
                 ]
@@ -328,9 +328,12 @@ def render_page_content(pathname):
 
         #df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
         df1 = pd.read_csv('data/BTC_historical_data_clean.csv')
+        df1 = df1.drop(['Vol.', 'Change %'], axis=1)
+        df1 = df1.replace(',','', regex=True)
         df1.Date = pd.to_datetime(df1.Date)
         df1 = df1.set_index('Date')
         #print(df)
+        df1 = df1.apply(pd.to_numeric)
         df1.index = df1.index.date
         #columns = df1.columns
         dff1 = df1.copy()
@@ -436,15 +439,15 @@ def render_page_content(pathname):
         )
 
         fig1.update_xaxes(title_text="<b>Date</b>")
-        fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
+        fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log')#, range=[1.85,5]) #, type='linear'
         
         # fig1.update_layout(
         # font_color="black",
         # )
 
         #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
-        dff1.index = dff1.index.date
-        dff1 = dff1.drop(['Open', 'High', 'Low', 'Vol.', 'Change %'], axis=1)
+        #dff1.index = dff1.index.date
+        dff1 = dff1.drop(['Open', 'High', 'Low'], axis=1)
         start = datetime.datetime(2013, 1, 1)
         end = datetime.datetime(2022, 2, 20)
         SP500 = web.DataReader(['sp500'], 'fred', start, end)
@@ -456,6 +459,7 @@ def render_page_content(pathname):
         #print(SP500BTC)
 
         correlation = SP500BTC.corr()
+        #print(correlation)
         #print(correlation)
         a = correlation.Price.to_numpy()
         b = correlation.sp500.to_numpy()
