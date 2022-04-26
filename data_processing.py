@@ -85,9 +85,15 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
-# df = pd.read_csv('data/sp500_corr_data.csv')
+# df = pd.read_csv('data/BTC_historical_data_clean.csv')
+# df.Date = pd.to_datetime(df.Date)
+# df = df.set_index('Date')
+# #print(df)
+# df.index = df.index.date
 # print(df)
-    
+
+
+
 # def crypto_amount_in_top_holders(crypto:str, from_date:str, to_date:str):
 #     net_growth_df = san.get(
 #     "amount_in_top_holders/"+crypto,

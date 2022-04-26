@@ -771,16 +771,22 @@ def render_page_content(pathname):
                                 dcc.Graph(id='s&p500-res', figure={}),
                             ])
                         ]),
-                    ], width=12),], className = 'mb-2 mt-2') #,
+                    ], width=12),], className = 'mb-2 mt-2'),
                 
-                # dbc.Row([
-                #     dbc.Col([
-                #         dbc.Card([
-                #             dbc.CardBody([
-                #                 dcc.Graph(id='s&p500-test', figure={}),
-                #             ])
-                #         ]),
-                #     ], width=12),], className = 'mb-2 mt-2')
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Markdown('''
+                                    #### S&P500 vs US recession
+
+                                    This graph shows the performance of the S&P500 and the recessions 
+                                    it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                    '''),
+                            ])
+                        ], color='black',  inverse=True),
+                    ], width=12),], className = 'mb-2 mt-2')
         ]
         
     # If the user tries to reach a different page, return a 404 message
