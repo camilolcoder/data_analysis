@@ -94,22 +94,6 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    # figo = go.Figure(go.Bar(x=['positive', 'negative'],y=[43 , 67]))
-
-    # figo.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'], marker_line_color='rgb(0,0,0)',
-    #               marker_line_width=2, opacity=0.6)
-    # #figo = px.bar([['positive', 'negative'],[positive , negative]], x='sentiment', y='pop')
-    # #title="Plot Title",
-
-    # figo.update_layout(
-    # xaxis_title="<b>Bitcoin sentiment</b>",
-    # yaxis_title="<b>Sentiment points</b>",
-    # legend_title="Legend Title",
-    # font=dict(
-    #     family="Courier New, monospace",
-    #     size=18,
-    #     color="Black" 
-    # ))
 
     if pathname == "/":
         return [
@@ -342,34 +326,39 @@ def render_page_content(pathname):
         #fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
         fig = go.Figure()
 
-        df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
+        #df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
+        df1 = pd.read_csv('data/BTC_historical_data_clean.csv')
+        df1.Date = pd.to_datetime(df1.Date)
+        df1 = df1.set_index('Date')
+        #print(df)
+        df1.index = df1.index.date
         #columns = df1.columns
         dff1 = df1.copy()
 
         SMA_PERIOD = 20
         EMA_PERIOD = 21
 
-        df1['sma'] = df1.closePriceUsd.rolling(window=SMA_PERIOD).mean()
-        df1['ema'] = df1.closePriceUsd.ewm(span=EMA_PERIOD,adjust=False).mean()
+        df1['sma'] = df1.Price.rolling(window=SMA_PERIOD).mean()
+        df1['ema'] = df1.Price.ewm(span=EMA_PERIOD,adjust=False).mean()
         #dates = len(df1.closePriceUsd)
-        days = np.linspace(1, len(df1), num=len(df1))
-        btc_price = np.log(df1.closePriceUsd)
+        weeks = np.linspace(1, len(df1), num=len(df1))
+        btc_price = np.log(df1.Price)
 
-        popt, pcov = curve_fit(dp.fitter, days, btc_price, p0=(5.0, -15))
+        popt, pcov = curve_fit(dp.fitter, weeks, btc_price, p0=(5.0, -15))
 
-        fitted_data = dp.fitter(days, popt[0], popt[1])
+        fitted_data = dp.fitter(weeks, popt[0], popt[1])
 
 
         # print(days)
         # print(len(days), dates)
 
-        coef = np.polyfit(days, df1.closePriceUsd, 1)
+        coef = np.polyfit(weeks, df1.Price, 1)
         equ = np.poly1d(coef)
 
-        fig.add_trace(go.Candlestick(x=df1.index, open=df1.openPriceUsd,
-                        high=df1.highPriceUsd,
-                        low=df1.lowPriceUsd,
-                        close=df1.closePriceUsd,
+        fig.add_trace(go.Candlestick(x=df1.index, open=df1.Price,
+                        high=df1.High,
+                        low=df1.Low,
+                        close=df1.Price,
                         #mode='lines',
                         name='BTC price',
                         # line=dict(color='rgb(64,64,64)',
@@ -417,7 +406,7 @@ def render_page_content(pathname):
         
         fig1 = go.Figure()
         
-        fig1.add_trace(go.Scatter(x=df1.index, y=df1.closePriceUsd,
+        fig1.add_trace(go.Scatter(x=df1.index, y=df1.Price,
                         mode='lines',
                         name='BTC price',
                         line=dict(color='rgb(0,102,204)',
@@ -455,7 +444,7 @@ def render_page_content(pathname):
 
         #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
         dff1.index = dff1.index.date
-        dff1 = dff1.drop(['openPriceUsd', 'highPriceUsd', 'lowPriceUsd', 'volume', 'marketcap'], axis=1)
+        dff1 = dff1.drop(['Open', 'High', 'Low', 'Vol.', 'Change %'], axis=1)
         start = datetime.datetime(2013, 1, 1)
         end = datetime.datetime(2022, 2, 20)
         SP500 = web.DataReader(['sp500'], 'fred', start, end)
@@ -468,7 +457,7 @@ def render_page_content(pathname):
 
         correlation = SP500BTC.corr()
         #print(correlation)
-        a = correlation.closePriceUsd.to_numpy()
+        a = correlation.Price.to_numpy()
         b = correlation.sp500.to_numpy()
 
         #print(correlation)
@@ -520,211 +509,6 @@ def render_page_content(pathname):
         ]
 
     elif pathname == "/page-6":
-        # s_p500 = yf.Ticker("SPY")
-        # s_p500 = s_p500.history(period='max')
-        # s_p500 = s_p500.drop(['Open', 'High', 'Low', 
-        # 'Volume', 'Dividends', 'Stock Splits'], axis=1)
-        # #print(s_p500)
-        # s_p500.index = s_p500.index.date
-        # #df.index = df.index.date
-        # #print(s_p500)
-
-        # df = pd.read_csv('data/FEDFUNDS.csv')
-        # #df = df.rename(columns={'oldName1': 'newName1', 'oldName2': 'newName2'})
-        # df = df.rename(columns={'DATE':'Date'})
-        # df.Date = pd.to_datetime(df.Date)
-        # df = df.set_index('Date')
-        # #print(df)
-        # df.index = df.index.date
-        # #print(df)
-        # # dff = pd.read_csv('data/WALCL.csv')
-
-
-        # SP500= s_p500.merge(df, how='inner',
-        #         right_index = True, left_index=True)
-        
-        # dff = pd.read_csv('data/WALCL.csv')
-        # dff = dff.rename(columns={'DATE':'Date'})
-        # dff.Date = pd.to_datetime(dff.Date)
-        # dff = dff.set_index('Date')
-        # #print(df)
-        # dff.index = dff.index.date
-
-        # SP500_P= s_p500.merge(dff, how='inner',
-        #         right_index = True, left_index=True)
-
-        # df2 = pd.read_csv('data/USREC.csv')
-        # df2 = df2.rename(columns={'DATE':'Date'})
-        # df2.Date = pd.to_datetime(df2.Date)
-        # df2 = df2.set_index('Date')
-        # #print(df)
-        # df2.index = df2.index.date
-
-        # #fig1 = go.Figure()
-        # fig1 = make_subplots(specs=[[{"secondary_y": True}]])
-        
-        # fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
-        #                 mode='lines',
-        #                 name='S&P500 price',
-        #                 line=dict(color='rgb(64,64,64)',
-        #                             width=3)
-        #                 ),secondary_y=True)
-        
-        # fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.FEDFUNDS,
-        #                 mode='lines',
-        #                 name='Interest rates',
-        #                 line=dict(color='rgb(255,51,51)',
-        #                             width=3)
-        #                 ),secondary_y=False)
-        
-        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        # fig1.update_layout(
-        #     title="<b>S&P500 vs Interest rates</b>",
-        #     # xaxis_title="Date",
-        #     # yaxis_title="Price BTC",
-        #     #legend_title="Legend Title",
-        #     font=dict(
-        #         #family="Courier New, monospace",
-        #         size=13,
-        #         #font_color="black"
-        #         color="black"
-        #     )
-        #     #font_color="black"
-        # )
-
-        # fig1.update_xaxes(title_text="<b>Date</b>")
-        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        # fig1.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
-        # fig1.update_yaxes(title_text="<b>Interest rates</b>", secondary_y=False)
-
-        # fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-
-        # fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.Close,
-        #                 mode='lines',
-        #                 name='S&P500 price',
-        #                 line=dict(color='rgb(64,64,64)',
-        #                             width=3)
-        #                 ),secondary_y=True)
-        
-        # fig2.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
-        #                 mode='lines',
-        #                 name='Total assets',
-        #                 line=dict(color='rgb(51,255,51)',
-        #                             width=3)
-        #                 ),secondary_y=False)
-        
-        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        # fig2.update_layout(
-        #     title="<b>S&P500 vs Total assets</b>",
-        #     # xaxis_title="Date",
-        #     # yaxis_title="Price BTC",
-        #     #legend_title="Legend Title",
-        #     font=dict(
-        #         #family="Courier New, monospace",
-        #         size=13,
-        #         #font_color="black"
-        #         color="black"
-        #     )
-        #     #font_color="black"
-        # )
-
-        # fig2.update_xaxes(title_text="<b>Date</b>")
-        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        # fig2.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
-        # fig2.update_yaxes(title_text="<b>Total assets</b>", secondary_y=False)
-
-        # fig3 = go.Figure()#make_subplots(specs=[[{"secondary_y": True}]])
-
-        # fig3.add_trace(go.Scatter(x=df2.index, y=df2.USREC,
-        #                 mode='lines',
-        #                 name='S&P500 price',
-        #                 line=dict(color='rgb(64,64,64)',
-        #                             width=3)
-        #                 ))
-        
-        # recessions = []
-        # runner = []
-        # for i, data in enumerate(zip(df2.index, df2.USREC)):
-        #     #print(i, data[0], data[1])
-        #     #print(df2.index)
-        #     if data[1] == 1 and df2.USREC[i-1] == 0:
-        #         runner.append(data[0])
-        #     if data[1] == 0 and df2.USREC[i-1] == 1:
-        #         runner.append(data[0])
-        #         #print(runner)
-        #         recessions.append(runner)
-        #         runner = []
-        
-        # for i in range(len(recessions)):
-        #     fig3.add_vrect(
-        #         x0=recessions[i][0], x1=recessions[i][1],
-        #         fillcolor="LightSalmon", opacity=0.5,
-        #         layer="below", line_width=0,
-        #     )
-
-        # # fig3.add_vrect(
-        # #         x0=recessions[2][0], x1=recessions[2][1],
-        # #         fillcolor="LightSalmon", opacity=0.5,
-        # #         layer="below", line_width=0,
-        # #     )
-
-        # # print(recessions[2][0], recessions[2][1])
-        # # print(type(recessions[2][0]), type(recessions[2][1]))
-        # # fig3.add_trace(go.Scatter(x=SP500_P.index, y=SP500_P.WALCL,
-        # #                 mode='lines',
-        # #                 name='Recessions',
-        # #                 line=dict(color='rgb(51,255,51)',
-        # #                             width=3)
-        # #                 ),secondary_y=False)
-        
-        # #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
-        # fig3.update_layout(
-        #     title="<b>S&P500 vs Total assets</b>",
-        #     # xaxis_title="Date",
-        #     # yaxis_title="Price BTC",
-        #     #legend_title="Legend Title",
-        #     font=dict(
-        #         #family="Courier New, monospace",
-        #         size=13,
-        #         #font_color="black"
-        #         color="black"
-        #     )
-        #     #font_color="black"
-        # )
-
-        # fig3.update_xaxes(title_text="<b>Date</b>")
-        # #fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log', range=[1.85,5]) #, type='linear'
-        # fig3.update_yaxes(title_text="<b>S&P500 price</b>")#, type='log')
-        # #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
-        
-#         fig4 = go.Figure()
-
-# # Add scatter trace for line
-#         fig4.add_trace(go.Scatter(
-#             x=["2015-02-01", "2015-02-02", "2015-02-03", "2015-02-04", "2015-02-05",
-#             "2015-02-06", "2015-02-07", "2015-02-08", "2015-02-09", "2015-02-10",
-#             "2015-02-11", "2015-02-12", "2015-02-13", "2015-02-14", "2015-02-15",
-#             "2015-02-16", "2015-02-17", "2015-02-18", "2015-02-19", "2015-02-20",
-#             "2015-02-21", "2015-02-22", "2015-02-23", "2015-02-24", "2015-02-25",
-#             "2015-02-26", "2015-02-27", "2015-02-28"],
-#             y=[-14, -17, -8, -4, -7, -10, -12, -14, -12, -7, -11, -7, -18, -14, -14,
-#             -16, -13, -7, -8, -14, -8, -3, -9, -9, -4, -13, -9, -6],
-#             mode="lines",
-#             name="temperature"
-#         ))
-
-#         # Add shape regions
-#         fig4.add_vrect(
-#             x0="2015-02-04", x1="2015-02-06",
-#             fillcolor="LightSalmon", opacity=0.5,
-#             layer="below", line_width=0,
-#         ),
-
-#         fig4.add_vrect(
-#             x0="2015-02-20", x1="2015-02-22",
-#             fillcolor="LightSalmon", opacity=0.5,
-#             layer="below", line_width=0,
-#         )
 
         return [
                 dbc.Row([
