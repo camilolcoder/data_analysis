@@ -338,6 +338,16 @@ def render_page_content(pathname):
         #columns = df1.columns
         dff1 = df1.copy()
 
+        df_DXY = pd.read_csv('data/DXY_historical_data_clean.csv')
+        df_DXY = df_DXY.drop(['Vol.', 'Change %'], axis=1)
+        df_DXY = df_DXY.replace(',','', regex=True)
+        df_DXY.Date = pd.to_datetime(df_DXY.Date)
+        df_DXY = df_DXY.set_index('Date')
+        #print(df)
+        df_DXY = df_DXY.apply(pd.to_numeric)
+        df_DXY.index = df_DXY.index.date
+
+
         SMA_PERIOD = 20
         EMA_PERIOD = 21
 
@@ -458,6 +468,45 @@ def render_page_content(pathname):
         #print(df_btc)
         #print(SP500BTC)
 
+        DXY_BTC = dff1.merge(df_DXY, how='inner',
+        right_index = True, left_index=True)
+
+        #print(DXY_BTC)
+
+        fig3 = make_subplots(specs=[[{"secondary_y": True}]])
+        
+        fig3.add_trace(go.Scatter(x=DXY_BTC.index, y=DXY_BTC.Price_x,
+                        mode='lines',
+                        name='BTC price',
+                        line=dict(color='rgb(0,102,204)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig3.add_trace(go.Scatter(x=DXY_BTC.index, y=DXY_BTC.Price_y,
+                        mode='lines',
+                        name='DXY price',
+                        line=dict(color='rgb(255,51,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        fig3.update_layout(
+            title="<b>BTC vs DXY</b>",
+            # xaxis_title="Date",
+            # yaxis_title="Price BTC",
+            #legend_title="Legend Title",
+            font=dict(
+                #family="Courier New, monospace",
+                size=13,
+                #font_color="black"
+                color="black"
+            )
+            #font_color="black"
+        )
+
+        fig3.update_xaxes(title_text="<b>Date</b>")
+        fig3.update_yaxes(title_text="<b>BTC</b>", secondary_y=True, type='log')
+        fig3.update_yaxes(title_text="<b>DXY</b>", secondary_y=False)
+
         correlation = SP500BTC.corr()
         #print(correlation)
         #print(correlation)
@@ -508,6 +557,16 @@ def render_page_content(pathname):
                             ])
                         ]),
                     ], width=6),]
+                    , className = 'mb-2 mt-2'),
+                
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='bitcoin-log', figure=fig3),
+                            ])
+                        ]),
+                    ], width=12),]
                     , className = 'mb-2 mt-2')
 
         ]
@@ -527,14 +586,6 @@ def render_page_content(pathname):
                         ]),
                     ], width=12),]
                     , className = 'mb-2 mt-2'),
-                # dbc.Row([
-                #     dbc.Col([
-                #         dbc.Card([
-                #             dbc.CardBody([
-                #                 dcc.Graph(id='s&p500-graph', figure={}),
-                #             ])
-                #         ]),
-                #     ], width=12),], className = 'mb-2 mt-2'),
                 dbc.Row([
                     dbc.Col([
                         dbc.Card([
@@ -559,6 +610,7 @@ def render_page_content(pathname):
                                 dcc.Graph(id='s&p500-res', figure={}),
                             ])
                         ]),
+                    #],width=6),
                     ], width=12),], className = 'mb-2 mt-2'),
                 
                 dbc.Row([
@@ -1124,8 +1176,10 @@ def update_data(correlation): #, year):
         fig3.update_yaxes(title_text="<b>S&P500 price</b>", type='log')
         #fig3.update_yaxes(title_text="<b>Recessions</b>", secondary_y=False)
 
+        #DXY_historical_data_clean.csv
 
-        return fig1, fig2, fig3 #, figo
+
+        return fig1, fig2, fig3, #fig4 #, figo
 
 #######################################
 #BITCOIN METRICS
