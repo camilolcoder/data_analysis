@@ -5,7 +5,7 @@ import dash_html_components as html
 #import dash_core_components as dcc
 from dash import dcc
 import plotly.express as px
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objects as go
 
 import data_processing as dp
@@ -29,6 +29,16 @@ import yfinance as yf
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
+    ],
+    brand="Brand",
+    brand_href="#",
+    color="dark",
+    dark=True,
+    fluid=True,
+)
 
 # styling the sidebar
 SIDEBAR_STYLE = {
@@ -37,9 +47,27 @@ SIDEBAR_STYLE = {
     "left": 0,
     "bottom": 0,
     "width": "16rem",
-    "padding": "2rem 1rem",
+    "height": "100%",
+    "z-index": 1,
+    "overflow-x": "hidden",
+    "transition": "all 0.5s",
+    "padding": "0.5rem 1rem",
     "background-color": "#47627d",
     "overflow":"scroll",
+}
+
+SIDEBAR_HIDEN = {
+    "position": "fixed",
+    "top": 0,
+    "left": "-16rem",
+    "bottom": 0,
+    "width": "16rem",
+    "height": "100%",
+    "z-index": 1,
+    "overflow-x": "hidden",
+    "transition": "all 0.5s",
+    "padding": "0rem 0rem",
+    "background-color": "#f8f9fa",
 }
 
 # padding for the page content
@@ -47,6 +75,14 @@ CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
+}
+
+CONTENT_STYLE1 = {
+    "transition": "margin-left .5s",
+    "margin-left": "2rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
 }
 
 NAVBAR_STYLE = {
@@ -77,17 +113,48 @@ sidebar = html.Div(
             pills=True,
         ),
     ],
+    id="sidebar",
     style=SIDEBAR_STYLE,
 )
 
 content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
 
 app.layout = html.Div([
+    dcc.Store(id='side_click'),
     dcc.Location(id="url"),
+    navbar,
     sidebar,
     content
 ])
 
+@app.callback(
+    [
+        Output("sidebar", "style"),
+        Output("page-content", "style"),
+        Output("side_click", "data"),
+    ],
+
+    [Input("btn_sidebar", "n_clicks")],
+    [
+        State("side_click", "data"),
+    ]
+)
+def toggle_sidebar(n, nclick):
+    if n:
+        if nclick == "SHOW":
+            sidebar_style = SIDEBAR_HIDEN
+            content_style = CONTENT_STYLE1
+            cur_nclick = "HIDDEN"
+        else:
+            sidebar_style = SIDEBAR_STYLE
+            content_style = CONTENT_STYLE
+            cur_nclick = "SHOW"
+    else:
+        sidebar_style = SIDEBAR_STYLE
+        content_style = CONTENT_STYLE
+        cur_nclick = 'SHOW'
+
+    return sidebar_style, content_style, cur_nclick
 
 @app.callback(
     Output("page-content", "children"),
