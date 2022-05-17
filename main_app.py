@@ -22,6 +22,8 @@ import networkx as nx
 import math
 
 import yfinance as yf
+
+from sidebar_pages import page1
 # data source: https://www.kaggle.com/chubak/iranian-students-from-1968-to-2017
 # data owner: Chubak Bidpaa
 #df = pd.read_csv('https://raw.githubusercontent.com/Coding-with-Adam/Dash-by-Plotly/master/Bootstrap/Side-Bar/iranian_students.csv')
@@ -52,7 +54,8 @@ SIDEBAR_STYLE = {
     "overflow-x": "hidden",
     "transition": "all 0.5s",
     "padding": "0.5rem 1rem",
-    "background-color": "#47627d",
+    #"background-color": "#47627d",
+    "background-color": "#333741",
     "overflow":"scroll",
 }
 
@@ -109,6 +112,7 @@ sidebar = html.Div(
                 dbc.NavLink('Bitcoin analysis metrics', href="/page-5", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('S&P 500 metrics', href="/page-6", active="exact", style=NAVBAR_STYLE),
             ],
+            #color="dark",
             vertical=True,
             pills=True,
         ),
@@ -204,63 +208,63 @@ def render_page_content(pathname):
                     ], className = 'mb-2 mt-2')
                 ]
     elif pathname == "/page-1":
-        return [
+        return page1.layout#[
                 # html.H1('Crypto sentiment',
                 #         style={'textAlign':'center'}),
                 # dcc.Graph(id='bargraph',
                 #          figure={})
 
-                dbc.Row([
-                    dbc.Col([
-                        dcc.Input(
-                            id = 'crypto_name_mc',
-                            placeholder='Enter a crypto...',
-                            type='text',
-                            value='bitcoin',
-                            style={'width':'100%'},
-                        )
-                    ], width=3),
-                     dbc.Col([
-                        dcc.Dropdown(id='slc_scale',
-                                options = [
-                                    {'label':'linear scale', 'value': 'linear'},
-                                    {'label':'logarithmic scale', 'value':'log'}
-                                ],
-                                multi = False,
-                                value = 'linear',
-                                style={'width':'100%'},
-                        )
-                    ], width=3),        
-                    dbc.Col([
-                        dcc.Input(
-                            id = 'from_date_mc',
-                            placeholder='Enter a crypto...',
-                            type='text',
-                            value='2017-01-01',
-                            style={'width':'100%'},
-                        )
-                    ], width=3),
-                    dbc.Col([
-                        dcc.Input(
-                            id = 'to_date_mc',
-                            placeholder='Enter a crypto...',
-                            type='text',
-                            value='2022-02-02',
-                            style={'width':'100%'},
-                        )
-                    ], width=3),
-                    ], className = 'mb-2 mt-2'),
-                dbc.Row([
-                    dbc.Col([
-                        dbc.Card([
-                            dbc.CardBody([
-                                dcc.Graph(id='crypto-mc', figure={}),
-                            ])
-                        ]),
-                    ], width=12),
-                    ], className = 'mb-2 mt-2')
+                # dbc.Row([
+                #     dbc.Col([
+                #         dcc.Input(
+                #             id = 'crypto_name_mc',
+                #             placeholder='Enter a crypto...',
+                #             type='text',
+                #             value='bitcoin',
+                #             style={'width':'100%'},
+                #         )
+                #     ], width=3),
+                #      dbc.Col([
+                #         dcc.Dropdown(id='slc_scale',
+                #                 options = [
+                #                     {'label':'linear scale', 'value': 'linear'},
+                #                     {'label':'logarithmic scale', 'value':'log'}
+                #                 ],
+                #                 multi = False,
+                #                 value = 'linear',
+                #                 style={'width':'100%'},
+                #         )
+                #     ], width=3),        
+                #     dbc.Col([
+                #         dcc.Input(
+                #             id = 'from_date_mc',
+                #             placeholder='Enter a crypto...',
+                #             type='text',
+                #             value='2017-01-01',
+                #             style={'width':'100%'},
+                #         )
+                #     ], width=3),
+                #     dbc.Col([
+                #         dcc.Input(
+                #             id = 'to_date_mc',
+                #             placeholder='Enter a crypto...',
+                #             type='text',
+                #             value='2022-02-02',
+                #             style={'width':'100%'},
+                #         )
+                #     ], width=3),
+                #     ], className = 'mb-2 mt-2'),
+                # dbc.Row([
+                #     dbc.Col([
+                #         dbc.Card([
+                #             dbc.CardBody([
+                #                 dcc.Graph(id='crypto-mc', figure={}),
+                #             ])
+                #         ]),
+                #     ], width=12),
+                #     ], className = 'mb-2 mt-2')
 
-                ]
+                # ]
     elif pathname == "/page-2":
         return [
               
@@ -708,46 +712,46 @@ def render_page_content(pathname):
 #######################################
 #CRYPTO TRENDING
 #######################################
-@app.callback(
-        Output('crypto-trending', 'figure'),
-        Input('crypto_name', 'value'),
-        Input('from_date', 'value'),
-        Input('to_date', 'value'),
-)
+# @app.callback(
+#         Output('crypto-trending', 'figure'),
+#         Input('crypto_name', 'value'),
+#         Input('from_date', 'value'),
+#         Input('to_date', 'value'),
+# )
 
-def update_data(crypto, from_date, to_date): #, year):
+# def update_data(crypto, from_date, to_date): #, year):
 
-    fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
-    df1 = dp.collect_trend_score('crypto', 1)
-    columns = df1.columns
-    #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
-    df2 = dp.crypto_data(crypto, from_date, to_date)
+#     fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
+#     df1 = dp.collect_trend_score('crypto', 1)
+#     columns = df1.columns
+#     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+#     df2 = dp.crypto_data(crypto, from_date, to_date)
 
-    fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
-                    mode='lines',
-                    name='trending',
-                    line=dict(color='rgb(49,50,58)',
-                                width=3)
-                    ),secondary_y=True)
+#     fig.add_trace(go.Scatter(x=df1.index, y=df1[columns[0]],
+#                     mode='lines',
+#                     name='trending',
+#                     line=dict(color='rgb(49,50,58)',
+#                                 width=3)
+#                     ),secondary_y=True)
 
-    fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
-                    mode='lines',
-                    name=crypto+' price',
-                    line=dict(color='rgb(51,63,169)',
-                                width=3)
-                    ),secondary_y=False)
+#     fig.add_trace(go.Scatter(x=df2.index, y=df2.closePriceUsd,
+#                     mode='lines',
+#                     name=crypto+' price',
+#                     line=dict(color='rgb(51,63,169)',
+#                                 width=3)
+#                     ),secondary_y=False)
     
-    # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
-    #               marker_line_width=2)
+#     # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+#     #               marker_line_width=2)
 
-    fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
-    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
+#     fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
+#     fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
 
-    fig.update_layout(
-    font_color="black",
-    )
+#     fig.update_layout(
+#     font_color="black",
+#     )
 
-    return fig #, figo
+#     return fig #, figo
 
 
 #######################################
