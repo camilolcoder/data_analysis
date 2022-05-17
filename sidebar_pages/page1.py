@@ -2,10 +2,6 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from dash import dcc, callback
 import data_processing as dp
-import datetime as dt
-import pandas as pd
-import numpy as np
-import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
@@ -68,16 +64,17 @@ layout = [
         ]
 
 @callback(
-        Output('crypto-trending', 'figure'),
-        Input('crypto_name', 'value'),
-        Input('from_date', 'value'),
-        Input('to_date', 'value'),
+        Output('crypto-mc', 'figure'),
+        Input('crypto_name_mc', 'value'),
+        Input('slc_scale', 'value'),
+        Input('from_date_mc', 'value'),
+        Input('to_date_mc', 'value'),
 )
 
-def update_data(crypto, from_date, to_date): #, year):
+def update_data(crypto, scale, from_date, to_date): #, year):
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
-    df1 = dp.collect_trend_score('crypto', 1)
+    df1 = dp.market_cap(crypto, from_date, to_date)
     columns = df1.columns
     #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
     df2 = dp.crypto_data(crypto, from_date, to_date)
@@ -100,10 +97,10 @@ def update_data(crypto, from_date, to_date): #, year):
     #               marker_line_width=2)
 
     fig.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
-    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
+    fig.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type=scale)
 
     fig.update_layout(
     font_color="black",
     )
 
-    return fig
+    return fig #, figo
