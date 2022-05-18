@@ -2,10 +2,6 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from dash import dcc, callback
 import data_processing as dp
-import datetime as dt
-import pandas as pd
-import numpy as np
-import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 

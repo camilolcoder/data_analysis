@@ -30,6 +30,38 @@ layout = [
                         ])
                     ]),
                 ], width=12),], className = 'mb-2 mt-2'),
+
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Markdown('''
+
+                                ##### What is the Federa Funds Effective Rate?
+
+                                The FFER is the interest rate at which depository institutions trade federal funds with eachother
+                                overnight. In simpler terms, a bank with excess cash, which is often referred to as liquidity, 
+                                will lend to another bank that needs to quickly raise liquidity. 
+                                (1) The rate that the borrowing institution
+                                pays to the lending institution is determined between the two banks; the weighted average rate for all of
+                                these types of negotiations is called the effective federal funds rate.(2) The effective federal funds 
+                                rate is essentially determined by the market but is influenced by the Federal Reserve through open market
+                                operations to reach the federal funds rate target.(2) The FFER data was collected 
+                                from [FRED](https://fred.stlouisfed.org/)
+
+                                ##### FFER & the S&P500?
+
+                                The reason for showing FFER & the S&P500 its to see the impact the change in interst rates have had over time in 
+                                the stock market, interst not only have an impact on the stock market but on the economy as a whole, impacting the 
+                                bond markets, inflation, and recessions. more information aboout the impacts of inters rate on the economy can be found
+                                on the next article [How interst rates affect the U.S Markets](https://www.investopedia.com/articles/stocks/09/how-interest-rates-affect-markets.asp)
+
+
+                                '''),
+                        ])
+                    ], color='dark', outline=True),
+                ], width=12),], className = 'mb-2 mt-2'),
+
             dbc.Row([
                 dbc.Col([
                     dbc.Card([
@@ -54,14 +86,13 @@ layout = [
                     dbc.Card([
                         dbc.CardBody([
                             dcc.Markdown('''
-                                #### S&P500 vs US recession
 
                                 This graph shows the performance of the S&P500 and the recessions 
                                 it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
 
                                 '''),
                         ])
-                    ], color='black',  inverse=True),
+                    ], color='dark', outline=True),
                 ], width=12),], className = 'mb-2 mt-2'),
 
             dbc.Row([
@@ -79,7 +110,6 @@ layout = [
                     dbc.Card([
                         dbc.CardBody([
                             dcc.Markdown('''
-                                #### S&P500 vs Retail sales
 
                                 This graph shows the performance of the S&P500 and the historical retail
                                 sales in millions of dollars. The historical retail data was collected 
@@ -87,7 +117,7 @@ layout = [
 
                                 '''),
                         ])
-                    ], color='black',  inverse=True),
+                    ], color='dark',  outline=True),
                 ], width=12),], className = 'mb-2 mt-2')
         ]
 
@@ -141,6 +171,7 @@ def update_data(correlation):
         df3 = pd.read_csv('data/RSXFS.csv')
         df3 = df3.rename(columns={'DATE':'Date'})
         df3.Date = pd.to_datetime(df3.Date)
+        df3 = df3.set_index('Date')
         df3.index = df3.index.date
 
         SP500_CPI = s_p500.merge(df3, how='inner',
@@ -164,7 +195,7 @@ def update_data(correlation):
         
         #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig1.update_layout(
-            title="<b>S&P500 vs Interest rates</b>",
+            title="<b>S&P500 & Interest rates</b>",
             font=dict(
                 size=13,
                 color="black"
@@ -192,7 +223,7 @@ def update_data(correlation):
                         ),secondary_y=False)
         
         fig2.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
+            title="<b>S&P500 & Total assets</b>",
             font=dict(
                 size=13,
                 color="black"
@@ -249,7 +280,7 @@ def update_data(correlation):
         #                 ),secondary_y=False)
         
         fig3.update_layout(
-            title="<b>S&P500 vs US recessions</b>",
+            title="<b>S&P500 & US recessions</b>",
             font=dict(
                 size=13,
                 color="black"
@@ -272,13 +303,13 @@ def update_data(correlation):
         
         fig4.add_trace(go.Scatter(x=SP500_CPI.index, y=SP500_CPI.RSXFS,
                         mode='lines',
-                        name='Total assets',
+                        name='ARS',
                         line=dict(color='rgb(51,255,51)',
                                     width=3)
                         ),secondary_y=False)
         
         fig4.update_layout(
-            title="<b>S&P500 vs Total assets</b>",
+            title="<b>S&P500 & Advance retail sales</b>",
             font=dict(
                 size=13,
                 color="black"
@@ -290,4 +321,4 @@ def update_data(correlation):
         fig4.update_yaxes(title_text="<b>ARS Millions of Dollars</b>", secondary_y=False, type='log')
 
 
-        return fig1, fig2, fig3, #fig4 #, figo
+        return fig1, fig2, fig3, fig4 #, figo
