@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 layout = [
+            
             dbc.Row([
                 dbc.Col([
                     dbc.Card([
@@ -22,6 +23,21 @@ layout = [
                     ]),
                 ], width=12),]
                 , className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Markdown('''
+
+                                The red rectangles in the back of the graphs means a period of recession. 
+                                The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                '''),
+                        ])
+                    ], color='danger', inverse=True),
+                ], width=12),], className = 'mb-2 mt-2'),
+
             dbc.Row([
                 dbc.Col([
                     dbc.Card([
@@ -75,6 +91,36 @@ layout = [
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
+                            dcc.Markdown('''
+                                
+                                ##### The Fed's Balance Sheet
+                                
+                                All of us are connected to the Fed's balance sheet in one way or another. The currency notes
+                                that we hold are liabilities of the Fed, as are bank reserves boosted by our deposits. The Fed's 
+                                assets include a range of credit lines established to ensure the economy's stability at times of crisis,
+                                as well as U.S. Treasuries we also hold in investment portfolios. Changes in the level and composition of
+                                the Fed's balance sheet can ultimately affect all U.S. consumers and businesses. 
+                                The total assets data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                More information about the federal reserve balance sheet can be found 
+                                on [Understanding the federal Reserve Balance Sheet](https://www.investopedia.com/articles/economics/10/understanding-the-fed-balance-sheet.asp)
+                                
+                                In the graph we can notice some periods of QE(Quantitaive easing) or large scale asset purchases,
+                                this is intended to signal the central bank's bias toward looser monetary policy as a further growth spur. The signaling function of quantitative easing has
+                                at times ensured that benchmark bond yields rose while the Fed was buying only to drop once the 
+                                purchase program was discontinued. 
+                                
+                                More information about QE can be 
+                                found on [Quantitative easing](https://www.investopedia.com/terms/q/quantitative-easing.asp)
+                                '''),
+                        ])
+                    ], color='dark', outline=True),
+                ], width=12),], className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
                             dcc.Graph(id='s&p500-res', figure={}),
                         ])
                     ]),
@@ -111,9 +157,17 @@ layout = [
                         dbc.CardBody([
                             dcc.Markdown('''
 
-                                This graph shows the performance of the S&P500 and the historical retail
-                                sales in millions of dollars. The historical retail data was collected 
+                                ##### Retail sales and its importance to the economy
+
+                                The term retail sales refers to an economic metric that tracks consumer
+                                demand for finished goods. This figure is a very important data set as 
+                                it is a key monthly market-moving event. Retail sales are reported each month by the
+                                U.S. Census Bureau and indicate **the direction of the economy**. It acts as a key economic barometer
+                                and whether inflationary pressures exist. The historical retail sales data was collected 
                                 from [FRED](https://fred.stlouisfed.org/)
+
+                                More information about retail sales can be found on 
+                                [Retail Sales](https://www.investopedia.com/terms/r/retail-sales.asp#:~:text=The%20term%20retail%20sales%20refers,the%20direction%20of%20the%20economy.)
 
                                 '''),
                         ])
