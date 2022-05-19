@@ -168,6 +168,30 @@ layout = [
                                 '''),
                         ])
                     ], color='dark',  outline=True),
+                ], width=12),], className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='s&p500-dxy', figure={}),
+                        ])
+                    ]),
+                #],width=6),
+                ], width=12),], className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Markdown('''
+
+                                This graph shows the performance of the S&P500 and the recessions 
+                                it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                '''),
+                        ])
+                    ], color='dark', outline=True),
                 ], width=12),], className = 'mb-2 mt-2')
         ]
 
@@ -176,6 +200,7 @@ layout = [
         Output('s&p500-print', 'figure'),
         Output('s&p500-res', 'figure'),
         Output('s&p500-rsxfs', 'figure'),
+        Output('s&p500-dxy', 'figure'),
         Input('slider-s&p500', 'value'),
 )
 
@@ -183,6 +208,7 @@ def update_data(correlation):
 
         #S&P500 Historical data
         s_p500 = pd.read_csv('data/sp500_daily-1950-to-2022.csv')
+        s_p500_filtered = s_p500.copy()
         s_p500.Date = pd.to_datetime(s_p500.Date)
         s_p500 = s_p500.set_index('Date')
         s_p500.index = s_p500.index.date
@@ -227,16 +253,21 @@ def update_data(correlation):
         SP500_CPI = s_p500.merge(df3, how='inner',
                 right_index = True, left_index=True)
 
+        #S&P500 data filtered
+        s_p500_filtered = s_p500_filtered[s_p500_filtered.Date >= '1976-01-10']
+        s_p500_filtered.Date = pd.to_datetime(s_p500_filtered.Date)
+        s_p500_filtered = s_p500_filtered.set_index('Date')
+        s_p500_filtered.index = s_p500_filtered.index.date
+
+        #US Dollar Index
         df_DXY = pd.read_csv('data/DXY_historical_data_clean2.csv')
         df_DXY = df_DXY.drop(['Open', 'High', 'Low', 'Vol.', 'Change %'], axis=1)
         df_DXY = df_DXY.replace(',','', regex=True)
+        df_DXY = df_DXY[df_DXY.Date <= '2022-04-01']
         df_DXY.Date = pd.to_datetime(df_DXY.Date)
         df_DXY = df_DXY.set_index('Date')
         df_DXY = df_DXY.apply(pd.to_numeric)
         df_DXY.index = df_DXY.index.date
-        
-        SP500_DXY = s_p500.merge(df_DXY, how='inner',
-                right_index = True, left_index=True)
 
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
@@ -382,14 +413,14 @@ def update_data(correlation):
 
 
         fig5 = make_subplots(specs=[[{"secondary_y": True}]])
-        fig5.add_trace(go.Scatter(x=SP500_DXY.index, y=SP500_DXY.Close,
+        fig5.add_trace(go.Scatter(x=s_p500_filtered.index, y=s_p500_filtered.Close,
                         mode='lines',
                         name='S&P500 price',
                         line=dict(color='rgb(64,64,64)',
                                     width=3)
                         ),secondary_y=True)
         
-        fig5.add_trace(go.Scatter(x=SP500_DXY.index, y=SP500_DXY.Price,
+        fig5.add_trace(go.Scatter(x=df_DXY.index, y=df_DXY.Price,
                         mode='lines',
                         name='DXY',
                         line=dict(color='rgb(51,255,51)',
