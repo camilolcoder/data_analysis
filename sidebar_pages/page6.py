@@ -1,8 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from dash import dcc, callback
-import data_processing as dp
-import datetime as dt
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -69,7 +67,7 @@ layout = [
 
                                 The reason for showing FFER & the S&P500 its to see the impact the change in interst rates have had over time in 
                                 the stock market, interst not only have an impact on the stock market but on the economy as a whole, impacting the 
-                                bond markets, inflation, and recessions. more information aboout the impacts of inters rate on the economy can be found
+                                bond markets, inflation, and recessions. More information aboout the impacts of inters rate on the economy can be found
                                 on the next article [How interst rates affect the U.S Markets](https://www.investopedia.com/articles/stocks/09/how-interest-rates-affect-markets.asp)
 
 
@@ -101,7 +99,6 @@ layout = [
                                 as well as U.S. Treasuries we also hold in investment portfolios. Changes in the level and composition of
                                 the Fed's balance sheet can ultimately affect all U.S. consumers and businesses. 
                                 The total assets data was collected from [FRED](https://fred.stlouisfed.org/)
-
                                 More information about the federal reserve balance sheet can be found 
                                 on [Understanding the federal Reserve Balance Sheet](https://www.investopedia.com/articles/economics/10/understanding-the-fed-balance-sheet.asp)
                                 
@@ -109,7 +106,6 @@ layout = [
                                 this is intended to signal the central bank's bias toward looser monetary policy as a further growth spur. The signaling function of quantitative easing has
                                 at times ensured that benchmark bond yields rose while the Fed was buying only to drop once the 
                                 purchase program was discontinued. 
-                                
                                 More information about QE can be 
                                 found on [Quantitative easing](https://www.investopedia.com/terms/q/quantitative-easing.asp)
                                 '''),
@@ -231,6 +227,17 @@ def update_data(correlation):
         SP500_CPI = s_p500.merge(df3, how='inner',
                 right_index = True, left_index=True)
 
+        df_DXY = pd.read_csv('data/DXY_historical_data_clean2.csv')
+        df_DXY = df_DXY.drop(['Open', 'High', 'Low', 'Vol.', 'Change %'], axis=1)
+        df_DXY = df_DXY.replace(',','', regex=True)
+        df_DXY.Date = pd.to_datetime(df_DXY.Date)
+        df_DXY = df_DXY.set_index('Date')
+        df_DXY = df_DXY.apply(pd.to_numeric)
+        df_DXY.index = df_DXY.index.date
+        
+        SP500_DXY = s_p500.merge(df_DXY, how='inner',
+                right_index = True, left_index=True)
+
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
         fig1.add_trace(go.Scatter(x=SP500.index, y=SP500.Close,
@@ -247,7 +254,6 @@ def update_data(correlation):
                                     width=3)
                         ),secondary_y=False)
         
-        #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
         fig1.update_layout(
             title="<b>S&P500 & Interest rates</b>",
             font=dict(
@@ -375,4 +381,32 @@ def update_data(correlation):
         fig4.update_yaxes(title_text="<b>ARS Millions of Dollars</b>", secondary_y=False, type='log')
 
 
-        return fig1, fig2, fig3, fig4 #, figo
+        fig5 = make_subplots(specs=[[{"secondary_y": True}]])
+        fig5.add_trace(go.Scatter(x=SP500_DXY.index, y=SP500_DXY.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+        
+        fig5.add_trace(go.Scatter(x=SP500_DXY.index, y=SP500_DXY.Price,
+                        mode='lines',
+                        name='DXY',
+                        line=dict(color='rgb(51,255,51)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        fig5.update_layout(
+            title="<b>S&P500 & DXY</b>",
+            font=dict(
+                size=13,
+                color="black"
+            )
+        )
+
+        fig5.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig5.update_xaxes(title_text="<b>Date</b>")
+        fig5.update_yaxes(title_text="<b>DXY</b>", secondary_y=False, type='log')
+
+
+        return fig1, fig2, fig3, fig4, fig5

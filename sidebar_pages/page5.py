@@ -27,7 +27,7 @@ df1.index = df1.index.date
 #columns = df1.columns
 dff1 = df1.copy()
 
-df_DXY = pd.read_csv('data/DXY_historical_data_clean.csv')
+df_DXY = pd.read_csv('data/DXY_historical_data_clean2.csv')
 df_DXY = df_DXY.drop(['Vol.', 'Change %'], axis=1)
 df_DXY = df_DXY.replace(',','', regex=True)
 df_DXY.Date = pd.to_datetime(df_DXY.Date)
@@ -140,9 +140,6 @@ fig1.update_layout(
 fig1.update_xaxes(title_text="<b>Date</b>")
 fig1.update_yaxes(title_text="<b>Price BTC</b>", type='log')#, range=[1.85,5]) #, type='linear'
 
-# fig1.update_layout(
-# font_color="black",
-# )
 
 #df_btc = crypto_data('bitcoin', '2013-01-01', '2022-02-20')
 #dff1.index = dff1.index.date
