@@ -186,8 +186,18 @@ layout = [
                         dbc.CardBody([
                             dcc.Markdown('''
 
-                                This graph shows the performance of the S&P500 and the recessions 
-                                it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+                                ##### Why is the US Dollar Index intersting
+
+                                The US Dollar Index is important both as a market
+                                in its own right and as it is an indicator of the relative strength 
+                                of the US Dollar around the world. It can be used in technical 
+                                analysis to confirm trends related to the following markets, among others:
+
+                                * Commodities priced in USD
+                                * Currency pairs that include the US Dollar (such as the ones used to calculate the index’s value)
+                                * Stocks and indexes.
+                                
+                                The US Dollar Index data was collected from [US Dollar Index](https://www.investing.com/)
 
                                 '''),
                         ])
@@ -254,7 +264,7 @@ def update_data(correlation):
                 right_index = True, left_index=True)
 
         #S&P500 data filtered
-        s_p500_filtered = s_p500_filtered[s_p500_filtered.Date >= '1976-01-10']
+        s_p500_filtered = s_p500_filtered[s_p500_filtered.Date >= '1987-01-10'] #1976-01-10
         s_p500_filtered.Date = pd.to_datetime(s_p500_filtered.Date)
         s_p500_filtered = s_p500_filtered.set_index('Date')
         s_p500_filtered.index = s_p500_filtered.index.date
@@ -263,7 +273,8 @@ def update_data(correlation):
         df_DXY = pd.read_csv('data/DXY_historical_data_clean2.csv')
         df_DXY = df_DXY.drop(['Open', 'High', 'Low', 'Vol.', 'Change %'], axis=1)
         df_DXY = df_DXY.replace(',','', regex=True)
-        df_DXY = df_DXY[df_DXY.Date <= '2022-04-01']
+        df_DXY = df_DXY[df_DXY.Date >= '1987-01-10']
+        df_DXY = df_DXY[df_DXY.Date <= '2022-04-01'] #2022-04-01
         df_DXY.Date = pd.to_datetime(df_DXY.Date)
         df_DXY = df_DXY.set_index('Date')
         df_DXY = df_DXY.apply(pd.to_numeric)
@@ -428,7 +439,7 @@ def update_data(correlation):
                         ),secondary_y=False)
         
         fig5.update_layout(
-            title="<b>S&P500 & DXY</b>",
+            title="<b>S&P500 & US Dollar Index</b>",
             font=dict(
                 size=13,
                 color="black"
@@ -437,7 +448,7 @@ def update_data(correlation):
 
         fig5.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig5.update_xaxes(title_text="<b>Date</b>")
-        fig5.update_yaxes(title_text="<b>DXY</b>", secondary_y=False, type='log')
+        fig5.update_yaxes(title_text="<b>DXY</b>", secondary_y=False)
 
 
         return fig1, fig2, fig3, fig4, fig5
