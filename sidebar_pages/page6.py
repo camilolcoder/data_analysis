@@ -202,7 +202,32 @@ layout = [
                                 '''),
                         ])
                     ], color='dark', outline=True),
+                ], width=12),], className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='s&p500-jobless', figure={}),
+                        ])
+                    ]),
+                #],width=6),
+                ], width=12),], className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Markdown('''
+
+                                This graph shows the performance of the S&P500 and the recessions 
+                                it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                '''),
+                        ])
+                    ], color='dark', outline=True),
                 ], width=12),], className = 'mb-2 mt-2')
+
         ]
 
 @callback(
@@ -211,6 +236,7 @@ layout = [
         Output('s&p500-res', 'figure'),
         Output('s&p500-rsxfs', 'figure'),
         Output('s&p500-dxy', 'figure'),
+        Output('s&p500-jobless', 'figure'),
         Input('slider-s&p500', 'value'),
 )
 
@@ -279,6 +305,14 @@ def update_data(correlation):
         df_DXY = df_DXY.set_index('Date')
         df_DXY = df_DXY.apply(pd.to_numeric)
         df_DXY.index = df_DXY.index.date
+
+        df4 = pd.read_csv('data/ICSA.csv')
+        df4 = df4.rename(columns={'DATE':'Date'})
+        df4 = df4[df4.Date >= '1987-01-10']
+        df4 = df4[df4.Date <= '2022-04-01']
+        df4.Date = pd.to_datetime(df4.Date)
+        df4 = df4.set_index('Date')
+        df4.index = df4.index.date
 
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
@@ -450,5 +484,32 @@ def update_data(correlation):
         fig5.update_xaxes(title_text="<b>Date</b>")
         fig5.update_yaxes(title_text="<b>DXY</b>", secondary_y=False)
 
+        fig6 = make_subplots(specs=[[{"secondary_y": True}]])
+        fig6.add_trace(go.Scatter(x=s_p500_filtered.index, y=s_p500_filtered.Close,
+                        mode='lines',
+                        name='S&P500 price',
+                        line=dict(color='rgb(64,64,64)',
+                                    width=3)
+                        ),secondary_y=True)
+    
+        fig6.add_trace(go.Scatter(x=df4.index, y=df4.ICSA,
+                        mode='lines',
+                        name='IC',
+                        line=dict(color='rgb(222,58,58)',
+                                    width=3)
+                        ),secondary_y=False)
+        
+        fig6.update_layout(
+            title="<b>S&P500 & Jobless Claims</b>",
+            font=dict(
+                size=13,
+                color="black"
+            )
+        )
 
-        return fig1, fig2, fig3, fig4, fig5
+        fig6.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
+        fig6.update_xaxes(title_text="<b>Date</b>")
+        fig6.update_yaxes(title_text="<b>IC</b>", secondary_y=False, type='log')
+
+
+        return fig1, fig2, fig3, fig4, fig5, fig6

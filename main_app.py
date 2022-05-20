@@ -12,7 +12,7 @@ navbar = dbc.NavbarSimple(
     children=[
         dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
     ],
-    brand="Brand",
+    brand="Data Analysis",
     brand_href="#",
     color="dark",
     dark=True,
