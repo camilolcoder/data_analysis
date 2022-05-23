@@ -238,9 +238,13 @@ layout = [
         Output('s&p500-dxy', 'figure'),
         Output('s&p500-jobless', 'figure'),
         Input('slider-s&p500', 'value'),
+        # Input('Rocky-balboa', 'figure')
 )
 
 def update_data(correlation):
+
+        # def RockyBalboa():
+            
 
         #S&P500 Historical data
         s_p500 = pd.read_csv('data/sp500_daily-1950-to-2022.csv')
