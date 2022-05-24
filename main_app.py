@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash import dcc
 from dash.dependencies import Input, Output, State
-from sidebar_pages import page0, page1, page2, page3, page4, page5, page6
+from sidebar_pages import page0, page1, page5, page6
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
@@ -83,7 +83,7 @@ sidebar = html.Div(
 
 
 
-        
+
         dbc.Nav(
             [
                 dbc.NavLink("Main page", href="/", active="exact", style=NAVBAR_STYLE),
@@ -153,15 +153,6 @@ def render_page_content(pathname):
     elif pathname == "/page-1":
         return page1.layout
 
-    # elif pathname == "/page-2":
-    #     return page2.layout
-
-    # elif pathname == "/page-3":
-    #     return page3.layout
-
-    # elif pathname == "/page-4":
-    #     return page4.layout
-        
     elif pathname == "/page-5":
         return page5.layout
 

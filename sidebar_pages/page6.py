@@ -1,11 +1,16 @@
+from turtle import color
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
-from dash import dcc, callback
+from dash import html, dcc, callback, dash_table
 import pandas as pd
 import numpy as np
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import data_processing as dp
+
+economic_df = dp.economic_calendar()
+economic_df = economic_df.drop(['id'], axis=1)
 
 layout = [
             
@@ -21,6 +26,48 @@ layout = [
                     ]),
                 ], width=12),]
                 , className = 'mb-2 mt-2'),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            # dcc.Graph(id='economic-calendar', figure={}),
+                            html.H2('Economic calendar'),
+                            dash_table.DataTable(
+                                # data = dict(values=[economic_df.id, economic_df.date, economic_df.time
+                                #       , economic_df.zone, economic_df.currency, economic_df.importance, economic_df.event,
+                                #       economic_df.actual, economic_df.forecast, economic_df.previous]),
+                                data = economic_df.to_dict('records'),
+                                columns =[{'id': c, 'name':c} for c in economic_df.columns],
+                                style_cell_conditional=[
+                                    {
+                                        'if': {'column_id': c},
+                                        'textAlign': 'left'
+                                    } for c in ['Date', 'Region']
+                                ],
+                                style_data={
+                                    'color': 'black',
+                                    'backgroundColor': 'white',
+                                    'border': '1px solid black'
+                                },
+                                # style_data_conditional=[
+                                #     {
+                                #         'if': {'row_index': 'odd'},
+                                #         'backgroundColor': 'rgb(220, 220, 220)',
+                                #     }
+                                # ],
+                                style_header={
+                                    'backgroundColor': 'rgb(210, 210, 210)',
+                                    'color': 'black',
+                                    'fontWeight': 'bold',
+                                    'border': '1px solid black',
+                                    'textAlign': 'center'
+                                }    
+                            )
+                        ])
+                    ]),
+                #],width=6),
+                ], width=12),], className = 'mb-2 mt-2'),
             
             dbc.Row([
                 dbc.Col([
@@ -209,6 +256,7 @@ layout = [
                     dbc.Card([
                         dbc.CardBody([
                             dcc.Graph(id='s&p500-jobless', figure={}),
+
                         ])
                     ]),
                 #],width=6),
@@ -237,6 +285,7 @@ layout = [
         Output('s&p500-rsxfs', 'figure'),
         Output('s&p500-dxy', 'figure'),
         Output('s&p500-jobless', 'figure'),
+        #Output('economic-calendar', 'figure'),
         Input('slider-s&p500', 'value'),
         # Input('Rocky-balboa', 'figure')
 )
@@ -317,6 +366,8 @@ def update_data(correlation):
         df4.Date = pd.to_datetime(df4.Date)
         df4 = df4.set_index('Date')
         df4.index = df4.index.date
+
+        #economic_df = dp.economic_calendar()
 
         fig1 = make_subplots(specs=[[{"secondary_y": True}]])
         
@@ -515,5 +566,26 @@ def update_data(correlation):
         fig6.update_xaxes(title_text="<b>Date</b>")
         fig6.update_yaxes(title_text="<b>IC</b>", secondary_y=False, type='log')
 
+        # fig7 = go.Figure(data=[go.Table(
+
+        #         header=dict(values=list(economic_df.columns),
+        #                     fill_color='#232345',
+        #                     align='left'),
+
+        #         cells=dict(values=[economic_df.id, economic_df.date, economic_df.time
+        #         , economic_df.zone, economic_df.currency, economic_df.importance, economic_df.event,
+        #         economic_df.actual, economic_df.forecast, economic_df.previous],
+        #                 fill_color='lavender',
+        #                 align='left'))
+        #     ])
+
+        # fig7 = dash_table.DataTable(
+        #     # values = dict(values=[economic_df.id, economic_df.date, economic_df.time
+        #     #       , economic_df.zone, economic_df.currency, economic_df.importance, economic_df.event,
+        #     #       economic_df.actual, economic_df.forecast, economic_df.previous])
+        #     data = economic_df.to_dict('records'),
+        #     columns =[{'id': c, 'name':c} for c in economic_df.columns]
+
+        #     )
 
         return fig1, fig2, fig3, fig4, fig5, fig6

@@ -242,7 +242,22 @@ layout = [
                             dcc.Graph(id='bitcoin-log', figure=fig2),
                         ])
                     ]),
-                ], width=6),]
+                ], width=6),
+                
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Markdown('''
+
+                                The graph shows a high correlation bewtween the S&P 500 and Bitcoin, then by
+                                looking a the S&P 500 we can get and idea of the posible response of Bitcoin
+                                to different economic scenarios.
+
+                                '''),
+                        ])
+                    ], color='dark', outline=True),
+                ], width=6)
+                ]
                 , className = 'mb-2 mt-2'),
             
             dbc.Row([
