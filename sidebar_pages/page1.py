@@ -60,6 +60,45 @@ layout = [
                     ]),
                 ], width=12),
                 ], className = 'mb-2 mt-2')
+            
+            # dbc.Row([
+            #     dbc.Col([
+            #         dcc.Input(
+            #             id = 'crypto_name_growth',
+            #             placeholder='Enter a crypto...',
+            #             type='text',
+            #             value='bitcoin',
+            #             style={'width':'100%'},
+            #         )
+            #     ], width=6),
+            #     dbc.Col([
+            #         dcc.Input(
+            #             id = 'from_date_growth',
+            #             placeholder='Enter a crypto...',
+            #             type='text',
+            #             value='2017-01-01',
+            #             style={'width':'100%'},
+            #         )
+            #     ], width=3),
+            #     dbc.Col([
+            #         dcc.Input(
+            #             id = 'to_date_growth',
+            #             placeholder='Enter a crypto...',
+            #             type='text',
+            #             value='2022-02-02',
+            #             style={'width':'100%'},
+            #         )
+            #     ], width=3),
+            #     ], className = 'mb-2 mt-2'),
+            # dbc.Row([
+            #     dbc.Col([
+            #         dbc.Card([
+            #             dbc.CardBody([
+            #                 dcc.Graph(id='crypto-growth', figure={}),
+            #             ])
+            #         ]),
+            #     ], width=12),
+            #     ], className = 'mb-2 mt-2')
 
         ]
 

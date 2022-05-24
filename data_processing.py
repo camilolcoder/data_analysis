@@ -27,6 +27,25 @@ import pandas_datareader as web
 import san
 import yfinance as yf
 
+import investpy
+
+
+def index_dataUS(index:str, from_date:str, to_date:str):
+    df = investpy.indices.get_index_historical_data(index='S&P 500',
+                                        country='United States',
+                                        from_date=from_date,
+                                        to_date=to_date)
+    return df
+
+def economic_calendar():
+    news_df = investpy.news.economic_calendar(time_zone=None, 
+                                        time_filter='time_only', 
+                                        countries=['United States'], 
+                                        importances=None, 
+                                        categories=None, 
+                                        from_date=None,#'01/04/2022', 
+                                        to_date=None)
+    return news_df
 
 def crypto_data(crypto:str, from_date:str, to_date:str):
     ohlc_df = san.get(
