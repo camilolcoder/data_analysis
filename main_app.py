@@ -79,13 +79,18 @@ sidebar = html.Div(
         html.P(
             "Metrics for analysis", className="lead"
         ),
+
+
+
+
+        
         dbc.Nav(
             [
-                dbc.NavLink("Crypto price vs trending", href="/", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto price vs mc", href="/page-1", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto adresses growth", href="/page-2", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto twitter growth", href="/page-3", active="exact", style=NAVBAR_STYLE),
-                dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Main page", href="/", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink("Crypto metrics", href="/page-1", active="exact", style=NAVBAR_STYLE),
+                # dbc.NavLink("Crypto adresses growth", href="/page-2", active="exact", style=NAVBAR_STYLE),
+                # dbc.NavLink("Crypto twitter growth", href="/page-3", active="exact", style=NAVBAR_STYLE),
+                # dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('Bitcoin analysis metrics', href="/page-5", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('S&P 500 metrics', href="/page-6", active="exact", style=NAVBAR_STYLE),
             ],
@@ -143,19 +148,19 @@ def toggle_sidebar(n, nclick):
 def render_page_content(pathname):
 
     if pathname == "/":
-        return page0.layout
+        return []
 
     elif pathname == "/page-1":
         return page1.layout
 
-    elif pathname == "/page-2":
-        return page2.layout
+    # elif pathname == "/page-2":
+    #     return page2.layout
 
-    elif pathname == "/page-3":
-        return page3.layout
+    # elif pathname == "/page-3":
+    #     return page3.layout
 
-    elif pathname == "/page-4":
-        return page4.layout
+    # elif pathname == "/page-4":
+    #     return page4.layout
         
     elif pathname == "/page-5":
         return page5.layout

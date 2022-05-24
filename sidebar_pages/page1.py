@@ -97,7 +97,7 @@ layout = [
         Output('crypto-mc', 'figure'),
         Output('crypto-social', 'figure'),
         Output('crypto-total-sentiment', 'figure'),
-        Output('crypto-trending', 'figure'),
+        #Output('crypto-trending', 'figure'),
         Input('crypto_name_mc', 'value'),
         Input('slc_scale', 'value'),
         Input('from_date_mc', 'value'),
@@ -204,37 +204,37 @@ def update_data(crypto, scale, from_date, to_date): #, year):
     font_color="black",
     )
 
-    fig3 = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
-    df8 = dp.collect_trend_score('crypto', 1)
-    columns = df1.columns
-    #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
-    df9 = dp.crypto_data(crypto, from_date, to_date)
+    # fig3 = make_subplots(specs=[[{"secondary_y": True}]])#go.Figure()
+    # df8 = dp.collect_trend_score('crypto', 1)
+    # columns = df1.columns
+    # #df2 = dp.get_binance_bars('BTCUSDT', '1d', dt.datetime(2020, 1, 1), dt.datetime(2022, 2, 1))
+    # df9 = dp.crypto_data(crypto, from_date, to_date)
 
-    fig3.add_trace(go.Scatter(x=df8.index, y=df8[columns[0]],
-                    mode='lines',
-                    name='trending',
-                    line=dict(color='rgb(49,50,58)',
-                                width=3)
-                    ),secondary_y=True)
+    # fig3.add_trace(go.Scatter(x=df8.index, y=df8[columns[0]],
+    #                 mode='lines',
+    #                 name='trending',
+    #                 line=dict(color='rgb(49,50,58)',
+    #                             width=3)
+    #                 ),secondary_y=True)
 
-    fig3.add_trace(go.Scatter(x=df9.index, y=df9.closePriceUsd,
-                    mode='lines',
-                    name=crypto+' price',
-                    line=dict(color='rgb(51,63,169)',
-                                width=3)
-                    ),secondary_y=False)
+    # fig3.add_trace(go.Scatter(x=df9.index, y=df9.closePriceUsd,
+    #                 mode='lines',
+    #                 name=crypto+' price',
+    #                 line=dict(color='rgb(51,63,169)',
+    #                             width=3)
+    #                 ),secondary_y=False)
     
-    # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
-    #               marker_line_width=2)
+    # # fig.update_traces(marker_color=['rgb(250,38,52)', 'rgb(65,255,78)'],
+    # #               marker_line_width=2)
 
-    fig3.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
-    fig3.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
+    # fig3.update_yaxes(title_text="<b>Trending values</b>", secondary_y=True)
+    # fig3.update_yaxes(title_text="<b>Crypto price</b>", secondary_y=False, type='linear')
 
-    fig3.update_layout(
-    font_color="black",
-    )
-
-
+    # fig3.update_layout(
+    # font_color="black",
+    # )
 
 
-    return fig, fig1, fig2, fig3#, figo
+
+
+    return fig, fig1, fig2 #, figo 
