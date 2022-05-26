@@ -33,12 +33,6 @@ layout = [
                                 columns =[{'id': c, 'name':c} for c in economic_df.columns],
                                 page_size=15,
                                 style_table={'height':'350px', 'overflowY':'auto'},
-                                style_cell_conditional=[
-                                    {
-                                        'if': {'column_id': c},
-                                        'textAlign': 'left'
-                                    } for c in ['Date', 'Region']
-                                ],
                                 style_data={
                                     'color': 'black',
                                     'backgroundColor': 'white',

@@ -1,22 +1,59 @@
+from turtle import color
 import dash
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash import dcc
 from dash.dependencies import Input, Output, State
 from sidebar_pages import page0, page1, page5, page6
+from dash_extensions import Lottie
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
-navbar = dbc.NavbarSimple(
-    children=[
+# navbar = dbc.NavbarSimple(
+#     children=[
+#         dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
+#     ],
+#     brand="Data Analysis",
+#     brand_href="#",
+#     color="dark",
+#     dark=True,
+#     fluid=True,
+# )
+url = 'https://assets8.lottiefiles.com/packages/lf20_lljs8qwh.json'
+options = dict(loop=True, autoplay=True, rendererSettings=dict(preserveAspectRatio='xMidYMid slice'))
+PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
+
+navbar = dbc.Navbar(
+    dbc.Container([
+        html.A(
+                # Use row and col to control vertical alignment of logo / brand
+                dbc.Row(
+                    [
+                        #dbc.Col(Lottie(options=options, width="15%", height="15%", url=url)),
+                        dbc.Col(html.H2(children='Data Analysis',
+                                    style={
+                                        'textAlign':'center',
+                                        'color': '#FFFFFF'
+                                    }, className='ms-2')),
+                    ],
+                    align="center",
+                    className="g-0",
+                ),
+                href="https://plotly.com",
+                style={"textDecoration": "none"},
+            ),
+        # html.Img(src=PLOTLY_LOGO, height="30px"),
+        # html.Img(src=PLOTLY_LOGO, height="30px"),
+        # html.H2(children='Economic calendar',
+        #         style={
+        #             'textAlign':'center',
+        #             'color': '#FFFFFF'
+        #         }),
         dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
-    ],
-    brand="Data Analysis",
-    brand_href="#",
-    color="dark",
+    ]),
+    color='dark',
     dark=True,
-    fluid=True,
 )
 
 # styling the sidebar
