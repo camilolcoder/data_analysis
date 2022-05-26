@@ -9,8 +9,8 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import data_processing as dp
 
-economic_df = dp.economic_calendar()
-economic_df = economic_df.drop(['id'], axis=1)
+# economic_df = dp.economic_calendar()
+# economic_df = economic_df.drop(['id'], axis=1)
 
 layout = [
             
@@ -26,48 +26,6 @@ layout = [
                     ]),
                 ], width=12),]
                 , className = 'mb-2 mt-2'),
-            
-            dbc.Row([
-                dbc.Col([
-                    dbc.Card([
-                        dbc.CardBody([
-                            # dcc.Graph(id='economic-calendar', figure={}),
-                            html.H2('Economic calendar'),
-                            dash_table.DataTable(
-                                # data = dict(values=[economic_df.id, economic_df.date, economic_df.time
-                                #       , economic_df.zone, economic_df.currency, economic_df.importance, economic_df.event,
-                                #       economic_df.actual, economic_df.forecast, economic_df.previous]),
-                                data = economic_df.to_dict('records'),
-                                columns =[{'id': c, 'name':c} for c in economic_df.columns],
-                                style_cell_conditional=[
-                                    {
-                                        'if': {'column_id': c},
-                                        'textAlign': 'left'
-                                    } for c in ['Date', 'Region']
-                                ],
-                                style_data={
-                                    'color': 'black',
-                                    'backgroundColor': 'white',
-                                    'border': '1px solid black'
-                                },
-                                # style_data_conditional=[
-                                #     {
-                                #         'if': {'row_index': 'odd'},
-                                #         'backgroundColor': 'rgb(220, 220, 220)',
-                                #     }
-                                # ],
-                                style_header={
-                                    'backgroundColor': 'rgb(210, 210, 210)',
-                                    'color': 'black',
-                                    'fontWeight': 'bold',
-                                    'border': '1px solid black',
-                                    'textAlign': 'center'
-                                }    
-                            )
-                        ])
-                    ]),
-                #],width=6),
-                ], width=12),], className = 'mb-2 mt-2'),
             
             dbc.Row([
                 dbc.Col([

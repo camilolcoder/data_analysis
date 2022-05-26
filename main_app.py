@@ -148,7 +148,7 @@ def toggle_sidebar(n, nclick):
 def render_page_content(pathname):
 
     if pathname == "/":
-        return []
+        return page0.layout
 
     elif pathname == "/page-1":
         return page1.layout
