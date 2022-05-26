@@ -1,3 +1,4 @@
+from click import style
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from dash import dcc, callback, html, dash_table

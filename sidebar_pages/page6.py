@@ -12,8 +12,16 @@ import data_processing as dp
 # economic_df = dp.economic_calendar()
 # economic_df = economic_df.drop(['id'], axis=1)
 
+# CONTENT_STYLE = {
+#     #"margin-left": "18rem",
+#     #"margin-right": "2rem",
+#     #"padding": "2rem 1rem",
+#     "padding-top": "55px",
+#     "overflow":"scroll",
+#     "z-index":1
+#     }
+
 layout = [
-            
             dbc.Row([
                 dbc.Col([
                     dbc.Card([
@@ -233,7 +241,6 @@ layout = [
                         ])
                     ], color='dark', outline=True),
                 ], width=12),], className = 'mb-2 mt-2')
-
         ]
 
 @callback(

@@ -50,26 +50,32 @@ navbar = dbc.Navbar(
         #             'textAlign':'center',
         #             'color': '#FFFFFF'
         #         }),
-        dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
+        #dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
+        html.Button(id='btn_sidebar', children=[html.Img(src='assets/sidebar_img.png')]),
     ]),
     color='dark',
     dark=True,
+    style={
+        "position": "sticky",
+        "top":0,
+        "z-index": 9999}
 )
 
 # styling the sidebar
 SIDEBAR_STYLE = {
     "position": "fixed",
-    "top": 0,
+    "top": "4rem",
     "left": 0,
     "bottom": 0,
     "width": "16rem",
-    "height": "100%",
+    "height": "90%",
     "z-index": 1,
     "overflow-x": "hidden",
     "transition": "all 0.5s",
-    "padding": "0.5rem 1rem",
+    #"padding": "0.5rem 1rem",
+    "padding": "4rem 1rem 2rem",
     #"background-color": "#47627d",
-    "background-color": "#333741",
+    "background-color": "#3399FF",
     "overflow":"scroll",
 }
 
@@ -83,7 +89,8 @@ SIDEBAR_HIDEN = {
     "z-index": 1,
     "overflow-x": "hidden",
     "transition": "all 0.5s",
-    "padding": "0rem 0rem",
+    #"padding": "0rem 0rem",
+    "padding": "4rem 1rem 2rem",
     "background-color": "#f8f9fa",
 }
 
@@ -92,6 +99,10 @@ CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
+    #"padding-top": "55px",
+    "overflow":"fixed"
+    # "height":"100%",
+    #"z-index": 1
 }
 
 CONTENT_STYLE1 = {
@@ -100,26 +111,35 @@ CONTENT_STYLE1 = {
     "margin-right": "2rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
+    #"padding-top": "55px",
+    "overflow":"fixed"
+    # "overflow":"auto",
+    # "height":"100%",
+    #"z-index": 1
 }
 
 NAVBAR_STYLE = {
     "color": "#fff",
     "font-size": "16px",
+    # "position": "sticky",
+    # "top":0,
+    # "z-index": 100
+    #"left": '16px',
     #"font-weight": 700,
     #"background-color": "#bedbf7",
 }
 
 sidebar = html.Div(
     [
-        html.H2("Beta 1.0 metrics", className="display-4"),
+        html.H3(children='Beta 1.0 Metrics',
+            style={
+                'textAlign':'center',
+                'color': '#FFFFFF'
+            }),
         html.Hr(),
         html.P(
             "Metrics for analysis", className="lead"
         ),
-
-
-
-
 
         dbc.Nav(
             [
