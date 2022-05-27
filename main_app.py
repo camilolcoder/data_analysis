@@ -99,10 +99,14 @@ CONTENT_STYLE = {
     "margin-left": "18rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
     #"padding-top": "55px",
-    "overflow":"fixed"
-    # "height":"100%",
-    #"z-index": 1
+    "overflow-x": "hidden",
+    "overflow":"scroll",
+    "height":"70%",
+    "z-index": 1
 }
 
 CONTENT_STYLE1 = {
@@ -111,10 +115,11 @@ CONTENT_STYLE1 = {
     "margin-right": "2rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
+    "top": "12rem",
     #"padding-top": "55px",
-    "overflow":"fixed"
+    #"overflow":"fixed"
     # "overflow":"auto",
-    # "height":"100%",
+    "height":"90%",
     #"z-index": 1
 }
 

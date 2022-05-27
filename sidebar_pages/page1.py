@@ -53,9 +53,14 @@ layout = [
                 ], className = 'mb-2 mt-2'),
             dbc.Row([
                 dbc.Col([
-                    dbc.Card([
+                    dbc.Card(children=[
                         dbc.CardBody([
-                            dcc.Graph(id='crypto-mc', figure={}),
+                            dcc.Graph(id='crypto-mc', figure={} ,
+                            style = {
+                    "overflow":"hidden",
+                    "height":"100%",
+                    "z-index": 1
+                }),
                         ])
                     ]),
                 ], width=12),
