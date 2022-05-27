@@ -78,8 +78,8 @@ layout = [
 
                                 ##### FFER & the S&P500?
 
-                                The reason for showing FFER & the S&P500 its to see the impact the change in interst rates have had over time in 
-                                the stock market, interst not only have an impact on the stock market but on the economy as a whole, impacting the 
+                                The reason for showing FFER & the S&P500 its to see the impact the change in interest rates has had in 
+                                the stock market over time, interest not only have an impact on the stock market but on the economy as a whole, influencing the 
                                 bond markets, inflation, and recessions. More information aboout the impacts of inters rate on the economy can be found
                                 on the next article [How interst rates affect the U.S Markets](https://www.investopedia.com/articles/stocks/09/how-interest-rates-affect-markets.asp)
 
@@ -234,9 +234,13 @@ layout = [
                         dbc.CardBody([
                             dcc.Markdown('''
 
-                                This graph shows the performance of the S&P500 and the recessions 
-                                it has gone through. The recession data was collected from [FRED](https://fred.stlouisfed.org/)
+                                A high unemployment rate affects the economy in many ways.
+                                Unemployed people tend to spend less, may accrue more debt, and unemployment may
+                                lead to higher payments from state and federal governments for things like food stamps.
+                                The jobless claims data was collected from [FRED](https://fred.stlouisfed.org/)
 
+                                More information about the unemployment impact on economy can be found on 
+                                [The Cost of Unemployment to the Economy](https://www.investopedia.com/financial-edge/0811/the-cost-of-unemployment-to-the-economy.aspx)
                                 '''),
                         ])
                     ], color='dark', outline=True),
