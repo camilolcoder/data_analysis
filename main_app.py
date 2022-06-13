@@ -1,4 +1,3 @@
-from turtle import color
 import dash
 import dash_bootstrap_components as dbc
 import dash_html_components as html
@@ -14,6 +13,7 @@ server = app.server
 #     children=[
 #         dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar")
 #     ],
+
 #     brand="Data Analysis",
 #     brand_href="#",
 #     color="dark",
