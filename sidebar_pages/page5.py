@@ -15,7 +15,7 @@ import pandas_datareader as web
 
 fig = go.Figure()
 
-#df1 = dp.crypto_data('bitcoin', '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
+#df1 = dp.crypto_data('bitcoin'sp, '2011-01-01', '2022-02-02') #dp.collect_trend_score('crypto', 1)
 df1 = pd.read_csv('data/BTC_historical_data_clean.csv')
 df1 = df1.drop(['Vol.', 'Change %'], axis=1)
 df1 = df1.replace(',','', regex=True)
@@ -44,9 +44,11 @@ df1['sma'] = df1.Price.rolling(window=SMA_PERIOD).mean()
 df1['ema'] = df1.Price.ewm(span=EMA_PERIOD,adjust=False).mean()
 #dates = len(df1.closePriceUsd)
 weeks = np.linspace(1, len(df1), num=len(df1))
+# df_right_index = df1.copy()
+# df_right_index = df_right_index.iloc[::-1]
 btc_price = np.log(df1.Price)
 
-popt, pcov = curve_fit(dp.fitter, weeks, btc_price, p0=(5.0, -15))
+popt, pcov = curve_fit(dp.fitter, weeks, btc_price, p0=(5.0, -10))
 
 fitted_data = dp.fitter(weeks, popt[0], popt[1])
 
@@ -114,13 +116,13 @@ fig1.add_trace(go.Scatter(x=df1.index, y=df1.Price,
                 line=dict(color='rgb(0,102,204)',
                             width=3)
                 ))
-for i in range(-2,4):
-    fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data + i),
-                    mode='lines',
-                    name='trendline'+str(i),
-                    line=dict(color='rgb(49,50,58)',
-                                width=3)
-                    ))
+# for i in range(-2,4):
+fig1.add_trace(go.Scatter(x=df1.index, y=np.exp(fitted_data),
+                mode='lines',
+                name='trendline',#+str(i),
+                line=dict(color='rgb(49,50,58)',
+                            width=3)
+                ))
 
 #fig1.update_xaxes(title_text="<b>Date</b>", type='log', range=[3.3034,3.3057])
 fig1.update_layout(

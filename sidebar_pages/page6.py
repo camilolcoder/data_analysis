@@ -1,4 +1,3 @@
-from turtle import color
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 from dash import html, dcc, callback, dash_table
@@ -233,6 +232,8 @@ layout = [
                     dbc.Card([
                         dbc.CardBody([
                             dcc.Markdown('''
+
+                                ##### Jobless claims and the economy    
 
                                 A high unemployment rate affects the economy in many ways.
                                 Unemployed people tend to spend less, may accrue more debt, and unemployment may
