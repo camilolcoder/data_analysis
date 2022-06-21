@@ -245,7 +245,37 @@ layout = [
                                 '''),
                         ])
                     ], color='dark', outline=True),
-                ], width=12),], className = 'mb-2 mt-2')
+                ], width=12),], className = 'mb-2 mt-2'),
+
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Graph(id='s&p500-procentage', figure={}),
+
+                            ])
+                        ])
+                    ],width=6),
+                    #], width=6),], className = 'mb-2 mt-2'),
+                
+                    dbc.Col([
+                        dbc.Card([
+                            dbc.CardBody([
+                                dcc.Markdown('''
+
+                                    ##### Jobless claims and the economy    
+
+                                    A high unemployment rate affects the economy in many ways.
+                                    Unemployed people tend to spend less, may accrue more debt, and unemployment may
+                                    lead to higher payments from state and federal governments for things like food stamps.
+                                    The jobless claims data was collected from [FRED](https://fred.stlouisfed.org/)
+
+                                    More information about the unemployment impact on economy can be found on 
+                                    [The Cost of Unemployment to the Economy](https://www.investopedia.com/financial-edge/0811/the-cost-of-unemployment-to-the-economy.aspx)
+                                    '''),
+                            ])
+                        ], color='dark', outline=True),
+                    ], width=6),], className = 'mb-2 mt-2')
         ]
 
 @callback(
@@ -255,6 +285,7 @@ layout = [
         Output('s&p500-rsxfs', 'figure'),
         Output('s&p500-dxy', 'figure'),
         Output('s&p500-jobless', 'figure'),
+        Output('s&p500-procentage', 'figure'),
         #Output('economic-calendar', 'figure'),
         Input('slider-s&p500', 'value'),
         # Input('Rocky-balboa', 'figure')
@@ -535,6 +566,9 @@ def update_data(correlation):
         fig6.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig6.update_xaxes(title_text="<b>Date</b>")
         fig6.update_yaxes(title_text="<b>IC</b>", secondary_y=False, type='log')
+ 
+        fig7 = go.Figure([go.Bar(x=['positive', 'negative'], y=[57, 84])])
+
 
         # fig7 = go.Figure(data=[go.Table(
 
@@ -558,4 +592,4 @@ def update_data(correlation):
 
         #     )
 
-        return fig1, fig2, fig3, fig4, fig5, fig6
+        return fig1, fig2, fig3, fig4, fig5, fig6, fig7

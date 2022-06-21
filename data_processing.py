@@ -104,6 +104,24 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
+def porcentage_data():
+    today = date.today()
+    today = today.strftime("%d/%m/%Y")
+
+    df_data = index_dataUS('c', '01/01/1950', today)
+    #print(df_data)
+
+    data = []
+
+    for count, data_prices  in enumerate(zip(df_data.Close, df_data.Open), 0):
+        #print((data_prices[0])-(data_prices[1]))*100
+        daily_porcentage = ((data_prices[0]-data_prices[1])*100)/data_prices[0]
+        #print(daily_porcentage)
+        data.append(daily_porcentage)
+    
+    return data
+
+#print(porcentage_data())
 # df = pd.read_csv('data/BTC_historical_data_clean.csv')
 # df = df.replace(',','', regex=True)
 # df.Date = pd.to_datetime(df.Date)
