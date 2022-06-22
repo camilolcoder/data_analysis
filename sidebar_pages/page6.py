@@ -265,11 +265,12 @@ layout = [
 
                                     ##### What happens after a bloody day in the stock market
 
-                                    More information about the unemployment impact on economy can be found on 
-                                    [The Cost of Unemployment to the Economy](https://www.investopedia.com/financial-edge/0811/the-cost-of-unemployment-to-the-economy.aspx)
+                                    This bar chart shows historicaly how the S&P500 have opened the next day after closing -3% or more on the daily
+                                    frame.
+
                                     '''),
                             ])
-                        ], color='dark', outline=True),
+                        ], style={"height": 480}, color='dark', outline=True),
                     ], width=6),], className = 'mb-2 mt-2')
         ]
 
