@@ -263,12 +263,7 @@ layout = [
                             dbc.CardBody([
                                 dcc.Markdown('''
 
-                                    ##### Jobless claims and the economy    
-
-                                    A high unemployment rate affects the economy in many ways.
-                                    Unemployed people tend to spend less, may accrue more debt, and unemployment may
-                                    lead to higher payments from state and federal governments for things like food stamps.
-                                    The jobless claims data was collected from [FRED](https://fred.stlouisfed.org/)
+                                    ##### What happens after a bloody day in the stock market
 
                                     More information about the unemployment impact on economy can be found on 
                                     [The Cost of Unemployment to the Economy](https://www.investopedia.com/financial-edge/0811/the-cost-of-unemployment-to-the-economy.aspx)
@@ -367,6 +362,11 @@ def update_data(correlation):
         df4.Date = pd.to_datetime(df4.Date)
         df4 = df4.set_index('Date')
         df4.index = df4.index.date
+
+        #Porcentages data
+
+        df_por = dp.porcentage_data()
+        por_values = dp.get_porc(df_por)
 
         #economic_df = dp.economic_calendar()
 
@@ -566,10 +566,16 @@ def update_data(correlation):
         fig6.update_yaxes(title_text="<b>S&P500 price</b>", secondary_y=True, type='log')
         fig6.update_xaxes(title_text="<b>Date</b>")
         fig6.update_yaxes(title_text="<b>IC</b>", secondary_y=False, type='log')
- 
-        fig7 = go.Figure([go.Bar(x=['positive', 'negative'], y=[57, 84])])
 
+        fig7 = go.Figure([go.Bar(x=['Positive', 'Negative'], 
+                                y=[por_values[0], por_values[1]]
+                                )])
+        
+        fig7.update_traces(marker_color = ['rgb(31,242,87)', 'rgb(253,49,49)'], marker_line_color='rgb(0,0,0)',
+                  marker_line_width=1.5, opacity=0.8)
 
+#31,242,87
+#253,49,49
         # fig7 = go.Figure(data=[go.Table(
 
         #         header=dict(values=list(economic_df.columns),

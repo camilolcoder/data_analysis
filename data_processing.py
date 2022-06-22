@@ -130,7 +130,7 @@ def get_porc(list_):
     look_out = False
 
     for count, porc in enumerate(list_):
-
+        results = []
         if look_out == True:
             look_out = False
 
@@ -143,10 +143,13 @@ def get_porc(list_):
         if porc <= 3:
             look_out = True
         
-        pos = do_percentage(positive, len(data)-1)
-        neg = do_percentage(negative, len(data)-1)
+        pos = do_percentage(positive, len(list_)-1)
+        neg = do_percentage(negative, len(list_)-1)
 
-        return (pos, neg)
+    results.append(pos)
+    results.append(neg)
+
+    return results
 
 #print(porcentage_data())
 # df = pd.read_csv('data/BTC_historical_data_clean.csv')
