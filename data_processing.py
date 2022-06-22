@@ -121,6 +121,33 @@ def porcentage_data():
     
     return data
 
+def do_percentage(amount, total):
+    return (amount*100)/total
+
+def get_porc(list_):
+    positive = 0
+    negative = 0
+    look_out = False
+
+    for count, porc in enumerate(list_):
+
+        if look_out == True:
+            look_out = False
+
+            if porc >= 0:
+                positive += 1
+            
+            else:
+                negative += 1
+        
+        if porc <= 3:
+            look_out = True
+        
+        pos = do_percentage(positive, len(data)-1)
+        neg = do_percentage(negative, len(data)-1)
+
+        return (pos, neg)
+
 #print(porcentage_data())
 # df = pd.read_csv('data/BTC_historical_data_clean.csv')
 # df = df.replace(',','', regex=True)
