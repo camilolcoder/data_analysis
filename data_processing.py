@@ -104,7 +104,7 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
-def porcentage_data(next_day):
+def porcentage_data():
     today = date.today()
     today = today.strftime("%d/%m/%Y")
 
@@ -113,7 +113,7 @@ def porcentage_data(next_day):
 
     data = []
 
-    for count, data_prices  in enumerate(zip(df_data.Close, df_data[next_day]), 0):
+    for count, data_prices  in enumerate(zip(df_data.Close, df_data.Open), 0):
         #print((data_prices[0])-(data_prices[1]))*100
         daily_porcentage = ((data_prices[0]-data_prices[1])*100)/data_prices[0]
         #print(daily_porcentage)
@@ -124,7 +124,7 @@ def porcentage_data(next_day):
 def do_percentage(amount, total):
     return (amount*100)/total
 
-def get_porc(list_):
+def get_porc(list_, next_day):
     positive = 0
     negative = 0
     look_out = False
@@ -150,6 +150,10 @@ def get_porc(list_):
     results.append(neg)
 
     return results
+
+#TODO Error getting data about next day opening
+#TODO Implement correlations between consumer expectations and stock market
+#TODO Implement linear regressions in order to look for future tendences in the market
 
 #print(porcentage_data())
 # df = pd.read_csv('data/BTC_historical_data_clean.csv')
