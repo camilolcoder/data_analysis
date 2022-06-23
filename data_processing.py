@@ -124,7 +124,7 @@ def porcentage_data():
 def do_percentage(amount, total):
     return (amount*100)/total
 
-def get_porc(list_, next_day):
+def get_porc(list_, porcent):
     positive = 0
     negative = 0
     look_out = False
@@ -140,7 +140,7 @@ def get_porc(list_, next_day):
             else:
                 negative += 1
         
-        if porc <= 3:
+        if porc <= porcent:
             look_out = True
         
         pos = do_percentage(positive, len(list_)-1)

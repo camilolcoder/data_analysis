@@ -259,6 +259,15 @@ layout = [
                                 style={'width':'100%'},
                         )
                     ], width=3),
+                    dbc.Col([
+                        dcc.Input(
+                            id = 'slc_porcentage',
+                            placeholder='Enter porc',
+                            type='number',
+                            value='3',
+                            style={'width':'100%'},
+                        )
+                    ], width=3),
                 ]),
 
                 dbc.Row([
@@ -280,8 +289,10 @@ layout = [
 
                                     ##### What happens after a bloody day in the stock market
 
-                                    This bar chart shows historicaly how the S&P500 have opened the next day after closing -3% or more on the daily
-                                    frame.
+                                    This bar chart shows historicaly how the S&P500 have closed the next day after closing a %  which you can
+                                    especify on the space above the bar chart or more on the daily frame.
+
+                                    The S&P500 data is retrieved from [investing.com](https://www.investing.com/)
 
                                     '''),
                             ])
@@ -298,10 +309,11 @@ layout = [
         Output('s&p500-jobless', 'figure'),
         Output('s&p500-procentage', 'figure'),
         Input('slider-s&p500', 'value'),
-        Input('slc_oc', 'value')
+        Input('slc_oc', 'value'),
+        Input('slc_porcentage', 'value')
 )
 
-def update_data(correlation, op_cl):
+def update_data(correlation, op_cl, porcentage):
 
         # def RockyBalboa():
             
@@ -380,8 +392,8 @@ def update_data(correlation, op_cl):
 
         #Porcentages data
 
-        df_por = dp.porcentage_data(op_cl)
-        por_values = dp.get_porc(df_por)
+        df_por = dp.porcentage_data()
+        por_values = dp.get_porc(df_por, float(porcentage))
 
         #economic_df = dp.economic_calendar()
 
