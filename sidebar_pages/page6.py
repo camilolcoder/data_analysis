@@ -248,6 +248,7 @@ layout = [
                 ], width=12),], className = 'mb-2 mt-2'),
 
                 dbc.Row([
+                    dbc.Row([
                     dbc.Col([
                         dbc.Card([
                             dbc.CardBody([
@@ -256,6 +257,20 @@ layout = [
                             ])
                         ])
                     ],width=6),
+                    
+                    dbc.Col([
+                    dcc.Dropdown(id='slc_oc',
+                            options = [
+                                {'label':'Open', 'value': 'Open'},
+                                {'label':'Close', 'value':'Close'}
+                            ],
+                            multi = False,
+                            value = 'Open',
+                            style={'width':'100%'},
+                    )
+                    ], width=3), 
+
+                    ]),
                     #], width=6),], className = 'mb-2 mt-2'),
                 
                     dbc.Col([
@@ -282,12 +297,11 @@ layout = [
         Output('s&p500-dxy', 'figure'),
         Output('s&p500-jobless', 'figure'),
         Output('s&p500-procentage', 'figure'),
-        #Output('economic-calendar', 'figure'),
         Input('slider-s&p500', 'value'),
-        # Input('Rocky-balboa', 'figure')
+        Input('slc_oc', 'value')
 )
 
-def update_data(correlation):
+def update_data(correlation, op_cl):
 
         # def RockyBalboa():
             
@@ -366,7 +380,7 @@ def update_data(correlation):
 
         #Porcentages data
 
-        df_por = dp.porcentage_data()
+        df_por = dp.porcentage_data(op_cl)
         por_values = dp.get_porc(df_por)
 
         #economic_df = dp.economic_calendar()

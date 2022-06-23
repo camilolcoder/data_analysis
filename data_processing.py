@@ -104,7 +104,7 @@ def market_cap(crypto:str, from_date:str, to_date:str):
     )
     return net_growth_df
 
-def porcentage_data():
+def porcentage_data(next_day):
     today = date.today()
     today = today.strftime("%d/%m/%Y")
 
@@ -113,7 +113,7 @@ def porcentage_data():
 
     data = []
 
-    for count, data_prices  in enumerate(zip(df_data.Close, df_data.Open), 0):
+    for count, data_prices  in enumerate(zip(df_data.Close, df_data[next_day]), 0):
         #print((data_prices[0])-(data_prices[1]))*100
         daily_porcentage = ((data_prices[0]-data_prices[1])*100)/data_prices[0]
         #print(daily_porcentage)
