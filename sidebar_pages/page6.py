@@ -392,8 +392,8 @@ def update_data(correlation, op_cl, porcentage):
 
         #Porcentages data
 
-        df_por = dp.porcentage_data()
-        por_values = dp.get_porc(df_por, float(porcentage))
+        #df_por = dp.porcentage_data()
+        #por_values = dp.get_porc(df_por, float(porcentage))
 
         #economic_df = dp.economic_calendar()
 
@@ -595,7 +595,8 @@ def update_data(correlation, op_cl, porcentage):
         fig6.update_yaxes(title_text="<b>IC</b>", secondary_y=False, type='log')
 
         fig7 = go.Figure([go.Bar(x=['Positive', 'Negative'], 
-                                y=[por_values[0], por_values[1]]
+                                #y=[por_values[0], por_values[1]]
+                                y=[20,50]
                                 )])
         
         fig7.update_traces(marker_color = ['rgb(31,242,87)', 'rgb(253,49,49)'], marker_line_color='rgb(0,0,0)',
