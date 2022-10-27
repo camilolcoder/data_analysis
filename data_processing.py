@@ -38,13 +38,14 @@ def index_dataUS(index:str, from_date:str, to_date:str):
     return df
 
 def economic_calendar():
-    news_df = investpy.news.economic_calendar(time_zone=None, 
-                                        time_filter='time_only', 
-                                        countries=['United States'], 
-                                        importances=None, 
-                                        categories=None, 
-                                        from_date=None,#'01/04/2022', 
-                                        to_date=None)
+    news_df = 0
+    # news_df = investpy.news.economic_calendar(time_zone=None, 
+    #                                     time_filter='time_only', 
+    #                                     countries=['United States'], 
+    #                                     importances=None, 
+    #                                     categories=None, 
+    #                                     from_date=None,#'01/04/2022', 
+    #                                     to_date=None)
     return news_df
 
 def crypto_data(crypto:str, from_date:str, to_date:str):
