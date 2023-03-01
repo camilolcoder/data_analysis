@@ -20,7 +20,7 @@ from pytrends.request import TrendReq
 #plt.style.use('fivethirtyeight')
 #from datetime import date
 
-import datetime
+#import datetime
 from datetime import date
 import pandas_datareader as web
 
@@ -30,12 +30,32 @@ import yfinance as yf
 import investpy
 
 
+def get_cross_currencie_data(cross:str, start:str, end:str):
+    forex_data = yf.download(cross, start=start, end=end)
+    return forex_data   
+
+#forex_data = yf.download('USDCOP=X', start='2010-01-02', end='2022-12-31')
+#rint(forex_data)
+#print(get_cross_currencie_data('DX-Y.NYB', '2011-01-01', '2023-02-20'))
+
 def index_dataUS(index:str, from_date:str, to_date:str):
     df = investpy.indices.get_index_historical_data(index='S&P 500',
                                         country='United States',
                                         from_date=from_date,
                                         to_date=to_date)
     return df
+
+#print(index_dataUS('a','02/02/2002','02/02/2022'))
+#print(investpy.currency_crosses.get_available_currencies())
+
+def get_currency_data(currency:str, from_date:str, to_date:str):
+    df = investpy.get_currency_cross_historical_data(currency,
+                                                     from_date, to_date,
+                                                     interval="Daily")
+    
+    return df
+
+#get_currency_data('EUR/USD','01/01/2005','01/01/2023')
 
 def economic_calendar():
     news_df = 0

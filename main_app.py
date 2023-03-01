@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 from dash import dcc
 from dash.dependencies import Input, Output, State
-from sidebar_pages import page0, page1, page5, page6
+from sidebar_pages import page0, page1, page5, page6, page7
 from dash_extensions import Lottie
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -155,6 +155,7 @@ sidebar = html.Div(
                 # dbc.NavLink("Crypto total sentiment", href="/page-4", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('Bitcoin analysis metrics', href="/page-5", active="exact", style=NAVBAR_STYLE),
                 dbc.NavLink('S&P 500 metrics', href="/page-6", active="exact", style=NAVBAR_STYLE),
+                dbc.NavLink('Currencies', href="/page-7", active="exact", style=NAVBAR_STYLE),
             ],
             vertical=True,
             pills=True,
@@ -220,6 +221,9 @@ def render_page_content(pathname):
 
     elif pathname == "/page-6":
         return page6.layout
+    
+    elif pathname == "/page-7":
+        return page7.layout
         
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
